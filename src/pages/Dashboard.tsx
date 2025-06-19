@@ -103,13 +103,21 @@ export default function Dashboard() {
   }, [location.state, navigate]);
 
   const handleSectionEdit = (sectionId: string) => {
-    // Navigate to section edit page
-    console.log(`Editing section: ${sectionId}`);
+    if (sectionId === "professional_identity") {
+      navigate("/professional-identity", { state: { isEditing: true } });
+    } else {
+      // Navigate to other section edit pages
+      console.log(`Editing section: ${sectionId}`);
+    }
   };
 
   const handleSectionReview = (sectionId: string) => {
-    // Navigate to section review page
-    console.log(`Reviewing section: ${sectionId}`);
+    if (sectionId === "professional_identity") {
+      navigate("/professional-identity", { state: { isEditing: false } });
+    } else {
+      // Navigate to other section review pages
+      console.log(`Reviewing section: ${sectionId}`);
+    }
   };
 
   if (!profile) {
@@ -142,7 +150,7 @@ export default function Dashboard() {
             {/* Sections Header */}
             <div>
               <h2 className="text-2xl font-raleway font-bold text-phase2-soft-black">
-                Profile Sections (11)
+                Profile Sections (10)
               </h2>
               <p className="text-phase2-dark-gray font-raleway mt-1">
                 Review and edit all sections of your professional profile •

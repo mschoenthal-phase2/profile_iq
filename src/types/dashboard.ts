@@ -67,16 +67,6 @@ export type ProfileSectionType =
 
 export const DEFAULT_PROFILE_SECTIONS: ProfileSection[] = [
   {
-    id: "credentials",
-    title: "Credentials",
-    icon: "award",
-    lastUpdated: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000), // 2 weeks ago
-    status: "needs_update",
-    priority: "high",
-    isVisible: true,
-    isRequired: true,
-  },
-  {
     id: "professional_identity",
     title: "Professional Identity",
     icon: "user",
