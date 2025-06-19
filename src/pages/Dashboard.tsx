@@ -140,20 +140,14 @@ export default function Dashboard() {
         <div>
           <div className="space-y-6">
             {/* Sections Header */}
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-2xl font-raleway font-bold text-phase2-soft-black">
-                  Profile Sections (11)
-                </h2>
-                <p className="text-phase2-dark-gray font-raleway mt-1">
-                  Review and edit all sections of your professional profile •
-                  aligned with profile creation flow
-                </p>
-              </div>
-              <Button variant="outline" size="sm">
-                <Settings className="w-4 h-4 mr-2" />
-                Preferences
-              </Button>
+            <div>
+              <h2 className="text-2xl font-raleway font-bold text-phase2-soft-black">
+                Profile Sections (11)
+              </h2>
+              <p className="text-phase2-dark-gray font-raleway mt-1">
+                Review and edit all sections of your professional profile •
+                aligned with profile creation flow
+              </p>
             </div>
 
             {/* Sections Needing Updates Alert */}
