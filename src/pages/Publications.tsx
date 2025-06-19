@@ -10,6 +10,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Book, Search, Plus, BarChart3, AlertCircle } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -27,6 +34,7 @@ export default function Publications() {
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [activeTab, setActiveTab] = useState("manage");
+  const [showAddPMIDDialog, setShowAddPMIDDialog] = useState(false);
 
   const [state, setState] = useState<PublicationManagementState>({
     publications: [],
@@ -220,6 +228,7 @@ export default function Publications() {
       }));
 
       setHasUnsavedChanges(true);
+      setShowAddPMIDDialog(false);
 
       toast({
         title: "Publication Added",
@@ -419,7 +428,7 @@ export default function Publications() {
 
         {/* Main Content Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="manage" className="flex items-center gap-2">
               <Book className="w-4 h-4" />
               Manage Publications
@@ -438,19 +447,42 @@ export default function Publications() {
                 </Badge>
               )}
             </TabsTrigger>
-            <TabsTrigger value="manual" className="flex items-center gap-2">
-              <Plus className="w-4 h-4" />
-              Add by PMID
-            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="manage" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Book className="w-5 h-5" />
-                  Your Publications
-                </CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center gap-2">
+                    <Book className="w-5 h-5" />
+                    Your Publications
+                  </CardTitle>
+
+                  <Dialog
+                    open={showAddPMIDDialog}
+                    onOpenChange={setShowAddPMIDDialog}
+                  >
+                    <DialogTrigger asChild>
+                      <Button className="flex items-center gap-2">
+                        <Plus className="w-4 h-4" />
+                        Add Publication
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl">
+                      <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                          <Plus className="w-5 h-5" />
+                          Add Publication by PMID
+                        </DialogTitle>
+                      </DialogHeader>
+                      <ManualPMIDEntry
+                        onAddByPMID={handleAddPublicationByPMID}
+                        isLoading={state.isLookingUpPmid}
+                        error={state.pmidLookupError}
+                      />
+                    </DialogContent>
+                  </Dialog>
+                </div>
               </CardHeader>
               <CardContent>
                 <PublicationList
@@ -484,24 +516,6 @@ export default function Publications() {
                     location.state?.dashboardState?.signupData?.organization ||
                     ""
                   }
-                />
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="manual" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Plus className="w-5 h-5" />
-                  Add Publication by PMID
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ManualPMIDEntry
-                  onAddByPMID={handleAddPublicationByPMID}
-                  isLoading={state.isLookingUpPmid}
-                  error={state.pmidLookupError}
                 />
               </CardContent>
             </Card>
