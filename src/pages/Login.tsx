@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthLayout } from "@/components/auth/AuthLayout";
 import { FormInput } from "@/components/auth/FormInput";
 import { Button } from "@/components/ui/button";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -14,7 +16,7 @@ export default function Login() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Basic validation
@@ -33,8 +35,71 @@ export default function Login() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Handle login logic here
-      console.log("Login attempt:", formData);
+      setIsLoggingIn(true);
+
+      try {
+        // Simulate login API call
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+
+        // For demo purposes, create mock user data
+        const mockSignupData = {
+          fullName: "Justin Dimick",
+          email: formData.email,
+          jobTitle: "Professor and Chair of Surgery",
+          organization: "University of Michigan",
+        };
+
+        const mockNpiProvider = {
+          number: "1578714549",
+          enumeration_type: "NPI-1",
+          basic: {
+            first_name: "Justin",
+            last_name: "Dimick",
+            credential: "MD",
+            gender: "M",
+            enumeration_date: "2008-05-23",
+            last_updated: "2023-10-15",
+            status: "A",
+          },
+          addresses: [
+            {
+              address_1: "1500 E Medical Center Dr",
+              city: "Ann Arbor",
+              state: "MI",
+              postal_code: "48109",
+              country_code: "US",
+              country_name: "United States",
+              address_purpose: "MAILING",
+              address_type: "DOM",
+              telephone_number: "(734) 936-5738",
+            },
+          ],
+          taxonomies: [
+            {
+              code: "208600000X",
+              desc: "Surgery",
+              primary: true,
+              state: "MI",
+              license: "4301082842",
+            },
+          ],
+          created_epoch: 1211515200,
+          last_updated_epoch: 1697356800,
+        };
+
+        // Navigate to dashboard with mock data
+        navigate("/dashboard", {
+          state: {
+            signupData: mockSignupData,
+            npiProvider: mockNpiProvider,
+          },
+        });
+      } catch (error) {
+        console.error("Login failed:", error);
+        setErrors({ password: "Invalid email or password" });
+      } finally {
+        setIsLoggingIn(false);
+      }
     }
   };
 
@@ -112,8 +177,13 @@ export default function Login() {
           </Link>
         </div>
 
-        <Button type="submit" className="w-full" size="lg">
-          Sign In
+        <Button
+          type="submit"
+          className="w-full"
+          size="lg"
+          disabled={isLoggingIn}
+        >
+          {isLoggingIn ? "Signing In..." : "Sign In"}
         </Button>
 
         <div className="mt-8 pt-6 border-t border-phase2-net-gray">
