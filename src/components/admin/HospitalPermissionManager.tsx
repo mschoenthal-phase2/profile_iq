@@ -150,7 +150,7 @@ export function HospitalPermissionManager({
                     <SelectValue placeholder="Select a hospital to configure" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Hospitals</SelectItem>
+                    <SelectItem value="all">All Hospitals</SelectItem>
                     {hospitals.map((hospital) => (
                       <SelectItem key={hospital.id} value={hospital.id}>
                         <div className="flex items-center space-x-2">
