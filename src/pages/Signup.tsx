@@ -21,7 +21,6 @@ interface FormData {
   password: string;
   confirmPassword: string;
   jobTitle: string;
-  licenseNumber: string;
   npiNumber: string;
   organization: string;
   agreeToTerms: boolean;
@@ -39,6 +38,23 @@ const jobTitles = [
   "Other",
 ];
 
+const healthSystems = [
+  "Advent Health",
+  "BJC Healthcare",
+  "Children's Hospital of Philadelphia",
+  "Community Health Network",
+  "Gundersen Health System",
+  "HealthFirst",
+  "Inova",
+  "Memorial Sloan Kettering Cancer Center",
+  "Michigan Medicine",
+  "Northwell Health",
+  "Ochsner Health",
+  "Sutter Health",
+  "TuftsMedicine",
+  "UVM Health Network",
+];
+
 export default function Signup() {
   const [currentStep, setCurrentStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
@@ -49,7 +65,6 @@ export default function Signup() {
     password: "",
     confirmPassword: "",
     jobTitle: "",
-    licenseNumber: "",
     npiNumber: "",
     organization: "",
     agreeToTerms: false,
@@ -107,10 +122,6 @@ export default function Signup() {
 
     if (!formData.jobTitle) {
       newErrors.jobTitle = "Job title is required";
-    }
-
-    if (!formData.licenseNumber.trim()) {
-      newErrors.licenseNumber = "Medical license number is required";
     }
 
     if (!formData.npiNumber.trim()) {
@@ -332,17 +343,6 @@ export default function Signup() {
                 </div>
 
                 <FormInput
-                  label="Medical License Number"
-                  name="licenseNumber"
-                  value={formData.licenseNumber}
-                  onChange={handleInputChange}
-                  placeholder="Enter your license number"
-                  icon={<FileText size={20} />}
-                  error={errors.licenseNumber}
-                  required
-                />
-
-                <FormInput
                   label="NPI Number"
                   name="npiNumber"
                   value={formData.npiNumber}
@@ -353,14 +353,32 @@ export default function Signup() {
                   required
                 />
 
-                <FormInput
-                  label="Organization/Health System"
-                  name="organization"
-                  value={formData.organization}
-                  onChange={handleInputChange}
-                  placeholder="Enter your organization (optional)"
-                  icon={<Building size={20} />}
-                />
+                <div className="space-y-2">
+                  <label className="block text-sm font-raleway font-semibold text-phase2-soft-black">
+                    Organization/Health System
+                  </label>
+                  <div className="relative">
+                    <Building
+                      size={20}
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-phase2-dark-gray"
+                    />
+                    <select
+                      name="organization"
+                      value={formData.organization}
+                      onChange={handleInputChange}
+                      className="w-full pl-11 pr-4 py-3 border-2 rounded-lg font-raleway text-phase2-soft-black border-phase2-net-gray hover:border-phase2-dark-gray focus:outline-none focus:border-phase2-blue focus:ring-2 focus:ring-phase2-blue/20 transition-all duration-200"
+                    >
+                      <option value="">
+                        Select your organization (optional)
+                      </option>
+                      {healthSystems.map((system) => (
+                        <option key={system} value={system}>
+                          {system}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
 
                 <div className="space-y-4 pt-4">
                   <label className="flex items-start space-x-3 cursor-pointer">
