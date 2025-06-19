@@ -1,14 +1,16 @@
 import React from "react";
-import { Eye, AlertTriangle } from "lucide-react";
+import { Eye, AlertTriangle, CheckCircle } from "lucide-react";
 
 interface ProfileStatsCardProps {
   profileViews: number;
   sectionsNeedingUpdates: number;
+  completionPercentage?: number;
 }
 
 export const ProfileStatsCard: React.FC<ProfileStatsCardProps> = ({
   profileViews,
   sectionsNeedingUpdates,
+  completionPercentage = 0,
 }) => {
   return (
     <div className="space-y-4">
@@ -24,6 +26,22 @@ export const ProfileStatsCard: React.FC<ProfileStatsCardProps> = ({
           </span>
           <span className="text-sm text-phase2-dark-gray font-raleway">
             this month
+          </span>
+        </div>
+      </div>
+
+      {/* Profile Completion */}
+      <div className="text-right">
+        <div className="text-sm font-raleway font-semibold text-phase2-soft-black">
+          Profile Completion
+        </div>
+        <div className="flex items-center justify-end gap-2 mt-1">
+          <CheckCircle className="w-4 h-4 text-green-500" />
+          <span className="text-2xl font-raleway font-bold text-green-500">
+            {completionPercentage}%
+          </span>
+          <span className="text-sm text-phase2-dark-gray font-raleway">
+            complete
           </span>
         </div>
       </div>

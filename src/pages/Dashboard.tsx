@@ -130,6 +130,7 @@ export default function Dashboard() {
   const sectionsNeedingUpdates = visibleSections.filter(
     (section) => section.status === "needs_update",
   );
+  const completionPercentage = calculateProfileCompletion(sections);
 
   return (
     <div className="min-h-screen bg-phase2-net-gray/20">
@@ -229,6 +230,7 @@ export default function Dashboard() {
                 <ProfileStatsCard
                   profileViews={profile.stats.profileViews}
                   sectionsNeedingUpdates={sectionsNeedingUpdates.length}
+                  completionPercentage={completionPercentage}
                 />
               </CardContent>
             </Card>
