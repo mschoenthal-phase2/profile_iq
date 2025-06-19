@@ -8,7 +8,6 @@ import {
   User,
   Mail,
   Lock,
-  Phone,
   Briefcase,
   FileText,
   Building,
@@ -21,7 +20,6 @@ interface FormData {
   email: string;
   password: string;
   confirmPassword: string;
-  phone: string;
   jobTitle: string;
   licenseNumber: string;
   npiNumber: string;
@@ -50,7 +48,6 @@ export default function Signup() {
     email: "",
     password: "",
     confirmPassword: "",
-    phone: "",
     jobTitle: "",
     licenseNumber: "",
     npiNumber: "",
@@ -216,16 +213,6 @@ export default function Signup() {
                   icon={<Mail size={20} />}
                   error={errors.email}
                   required
-                />
-
-                <FormInput
-                  label="Phone Number"
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  placeholder="(555) 123-4567"
-                  icon={<Phone size={20} />}
                 />
 
                 <div className="relative">

@@ -20,7 +20,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
         <div className="absolute top-0 right-0 w-64 h-64 bg-phase2-misty-teal opacity-20 rounded-full transform translate-x-32 -translate-y-32" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-phase2-karma-coral opacity-20 rounded-full transform -translate-x-24 translate-y-24" />
 
-        <div className="relative z-10">
+        <div className="relative z-10 mt-9">
           <Logo variant="white" className="mb-8" />
           <h1 className="text-4xl lg:text-5xl font-big-shoulders font-bold text-white mb-4">
             ProfileIQ
