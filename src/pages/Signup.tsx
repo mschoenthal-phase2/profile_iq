@@ -98,7 +98,7 @@ export default function Signup() {
       completed: currentStep > 2,
       active: currentStep === 2,
     },
-    { id: 3, title: "Complete", completed: false, active: currentStep === 3 },
+    { id: 3, title: "Complete", completed: false, active: currentStep >= 3 },
   ];
 
   const validateStep1 = () => {
