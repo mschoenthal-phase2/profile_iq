@@ -556,7 +556,7 @@ export default function Signup() {
             </div>
           )}
 
-          {currentStep < 3 && (
+          {currentStep < 3 && currentStep !== 2.5 && (
             <div className="flex space-x-4">
               {currentStep > 1 && (
                 <Button
@@ -565,6 +565,7 @@ export default function Signup() {
                   onClick={handleBack}
                   className="flex-1"
                   size="lg"
+                  disabled={isLookingUpNPI}
                 >
                   Back
                 </Button>
@@ -574,8 +575,13 @@ export default function Signup() {
                 onClick={handleNext}
                 className="flex-1"
                 size="lg"
+                disabled={isLookingUpNPI}
               >
-                {currentStep === 1 ? "Next" : "Create Account"}
+                {isLookingUpNPI
+                  ? "Looking up NPI..."
+                  : currentStep === 1
+                    ? "Next"
+                    : "Verify NPI"}
               </Button>
             </div>
           )}
