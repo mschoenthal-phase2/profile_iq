@@ -104,7 +104,12 @@ export default function Dashboard() {
 
   const handleSectionEdit = (sectionId: string) => {
     if (sectionId === "professional_identity") {
-      navigate("/professional-identity", { state: { isEditing: true } });
+      navigate("/professional-identity", {
+        state: {
+          isEditing: true,
+          dashboardState: location.state,
+        },
+      });
     } else {
       // Navigate to other section edit pages
       console.log(`Editing section: ${sectionId}`);
@@ -113,7 +118,12 @@ export default function Dashboard() {
 
   const handleSectionReview = (sectionId: string) => {
     if (sectionId === "professional_identity") {
-      navigate("/professional-identity", { state: { isEditing: false } });
+      navigate("/professional-identity", {
+        state: {
+          isEditing: false,
+          dashboardState: location.state,
+        },
+      });
     } else {
       // Navigate to other section review pages
       console.log(`Reviewing section: ${sectionId}`);

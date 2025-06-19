@@ -72,6 +72,53 @@ export default function ProfessionalIdentity() {
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
+  // Get dashboard state from navigation or use mock data
+  const dashboardState = location.state?.dashboardState || {
+    signupData: {
+      fullName: "Justin Dimick",
+      email: "jdimick@med.umich.edu",
+      jobTitle: "Professor and Chair of Surgery",
+      organization: "University of Michigan",
+    },
+    npiProvider: {
+      number: "1578714549",
+      enumeration_type: "NPI-1",
+      basic: {
+        first_name: "Justin",
+        last_name: "Dimick",
+        credential: "MD",
+        gender: "M",
+        enumeration_date: "2008-05-23",
+        last_updated: "2023-10-15",
+        status: "A",
+      },
+      addresses: [
+        {
+          address_1: "1500 E Medical Center Dr",
+          city: "Ann Arbor",
+          state: "MI",
+          postal_code: "48109",
+          country_code: "US",
+          country_name: "United States",
+          address_purpose: "MAILING",
+          address_type: "DOM",
+          telephone_number: "(734) 936-5738",
+        },
+      ],
+      taxonomies: [
+        {
+          code: "208600000X",
+          desc: "Surgery",
+          primary: true,
+          state: "MI",
+          license: "4301082842",
+        },
+      ],
+      created_epoch: 1211515200,
+      last_updated_epoch: 1697356800,
+    },
+  };
+
   // Get initial data from navigation state or use defaults
   const initialData: ProfessionalIdentityData = {
     profilePhoto: "",
@@ -167,8 +214,10 @@ export default function ProfessionalIdentity() {
       setIsEditing(false);
       setHasUnsavedChanges(false);
 
-      // Navigate back to dashboard after successful save
-      navigate("/dashboard");
+      // Navigate back to dashboard with preserved state
+      navigate("/dashboard", {
+        state: dashboardState,
+      });
     } catch (error) {
       console.error("Save failed:", error);
     } finally {
@@ -189,7 +238,9 @@ export default function ProfessionalIdentity() {
     if (hasUnsavedChanges && isEditing) {
       setShowUnsavedDialog(true);
     } else {
-      navigate("/dashboard");
+      navigate("/dashboard", {
+        state: dashboardState,
+      });
     }
   };
 
@@ -198,7 +249,9 @@ export default function ProfessionalIdentity() {
     setIsEditing(false);
     setHasUnsavedChanges(false);
     setShowUnsavedDialog(false);
-    navigate("/dashboard");
+    navigate("/dashboard", {
+      state: dashboardState,
+    });
   };
 
   const handleSaveAndReturn = async () => {
