@@ -42,7 +42,7 @@ export default function Index() {
             reach thousands of patients through our integrated platform.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+          <div className="flex justify-center">
             <Link to="/signup">
               <Button
                 size="lg"
@@ -50,15 +50,6 @@ export default function Index() {
               >
                 Unlock Marketing Excellence
                 <ArrowRight size={20} className="ml-2" />
-              </Button>
-            </Link>
-            <Link to="/login">
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-white text-white hover:bg-white hover:text-phase2-blue"
-              >
-                Access Your Dashboard
               </Button>
             </Link>
           </div>
