@@ -31,6 +31,7 @@ export default function MediaPress() {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [showAddURLDialog, setShowAddURLDialog] = useState(false);
   const [state, setState] = useState<MediaManagementState>({
     articles: [],
     discoveryResults: null,
