@@ -1,0 +1,506 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { AuthLayout } from "@/components/auth/AuthLayout";
+import { FormInput } from "@/components/auth/FormInput";
+import { ProgressStepper } from "@/components/auth/ProgressStepper";
+import { Button } from "@/components/ui/button";
+import {
+  User,
+  Mail,
+  Lock,
+  Phone,
+  Briefcase,
+  FileText,
+  Building,
+  Eye,
+  EyeOff,
+} from "lucide-react";
+
+interface FormData {
+  fullName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  phone: string;
+  jobTitle: string;
+  licenseNumber: string;
+  npiNumber: string;
+  organization: string;
+  agreeToTerms: boolean;
+  agreeToPrivacy: boolean;
+}
+
+const jobTitles = [
+  "Doctor (MD/DO)",
+  "Nurse Practitioner",
+  "Physician Assistant",
+  "Registered Nurse",
+  "Dentist",
+  "Pharmacist",
+  "Physical Therapist",
+  "Other",
+];
+
+export default function Signup() {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [formData, setFormData] = useState<FormData>({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    phone: "",
+    jobTitle: "",
+    licenseNumber: "",
+    npiNumber: "",
+    organization: "",
+    agreeToTerms: false,
+    agreeToPrivacy: false,
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const steps = [
+    {
+      id: 1,
+      title: "Personal",
+      completed: currentStep > 1,
+      active: currentStep === 1,
+    },
+    {
+      id: 2,
+      title: "Professional",
+      completed: currentStep > 2,
+      active: currentStep === 2,
+    },
+    { id: 3, title: "Complete", completed: false, active: currentStep === 3 },
+  ];
+
+  const validateStep1 = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = "Full name is required";
+    }
+
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email format is invalid";
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters";
+    }
+
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = "Please confirm your password";
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const validateStep2 = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.jobTitle) {
+      newErrors.jobTitle = "Job title is required";
+    }
+
+    if (!formData.licenseNumber.trim()) {
+      newErrors.licenseNumber = "Medical license number is required";
+    }
+
+    if (!formData.npiNumber.trim()) {
+      newErrors.npiNumber = "NPI number is required";
+    } else if (!/^\d{10}$/.test(formData.npiNumber.replace(/\s/g, ""))) {
+      newErrors.npiNumber = "NPI number must be 10 digits";
+    }
+
+    if (!formData.agreeToTerms) {
+      newErrors.agreeToTerms = "You must agree to the terms of service";
+    }
+
+    if (!formData.agreeToPrivacy) {
+      newErrors.agreeToPrivacy = "You must agree to the privacy policy";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleNext = () => {
+    if (currentStep === 1 && validateStep1()) {
+      setCurrentStep(2);
+    } else if (currentStep === 2 && validateStep2()) {
+      setCurrentStep(3);
+      // Handle form submission
+      console.log("Form submitted:", formData);
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const getPasswordStrength = (password: string) => {
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/\d/.test(password)) strength++;
+    if (/[^A-Za-z\d]/.test(password)) strength++;
+    return strength;
+  };
+
+  const passwordStrength = getPasswordStrength(formData.password);
+
+  return (
+    <AuthLayout
+      title="Create Account"
+      subtitle="Join ProfileMD to manage your professional profile"
+    >
+      <div className="space-y-8">
+        <ProgressStepper steps={steps} />
+
+        <form className="space-y-6">
+          {currentStep === 1 && (
+            <>
+              <div className="space-y-6">
+                <h3 className="text-xl font-raleway font-semibold text-phase2-soft-black">
+                  Personal Information
+                </h3>
+
+                <FormInput
+                  label="Full Name"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  placeholder="Enter your full name"
+                  icon={<User size={20} />}
+                  error={errors.fullName}
+                  required
+                />
+
+                <FormInput
+                  label="Email Address"
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Enter your email"
+                  icon={<Mail size={20} />}
+                  error={errors.email}
+                  required
+                />
+
+                <FormInput
+                  label="Phone Number"
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="(555) 123-4567"
+                  icon={<Phone size={20} />}
+                />
+
+                <div className="space-y-2">
+                  <FormInput
+                    label="Password"
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    placeholder="Create a strong password"
+                    icon={<Lock size={20} />}
+                    error={errors.password}
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-phase2-dark-gray hover:text-phase2-blue transition-colors"
+                    style={{ marginTop: "1.75rem" }}
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+
+                  {formData.password && (
+                    <div className="mt-2">
+                      <div className="flex space-x-1">
+                        {[1, 2, 3, 4, 5].map((level) => (
+                          <div
+                            key={level}
+                            className={`h-1 w-full rounded ${
+                              level <= passwordStrength
+                                ? level <= 2
+                                  ? "bg-phase2-karma-coral"
+                                  : level <= 4
+                                    ? "bg-yellow-400"
+                                    : "bg-green-500"
+                                : "bg-phase2-net-gray"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <p className="text-xs text-phase2-dark-gray mt-1">
+                        Password strength:{" "}
+                        {passwordStrength <= 2
+                          ? "Weak"
+                          : passwordStrength <= 4
+                            ? "Medium"
+                            : "Strong"}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <FormInput
+                    label="Confirm Password"
+                    type={showConfirmPassword ? "text" : "password"}
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleInputChange}
+                    placeholder="Confirm your password"
+                    icon={<Lock size={20} />}
+                    error={errors.confirmPassword}
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-phase2-dark-gray hover:text-phase2-blue transition-colors"
+                    style={{ marginTop: "1.75rem" }}
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff size={20} />
+                    ) : (
+                      <Eye size={20} />
+                    )}
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+
+          {currentStep === 2 && (
+            <>
+              <div className="space-y-6">
+                <h3 className="text-xl font-raleway font-semibold text-phase2-soft-black">
+                  Professional Information
+                </h3>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-raleway font-semibold text-phase2-soft-black">
+                    Job Title{" "}
+                    <span className="text-phase2-karma-coral ml-1">*</span>
+                  </label>
+                  <div className="relative">
+                    <Briefcase
+                      size={20}
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-phase2-dark-gray"
+                    />
+                    <select
+                      name="jobTitle"
+                      value={formData.jobTitle}
+                      onChange={handleInputChange}
+                      className="w-full pl-11 pr-4 py-3 border-2 rounded-lg font-raleway text-phase2-soft-black border-phase2-net-gray hover:border-phase2-dark-gray focus:outline-none focus:border-phase2-blue focus:ring-2 focus:ring-phase2-blue/20 transition-all duration-200"
+                    >
+                      <option value="">Select your job title</option>
+                      {jobTitles.map((title) => (
+                        <option key={title} value={title}>
+                          {title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {errors.jobTitle && (
+                    <p className="text-sm text-phase2-karma-coral font-raleway">
+                      {errors.jobTitle}
+                    </p>
+                  )}
+                </div>
+
+                <FormInput
+                  label="Medical License Number"
+                  name="licenseNumber"
+                  value={formData.licenseNumber}
+                  onChange={handleInputChange}
+                  placeholder="Enter your license number"
+                  icon={<FileText size={20} />}
+                  error={errors.licenseNumber}
+                  required
+                />
+
+                <FormInput
+                  label="NPI Number"
+                  name="npiNumber"
+                  value={formData.npiNumber}
+                  onChange={handleInputChange}
+                  placeholder="Enter your 10-digit NPI number"
+                  icon={<FileText size={20} />}
+                  error={errors.npiNumber}
+                  required
+                />
+
+                <FormInput
+                  label="Organization/Health System"
+                  name="organization"
+                  value={formData.organization}
+                  onChange={handleInputChange}
+                  placeholder="Enter your organization (optional)"
+                  icon={<Building size={20} />}
+                />
+
+                <div className="space-y-4 pt-4">
+                  <label className="flex items-start space-x-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      name="agreeToTerms"
+                      checked={formData.agreeToTerms}
+                      onChange={handleInputChange}
+                      className="w-4 h-4 mt-1 text-phase2-blue bg-white border-2 border-phase2-net-gray rounded focus:ring-phase2-blue focus:ring-2"
+                    />
+                    <span className="text-sm font-raleway text-phase2-dark-gray">
+                      I agree to the{" "}
+                      <Link
+                        to="/terms"
+                        className="text-phase2-blue hover:text-phase2-blue/80"
+                      >
+                        Terms of Service
+                      </Link>
+                    </span>
+                  </label>
+                  {errors.agreeToTerms && (
+                    <p className="text-sm text-phase2-karma-coral font-raleway ml-7">
+                      {errors.agreeToTerms}
+                    </p>
+                  )}
+
+                  <label className="flex items-start space-x-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      name="agreeToPrivacy"
+                      checked={formData.agreeToPrivacy}
+                      onChange={handleInputChange}
+                      className="w-4 h-4 mt-1 text-phase2-blue bg-white border-2 border-phase2-net-gray rounded focus:ring-phase2-blue focus:ring-2"
+                    />
+                    <span className="text-sm font-raleway text-phase2-dark-gray">
+                      I agree to the{" "}
+                      <Link
+                        to="/privacy"
+                        className="text-phase2-blue hover:text-phase2-blue/80"
+                      >
+                        Privacy Policy
+                      </Link>
+                    </span>
+                  </label>
+                  {errors.agreeToPrivacy && (
+                    <p className="text-sm text-phase2-karma-coral font-raleway ml-7">
+                      {errors.agreeToPrivacy}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+
+          {currentStep === 3 && (
+            <div className="text-center space-y-6">
+              <div className="w-20 h-20 bg-phase2-blue rounded-full flex items-center justify-center mx-auto">
+                <svg
+                  className="w-10 h-10 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-raleway font-bold text-phase2-soft-black">
+                Account Created Successfully!
+              </h3>
+              <p className="text-phase2-dark-gray font-raleway">
+                Welcome to ProfileMD! We've sent a verification email to{" "}
+                <span className="font-semibold">{formData.email}</span>
+              </p>
+              <Link to="/login">
+                <Button className="w-full" size="lg">
+                  Continue to Sign In
+                </Button>
+              </Link>
+            </div>
+          )}
+
+          {currentStep < 3 && (
+            <div className="flex space-x-4">
+              {currentStep > 1 && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleBack}
+                  className="flex-1"
+                  size="lg"
+                >
+                  Back
+                </Button>
+              )}
+              <Button
+                type="button"
+                onClick={handleNext}
+                className="flex-1"
+                size="lg"
+              >
+                {currentStep === 1 ? "Next" : "Create Account"}
+              </Button>
+            </div>
+          )}
+
+          {currentStep === 1 && (
+            <div className="text-center pt-4">
+              <p className="text-sm text-phase2-dark-gray font-raleway">
+                Already have an account?{" "}
+                <Link
+                  to="/login"
+                  className="text-phase2-blue hover:text-phase2-blue/80 font-semibold"
+                >
+                  Sign In
+                </Link>
+              </p>
+            </div>
+          )}
+        </form>
+      </div>
+    </AuthLayout>
+  );
+}
