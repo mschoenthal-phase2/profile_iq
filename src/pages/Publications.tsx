@@ -344,10 +344,13 @@ export default function Publications() {
     if (hasUnsavedChanges) {
       setShowUnsavedDialog(true);
     } else {
-      if (location.state?.dashboardState) {
-        navigate("/dashboard", { state: location.state.dashboardState });
+      // Always navigate to dashboard, preserving state if available
+      const dashboardState = location.state?.dashboardState;
+      if (dashboardState) {
+        navigate("/dashboard", { state: dashboardState });
       } else {
-        navigate("/dashboard");
+        // Force navigation to dashboard even if no state
+        navigate("/dashboard", { replace: true });
       }
     }
   };
@@ -356,20 +359,26 @@ export default function Publications() {
     setHasUnsavedChanges(false);
     setIsEditing(false);
     setShowUnsavedDialog(false);
-    if (location.state?.dashboardState) {
-      navigate("/dashboard", { state: location.state.dashboardState });
+    // Always navigate to dashboard, preserving state if available
+    const dashboardState = location.state?.dashboardState;
+    if (dashboardState) {
+      navigate("/dashboard", { state: dashboardState });
     } else {
-      navigate("/dashboard");
+      // Force navigation to dashboard
+      navigate("/dashboard", { replace: true });
     }
   };
 
   const handleSaveAndReturn = async () => {
     await handleSave();
     setShowUnsavedDialog(false);
-    if (location.state?.dashboardState) {
-      navigate("/dashboard", { state: location.state.dashboardState });
+    // Always navigate to dashboard, preserving state if available
+    const dashboardState = location.state?.dashboardState;
+    if (dashboardState) {
+      navigate("/dashboard", { state: dashboardState });
     } else {
-      navigate("/dashboard");
+      // Force navigation to dashboard
+      navigate("/dashboard", { replace: true });
     }
   };
 
