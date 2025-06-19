@@ -413,16 +413,21 @@ export default function Signup() {
                   )}
                 </div>
 
-                <FormInput
-                  label="NPI Number"
-                  name="npiNumber"
-                  value={formData.npiNumber}
-                  onChange={handleInputChange}
-                  placeholder="Enter your 10-digit NPI number"
-                  icon={<FileText size={20} />}
-                  error={errors.npiNumber}
-                  required
-                />
+                <div className="space-y-2">
+                  <FormInput
+                    label="NPI Number"
+                    name="npiNumber"
+                    value={formData.npiNumber}
+                    onChange={handleInputChange}
+                    placeholder="Enter your 10-digit NPI number"
+                    icon={<FileText size={20} />}
+                    error={errors.npiNumber}
+                    required
+                  />
+                  <p className="text-xs text-phase2-dark-gray">
+                    For testing: Try 1234567890, 9876543210, or 5555666677
+                  </p>
+                </div>
 
                 <div className="space-y-2">
                   <label className="block text-sm font-raleway font-semibold text-phase2-soft-black">
