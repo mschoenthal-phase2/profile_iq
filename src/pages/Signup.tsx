@@ -582,14 +582,30 @@ export default function Signup() {
                 Account Created Successfully!
               </h3>
               <p className="text-phase2-dark-gray font-raleway">
-                Welcome to ProfileIQ! We've sent a verification email to{" "}
-                <span className="font-semibold">{formData.email}</span>
+                Welcome to ProfileIQ! Your account has been created
+                successfully.
               </p>
-              <Link to="/login">
-                <Button className="w-full" size="lg">
-                  Continue to Sign In
+              <div className="space-y-3">
+                <Button
+                  onClick={() =>
+                    navigate("/dashboard", {
+                      state: {
+                        signupData: formData,
+                        npiProvider: npiProvider,
+                      },
+                    })
+                  }
+                  className="w-full"
+                  size="lg"
+                >
+                  Go to Dashboard
                 </Button>
-              </Link>
+                <Link to="/login" className="block">
+                  <Button variant="outline" className="w-full" size="lg">
+                    Sign In Later
+                  </Button>
+                </Link>
+              </div>
             </div>
           )}
 
