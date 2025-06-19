@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import ProfessionalIdentity from "./pages/ProfessionalIdentity";
+import EducationTraining from "./pages/EducationTraining";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -30,6 +31,7 @@ const App = () => (
             path="/professional-identity"
             element={<ProfessionalIdentity />}
           />
+          <Route path="/education-training" element={<EducationTraining />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />

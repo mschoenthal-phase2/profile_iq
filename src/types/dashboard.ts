@@ -78,6 +78,16 @@ export const DEFAULT_PROFILE_SECTIONS: ProfileSection[] = [
     isRequired: true,
   },
   {
+    id: "education_training",
+    title: "Education & Training",
+    icon: "graduation-cap",
+    lastUpdated: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000), // 3 months ago
+    status: "complete",
+    priority: "medium",
+    isVisible: true,
+    isRequired: true,
+  },
+  {
     id: "practice_essentials",
     title: "Practice Essentials",
     icon: "briefcase",
@@ -138,16 +148,7 @@ export const DEFAULT_PROFILE_SECTIONS: ProfileSection[] = [
     isVisible: true,
     isRequired: false,
   },
-  {
-    id: "education_training",
-    title: "Education & Training",
-    icon: "graduation-cap",
-    lastUpdated: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000), // 3 months ago
-    status: "complete",
-    priority: "low",
-    isVisible: true,
-    isRequired: false,
-  },
+
   {
     id: "biography",
     title: "Biography",
