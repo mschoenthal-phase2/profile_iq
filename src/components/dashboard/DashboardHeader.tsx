@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,6 +25,7 @@ interface DashboardHeaderProps {
 export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   profile,
 }) => {
+  const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleExportPDF = (type: "summary" | "full") => {
@@ -31,7 +33,9 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   };
 
   const handleSignOut = () => {
-    console.log("Signing out");
+    console.log("Signing out - redirecting to homepage");
+    // Navigate back to homepage
+    navigate("/");
   };
 
   const handleSettings = () => {
