@@ -89,9 +89,17 @@ export default function Dashboard() {
     const hospitalConfig = getHospitalSectionConfig(signupData.organization);
     if (hospitalConfig) {
       setSectionConfig(hospitalConfig);
-      const configuredSections = applySectionConfig(sections, hospitalConfig);
-      setSections(configuredSections);
+      // For now, show all sections regardless of hospital config to see all 11 sections
+      // const configuredSections = applySectionConfig(sections, hospitalConfig);
+      // setSections(configuredSections);
     }
+
+    // Ensure all sections are visible for the demo
+    const allVisibleSections = sections.map((section) => ({
+      ...section,
+      isVisible: true,
+    }));
+    setSections(allVisibleSections);
   }, [location.state, navigate]);
 
   const handleSectionEdit = (sectionId: string) => {
