@@ -155,13 +155,39 @@ export default function Signup() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleNext = () => {
+  const performNPILookup = async () => {
+    setIsLookingUpNPI(true);
+    setNpiLookupError(null);
+    setNpiProvider(null);
+
+    try {
+      const { provider, error } = await NPIApiClient.lookupByNPI(
+        formData.npiNumber,
+      );
+
+      if (error) {
+        setNpiLookupError(error);
+      } else if (provider) {
+        setNpiProvider(provider);
+        setCurrentStep(2.5); // NPI confirmation step
+      }
+    } catch (error) {
+      setNpiLookupError({
+        message: "Lookup failed",
+        details:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      });
+    } finally {
+      setIsLookingUpNPI(false);
+    }
+  };
+
+  const handleNext = async () => {
     if (currentStep === 1 && validateStep1()) {
       setCurrentStep(2);
     } else if (currentStep === 2 && validateStep2()) {
-      setCurrentStep(3);
-      // Handle form submission
-      console.log("Form submitted:", formData);
+      // Perform NPI lookup
+      await performNPILookup();
     }
   };
 
