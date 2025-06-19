@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent } from "@/components/ui/card";
 import { ProfileSectionCard } from "@/components/dashboard/ProfileSectionCard";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { HealthcareFooter } from "@/components/dashboard/HealthcareFooter";
@@ -21,7 +18,7 @@ import {
   getSectionsByStatus,
 } from "@/lib/section-config";
 import { NPIProvider } from "@/types/npi";
-import { Download, FileText, Users, AlertCircle, Settings } from "lucide-react";
+import { AlertCircle, Settings } from "lucide-react";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -107,11 +104,6 @@ export default function Dashboard() {
     console.log(`Reviewing section: ${sectionId}`);
   };
 
-  const handleExportPDF = (type: "summary" | "full") => {
-    // Export PDF functionality
-    console.log(`Exporting ${type} PDF`);
-  };
-
   if (!profile) {
     return (
       <div className="min-h-screen bg-phase2-net-gray/20 flex items-center justify-center">
@@ -125,8 +117,7 @@ export default function Dashboard() {
     );
   }
 
-  const visibleSections = sections.filter((section) => section.isVisible);
-  const sectionsNeedingUpdates = visibleSections.filter(
+  const sectionsNeedingUpdates = sections.filter(
     (section) => section.status === "needs_update",
   );
   const completionPercentage = calculateProfileCompletion(sections);
