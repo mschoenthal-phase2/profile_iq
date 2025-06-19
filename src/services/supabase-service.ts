@@ -467,6 +467,88 @@ class SupabaseService {
     }
   }
 
+  // Media & Press Operations
+  async getUserMediaArticles(
+    userId: string,
+  ): Promise<{ success: boolean; error?: string; data?: any[] }> {
+    try {
+      console.log("Would fetch user media articles for:", userId);
+      return { success: true, data: [] };
+
+      // Actual Supabase call:
+      // const { data, error } = await this.client!
+      //   .from('media_press')
+      //   .select('*')
+      //   .eq('user_id', userId)
+      //   .order('published_date', { ascending: false });
+      //
+      // if (error) throw error;
+      // return { success: true, data };
+    } catch (error) {
+      console.error("Error fetching user media articles:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async saveUserMediaArticles(
+    userId: string,
+    articles: any[],
+  ): Promise<{ success: boolean; error?: string }> {
+    try {
+      console.log("Would save user media articles:", userId, articles);
+      return { success: true };
+
+      // Actual Supabase call (using upsert for create/update):
+      // const articlesWithUserId = articles.map(article => ({
+      //   ...article,
+      //   user_id: userId,
+      //   updated_at: new Date().toISOString()
+      // }));
+      //
+      // const { error } = await this.client!
+      //   .from('media_press')
+      //   .upsert(articlesWithUserId);
+      //
+      // if (error) throw error;
+      // return { success: true };
+    } catch (error) {
+      console.error("Error saving user media articles:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async deleteUserMediaArticle(
+    userId: string,
+    articleId: string,
+  ): Promise<{ success: boolean; error?: string }> {
+    try {
+      console.log("Would delete user media article:", userId, articleId);
+      return { success: true };
+
+      // Actual Supabase call:
+      // const { error } = await this.client!
+      //   .from('media_press')
+      //   .delete()
+      //   .eq('user_id', userId)
+      //   .eq('id', articleId);
+      //
+      // if (error) throw error;
+      // return { success: true };
+    } catch (error) {
+      console.error("Error deleting user media article:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
   // Search and filter operations
   async searchProviders(searchCriteria: {
     specialty?: string;
@@ -523,5 +605,8 @@ export const {
   getUserClinicalTrials,
   saveUserClinicalTrials,
   deleteUserClinicalTrial,
+  getUserMediaArticles,
+  saveUserMediaArticles,
+  deleteUserMediaArticle,
   searchProviders,
 } = supabaseService;
