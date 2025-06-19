@@ -87,15 +87,6 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={() => handleExportPDF("summary")}
-                className="bg-white/20 text-white border-white/30 hover:bg-white/30"
-              >
-                <FileText className="w-4 h-4 mr-1" />
-                Summary PDF
-              </Button>
-              <Button
-                variant="secondary"
-                size="sm"
                 onClick={() => handleExportPDF("full")}
                 className="bg-white/20 text-white border-white/30 hover:bg-white/30"
               >
