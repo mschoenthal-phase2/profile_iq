@@ -10,13 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ProviderProfile } from "@/types/dashboard";
-import {
-  Download,
-  FileText,
-  LogOut,
-  Settings,
-  ChevronDown,
-} from "lucide-react";
+import { Download, LogOut, Settings, ChevronDown } from "lucide-react";
 
 interface DashboardHeaderProps {
   profile: ProviderProfile;
