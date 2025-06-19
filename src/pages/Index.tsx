@@ -34,12 +34,12 @@ export default function Index() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-big-shoulders font-bold text-white mb-6">
-            ProfileIQ
+            Amplify Your Professional Impact
           </h1>
           <p className="text-xl md:text-2xl text-white/90 font-raleway leading-relaxed max-w-3xl mx-auto mb-8">
-            Intelligent healthcare provider profile management that transforms
-            how you showcase your expertise, credentials, and professional
-            achievements in today's digital healthcare landscape.
+            Your complete profile is your gateway to maximum visibility across all marketing initiatives.
+            Transform your professional presence and reach thousands of patients through our integrated platform.
+          </p>
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
@@ -48,7 +48,7 @@ export default function Index() {
                 size="lg"
                 className="bg-white text-phase2-blue hover:bg-white/90 transform hover:scale-105"
               >
-                Elevate Your Profile
+                Unlock Marketing Excellence
                 <ArrowRight size={20} className="ml-2" />
               </Button>
             </Link>
@@ -82,46 +82,91 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Marketing Channels Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-r from-phase2-blue to-phase2-electric-violet rounded-2xl p-8 lg:p-12 text-white">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl lg:text-3xl font-raleway font-extrabold mb-4">
+                🚀 Complete Profiles Unlock Marketing Excellence
+              </h2>
+              <p className="text-lg text-white/90 font-raleway max-w-3xl mx-auto">
+                Transform your professional presence and reach thousands of patients through our integrated marketing platform
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                  <span className="text-sm font-bold">🌐</span>
+                </div>
+                <span className="font-raleway font-medium">Website physician listings</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                  <span className="text-sm font-bold">📄</span>
+                </div>
+                <span className="font-raleway font-medium">Print marketing materials</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                  <span className="text-sm font-bold">📱</span>
+                </div>
+                <span className="font-raleway font-medium">Digital advertising campaigns</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                  <span className="text-sm font-bold">📚</span>
+                </div>
+                <span className="font-raleway font-medium">Patient education materials</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                  <span className="text-sm font-bold">🤝</span>
+                </div>
+                <span className="font-raleway font-medium">Community outreach programs</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                  <span className="text-sm font-bold">📲</span>
+                </div>
+                <span className="font-raleway font-medium">Social media presence</span>
+              </div>
+            </div>
+
+            <div className="bg-white/10 border border-white/20 rounded-lg p-4 text-center">
+              <p className="font-raleway font-semibold text-lg">
+                🚀 Complete profiles receive 5x more patient visibility than incomplete ones
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-raleway font-extrabold text-phase2-soft-black mb-4">
-              Intelligent Profile Management for Healthcare Excellence
+              Four Key Benefits of Complete Profiles
             </h2>
             <p className="text-xl text-phase2-dark-gray font-raleway max-w-2xl mx-auto">
-              Advanced technology meets healthcare expertise. Showcase your
-              credentials, build meaningful professional connections, and
-              accelerate your career growth.
+              Join thousands of healthcare providers who have unlocked their full marketing potential
+              and transformed their professional presence
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-phase2-blue rounded-full flex items-center justify-center mx-auto mb-4">
                 <Users className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-raleway font-semibold text-phase2-soft-black mb-2">
-                Strategic Networking
+                Maximum Reach
               </h3>
               <p className="text-phase2-dark-gray font-raleway">
-                Build meaningful professional relationships with intelligent
-                matching and advanced networking tools designed for healthcare
-                leaders
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-phase2-blue rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-raleway font-semibold text-phase2-soft-black mb-2">
-                Enterprise Security
-              </h3>
-              <p className="text-phase2-dark-gray font-raleway">
-                Bank-level encryption and HIPAA compliance ensure your
-                professional data remains secure while maintaining accessibility
-                and performance
+                Your expertise featured across all marketing channels, reaching
+                thousands of potential patients
               </p>
             </div>
 
@@ -130,11 +175,37 @@ export default function Index() {
                 <Zap className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-raleway font-semibold text-phase2-soft-black mb-2">
-                Intelligent Automation
+                Instant Impact
               </h3>
               <p className="text-phase2-dark-gray font-raleway">
-                AI-powered profile optimization and smart credential management
-                that adapts to your career progression and industry trends
+                Update once and see changes instantly reflected across all
+                marketing materials
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 bg-phase2-blue rounded-full flex items-center justify-center mx-auto mb-4">
+                <Shield className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-raleway font-semibold text-phase2-soft-black mb-2">
+                Career Growth
+              </h3>
+              <p className="text-phase2-dark-gray font-raleway">
+                Build your professional brand and enhance your reputation
+                within your healthcare system
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 bg-phase2-blue rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="text-white text-2xl">🎯</div>
+              </div>
+              <h3 className="text-xl font-raleway font-semibold text-phase2-soft-black mb-2">
+                Your Voice
+              </h3>
+              <p className="text-phase2-dark-gray font-raleway">
+                Take control of your professional narrative and how patients
+                discover your expertise
               </p>
             </div>
           </div>
@@ -144,20 +215,28 @@ export default function Index() {
       {/* CTA Section */}
       <section className="py-20 bg-phase2-soft-black">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <div className="bg-phase2-blue/20 border border-phase2-blue/30 rounded-lg p-6 mb-8">
+            <h3 className="text-2xl font-raleway font-bold text-white mb-2">
+              ✅ 2,200+ Providers Already Participating
+            </h3>
+            <p className="text-white/80 font-raleway">
+              Join the majority of healthcare providers who have unlocked their full marketing potential
+            </p>
+          </div>
+
           <h2 className="text-3xl md:text-4xl font-raleway font-extrabold text-white mb-4">
-            Transform Your Professional Presence
+            Ready to Amplify Your Impact?
           </h2>
           <p className="text-xl text-white/80 font-raleway mb-8">
-            Join the next generation of healthcare professionals leveraging
-            intelligent profile management to accelerate their careers and
-            expand their impact
+            Transform your professional presence and reach thousands of patients through
+            our comprehensive marketing ecosystem
           </p>
           <Link to="/signup">
             <Button
               size="lg"
               className="bg-phase2-blue hover:bg-phase2-blue/90"
             >
-              Start Your Intelligent Profile
+              Complete Your Profile Today
               <ArrowRight size={20} className="ml-2" />
             </Button>
           </Link>
