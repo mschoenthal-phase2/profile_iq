@@ -42,7 +42,6 @@ export default function MediaPress() {
     isLookingUpUrl: false,
     urlLookupError: null,
   });
-  });
 
   useEffect(() => {
     // Load existing media articles from localStorage or API
@@ -81,8 +80,6 @@ export default function MediaPress() {
       }));
     }
   };
-
-
 
   const handleAddArticleByURL = async (url: string) => {
     setState((prev) => ({
@@ -154,8 +151,6 @@ export default function MediaPress() {
       });
     }
   };
-
-
 
   const handleUpdateArticle = (updatedArticle: MediaArticle) => {
     setState((prev) => ({
