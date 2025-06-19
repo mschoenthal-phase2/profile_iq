@@ -133,12 +133,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-phase2-net-gray/20">
       {/* Dashboard Header with Brand Continuity */}
-      <DashboardHeader
-        profile={profile}
-        profileViews={profile.stats.profileViews}
-        sectionsNeedingUpdates={sectionsNeedingUpdates.length}
-        completionPercentage={completionPercentage}
-      />
+      <DashboardHeader profile={profile} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Main Content - Profile Sections */}
