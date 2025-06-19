@@ -32,7 +32,7 @@ export default function Terms() {
           </h2>
           <p className="text-phase2-dark-gray font-raleway mb-6">
             Our comprehensive Terms of Service are being finalized. This page
-            will contain detailed terms and conditions for using ProfileMD.
+            will contain detailed terms and conditions for using ProfileIQ.
           </p>
           <Link to="/signup">
             <Button>

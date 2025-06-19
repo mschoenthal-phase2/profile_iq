@@ -32,7 +32,8 @@ export default function Privacy() {
           </h2>
           <p className="text-phase2-dark-gray font-raleway mb-6">
             Our comprehensive Privacy Policy is being finalized. This page will
-            detail how we protect and handle your personal information.
+            detail how ProfileIQ protects and handles your personal information
+            with industry-leading security and privacy standards.
           </p>
           <Link to="/signup">
             <Button>
