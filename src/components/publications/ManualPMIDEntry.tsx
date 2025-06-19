@@ -55,13 +55,13 @@ export const ManualPMIDEntry: React.FC<ManualPMIDEntryProps> = ({
   const isValidPmid = pmidInput.trim() && /^\d+$/.test(pmidInput.trim());
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Instructions */}
       <Alert>
         <Info className="h-4 w-4" />
         <AlertDescription>
-          Enter a PubMed ID (PMID) from PubMed to add a publication to your
-          profile. You can find PMIDs on{" "}
+          Enter a PubMed ID (PMID) to add a publication to your profile. Find
+          PMIDs on{" "}
           <a
             href="https://pubmed.ncbi.nlm.nih.gov/"
             target="_blank"
@@ -75,153 +75,71 @@ export const ManualPMIDEntry: React.FC<ManualPMIDEntryProps> = ({
       </Alert>
 
       {/* PMID Entry Form */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Plus className="w-5 h-5" />
-            Add Publication by PMID
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="pmid">PubMed ID (PMID)</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="pmid"
-                  placeholder="Enter PMID (e.g., 12345678)"
-                  value={pmidInput}
-                  onChange={handleInputChange}
-                  disabled={isLoading}
-                  className={error ? "border-destructive" : ""}
-                />
-                <Button
-                  type="submit"
-                  disabled={!isValidPmid || isLoading}
-                  className="min-w-[140px]"
-                >
-                  {isLoading ? (
-                    <>
-                      <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                      Looking up...
-                    </>
-                  ) : (
-                    <>
-                      <Search className="w-4 h-4 mr-2" />
-                      Look Up Publication
-                    </>
-                  )}
-                </Button>
-              </div>
-              {!isValidPmid && pmidInput.trim() && (
-                <p className="text-sm text-destructive">
-                  PMID should contain only numbers
-                </p>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="pmid">PubMed ID (PMID)</Label>
+          <div className="flex gap-2">
+            <Input
+              id="pmid"
+              placeholder="Enter PMID (e.g., 12345678)"
+              value={pmidInput}
+              onChange={handleInputChange}
+              disabled={isLoading}
+              className={error ? "border-destructive" : ""}
+            />
+            <Button
+              type="submit"
+              disabled={!isValidPmid || isLoading}
+              className="min-w-[120px]"
+            >
+              {isLoading ? (
+                <>
+                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                  Looking up...
+                </>
+              ) : (
+                <>
+                  <Search className="w-4 h-4 mr-2" />
+                  Add Publication
+                </>
               )}
-            </div>
-
-            {error && (
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
-          </form>
-        </CardContent>
-      </Card>
-
-      <Separator />
-
-      {/* Help Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Book className="w-5 h-5" />
-            How to Find a PMID
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-3 text-sm">
-            <div className="flex gap-3">
-              <div className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-semibold">
-                1
-              </div>
-              <div>
-                <p className="font-medium">Visit PubMed</p>
-                <p className="text-muted-foreground">
-                  Go to{" "}
-                  <a
-                    href="https://pubmed.ncbi.nlm.nih.gov/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-700 underline"
-                  >
-                    pubmed.ncbi.nlm.nih.gov
-                  </a>
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-3">
-              <div className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-semibold">
-                2
-              </div>
-              <div>
-                <p className="font-medium">Search for your publication</p>
-                <p className="text-muted-foreground">
-                  Use the title, author name, or keywords to find your
-                  publication
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-3">
-              <div className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-semibold">
-                3
-              </div>
-              <div>
-                <p className="font-medium">Click on the publication</p>
-                <p className="text-muted-foreground">
-                  Click on the title to open the publication details page
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-3">
-              <div className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-semibold">
-                4
-              </div>
-              <div>
-                <p className="font-medium">Copy the PMID</p>
-                <p className="text-muted-foreground">
-                  The PMID is displayed at the top of the page, usually as
-                  "PMID: 12345678"
-                </p>
-              </div>
-            </div>
+            </Button>
           </div>
-
-          <div className="mt-4 p-3 bg-muted/50 rounded-md">
-            <p className="text-xs font-medium text-muted-foreground mb-1">
-              Example PMIDs:
+          {!isValidPmid && pmidInput.trim() && (
+            <p className="text-sm text-destructive">
+              PMID should contain only numbers
             </p>
-            <div className="flex flex-wrap gap-2">
-              {["35648032", "34654321", "33456789", "32123456"].map((pmid) => (
-                <Button
-                  key={pmid}
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setPmidInput(pmid)}
-                  disabled={isLoading}
-                  className="text-xs"
-                >
-                  {pmid}
-                </Button>
-              ))}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          )}
+        </div>
+
+        {error && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+      </form>
+
+      {/* Quick Examples */}
+      <div className="space-y-2">
+        <p className="text-sm font-medium text-muted-foreground">
+          Example PMIDs to try:
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {["35648032", "34654321", "33456789", "32123456"].map((pmid) => (
+            <Button
+              key={pmid}
+              variant="outline"
+              size="sm"
+              onClick={() => setPmidInput(pmid)}
+              disabled={isLoading}
+              className="text-xs"
+            >
+              {pmid}
+            </Button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
