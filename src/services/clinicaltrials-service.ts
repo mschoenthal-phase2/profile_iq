@@ -36,9 +36,10 @@ class ClinicalTrialsService {
       }
       url.searchParams.append("pageSize", maxResults.toString());
       url.searchParams.append("format", "json");
+      // Use basic fields that are guaranteed to exist in the API
       url.searchParams.append(
         "fields",
-        "NCTId,BriefTitle,OverallStatus,Phase,StudyType,Condition,InterventionName,PrimaryPurpose,Allocation,Masking,EnrollmentCount,StartDate,CompletionDate,PrimaryCompletionDate,LeadSponsorName,CollaboratorName,LocationFacility,LocationCity,LocationState,LocationCountry,EligibilityCriteria,PrimaryOutcomeMeasure,SecondaryOutcomeMeasure,BriefSummary,DetailedDescription,Keyword,StudyDesign",
+        "NCTId,BriefTitle,OverallStatus,Phase,StudyType,Condition,BriefSummary,StartDate,CompletionDate",
       );
 
       const response = await this.searchClinicalTrials(url.toString());
@@ -80,9 +81,10 @@ class ClinicalTrialsService {
 
       const url = new URL(`${this.baseUrl}/studies/${cleanNCTId}`);
       url.searchParams.append("format", "json");
+      // Use basic fields that are guaranteed to exist in the API
       url.searchParams.append(
         "fields",
-        "NCTId,BriefTitle,OverallStatus,Phase,StudyType,Condition,InterventionName,PrimaryPurpose,Allocation,Masking,EnrollmentCount,StartDate,CompletionDate,PrimaryCompletionDate,LeadSponsorName,CollaboratorName,LocationFacility,LocationCity,LocationState,LocationCountry,EligibilityCriteria,PrimaryOutcomeMeasure,SecondaryOutcomeMeasure,BriefSummary,DetailedDescription,Keyword,StudyDesign",
+        "NCTId,BriefTitle,OverallStatus,Phase,StudyType,Condition,BriefSummary,StartDate,CompletionDate",
       );
 
       const response = await fetch(url.toString());
@@ -153,35 +155,43 @@ class ClinicalTrialsService {
     const descriptionModule = protocolSection.descriptionModule || {};
 
     return {
-      nctId: identificationModule.nctId || "",
-      title: identificationModule.briefTitle || "",
-      status: statusModule.overallStatus || "unknown",
-      phase: designModule.phases || [],
-      studyType: designModule.studyType || "",
-      conditions: conditionsModule.conditions || [],
+      nctId: identificationModule.nctId || study.nctId || "",
+      title: identificationModule.briefTitle || study.briefTitle || "",
+      status: statusModule.overallStatus || study.overallStatus || "unknown",
+      phase: designModule.phases || study.phase || [],
+      studyType: designModule.studyType || study.studyType || "Interventional",
+      conditions: conditionsModule.conditions || study.condition || [],
       interventions:
         interventionsModule.interventions?.map((i: any) => i.name || "") || [],
-      primaryPurpose: designModule.designInfo?.primaryPurpose || "",
-      allocation: designModule.designInfo?.allocation || "",
-      masking: designModule.designInfo?.maskingInfo?.masking || "",
+      primaryPurpose: designModule.designInfo?.primaryPurpose || "Treatment",
+      allocation: designModule.designInfo?.allocation || "Not specified",
+      masking: designModule.designInfo?.maskingInfo?.masking || "Not specified",
       enrollmentCount: designModule.enrollmentInfo?.count || 0,
-      startDate: statusModule.startDateStruct?.date || undefined,
-      completionDate: statusModule.completionDateStruct?.date || undefined,
+      startDate:
+        statusModule.startDateStruct?.date || study.startDate || undefined,
+      completionDate:
+        statusModule.completionDateStruct?.date ||
+        study.completionDate ||
+        undefined,
       primaryCompletionDate:
         statusModule.primaryCompletionDateStruct?.date || undefined,
-      sponsor: sponsorCollaboratorsModule.leadSponsor?.name || "",
+      sponsor: sponsorCollaboratorsModule.leadSponsor?.name || "Not specified",
       collaborators:
         sponsorCollaboratorsModule.collaborators?.map((c: any) => c.name) || [],
       locations: this.parseLocations(contactsLocationsModule.locations || []),
-      eligibilityCriteria: eligibilityModule.eligibilityCriteria || "",
+      eligibilityCriteria:
+        eligibilityModule.eligibilityCriteria || "Not specified",
       primaryOutcomes: this.parseOutcomes(outcomesModule.primaryOutcomes || []),
       secondaryOutcomes: this.parseOutcomes(
         outcomesModule.secondaryOutcomes || [],
       ),
-      briefSummary: descriptionModule.briefSummary || "",
+      briefSummary: descriptionModule.briefSummary || study.briefSummary || "",
       detailedDescription: descriptionModule.detailedDescription || undefined,
       keywords: conditionsModule.keywords || [],
-      studyDesign: designModule.designInfo?.studyType || "",
+      studyDesign:
+        designModule.designInfo?.studyType ||
+        study.studyType ||
+        "Interventional",
     };
   }
 
