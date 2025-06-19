@@ -19,6 +19,19 @@ export default {
     },
     extend: {
       colors: {
+        // Phase2 Brand Colors
+        phase2: {
+          blue: "#0099FF",
+          "soft-black": "#1F1F1F",
+          white: "#FFFFFF",
+          "net-gray": "#C7C7C7",
+          "dark-gray": "#5A5A5A",
+          "misty-teal": "#7FFDE5",
+          "electric-violet": "#8B6FFF",
+          "prosperous-plum": "#AF25AC",
+          "karma-coral": "#FF426C",
+        },
+        // Shadcn/ui system colors (keeping for compatibility)
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -62,6 +75,10 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+      },
+      fontFamily: {
+        raleway: ["Raleway", "sans-serif"],
+        "big-shoulders": ["Big Shoulders Display", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
