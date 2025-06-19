@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ProfileSectionCard } from "@/components/dashboard/ProfileSectionCard";
-import { ProfileStatsCard } from "@/components/dashboard/ProfileStatsCard";
-import { WelcomeHeader } from "@/components/dashboard/WelcomeHeader";
+import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { HealthcareFooter } from "@/components/dashboard/HealthcareFooter";
 import {
   ProviderProfile,
@@ -134,161 +133,67 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-phase2-net-gray/20">
+      {/* Dashboard Header with Brand Continuity */}
+      <DashboardHeader
+        profile={profile}
+        profileViews={profile.stats.profileViews}
+        sectionsNeedingUpdates={sectionsNeedingUpdates.length}
+        completionPercentage={completionPercentage}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Welcome Header */}
-        <WelcomeHeader profile={profile} />
-
-        {/* Main Content */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Profile Overview */}
-          <div className="lg:col-span-1">
-            <Card className="border-2 border-phase2-net-gray">
-              <CardHeader className="pb-4">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg font-raleway text-phase2-soft-black flex items-center gap-2">
-                    <Users className="w-5 h-5" />
-                    Your Professional Profile
-                  </CardTitle>
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleExportPDF("summary")}
-                      className="text-xs"
-                    >
-                      <FileText className="w-4 h-4 mr-1" />
-                      Summary PDF
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleExportPDF("full")}
-                      className="text-xs"
-                    >
-                      <Download className="w-4 h-4 mr-1" />
-                      Full PDF
-                    </Button>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {/* Profile Avatar and Basic Info */}
-                <div className="flex items-start space-x-4">
-                  <Avatar className="w-16 h-16 border-4 border-yellow-400">
-                    <AvatarImage src="" />
-                    <AvatarFallback className="bg-yellow-400 text-white text-lg font-semibold">
-                      {profile.npiData.firstName?.[0]}
-                      {profile.npiData.lastName?.[0]}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-raleway font-semibold text-phase2-soft-black">
-                      {profile.npiData.firstName} {profile.npiData.lastName},{" "}
-                      {profile.npiData.credential}
-                    </h3>
-                    <p className="text-phase2-dark-gray font-raleway">
-                      {profile.personalInfo.jobTitle}
-                    </p>
-                    <p className="text-sm text-phase2-dark-gray font-raleway">
-                      {profile.npiData.department}
-                    </p>
-                  </div>
-                </div>
-
-                {/* NPI and Additional Info */}
-                <div className="space-y-3">
-                  <div className="flex flex-wrap gap-2">
-                    <Badge
-                      variant="secondary"
-                      className="bg-blue-100 text-blue-800"
-                    >
-                      NPI: {profile.npiData.number}
-                    </Badge>
-                    {profile.preferences.pronouns && (
-                      <Badge
-                        variant="secondary"
-                        className="bg-green-100 text-green-800"
-                      >
-                        {profile.preferences.pronouns}
-                      </Badge>
-                    )}
-                    {profile.preferences.languages &&
-                      profile.preferences.languages.length > 0 && (
-                        <Badge
-                          variant="secondary"
-                          className="bg-purple-100 text-purple-800"
-                        >
-                          {profile.preferences.languages.join(", ")}
-                        </Badge>
-                      )}
-                  </div>
-                </div>
-
-                <Separator />
-
-                {/* Profile Stats */}
-                <ProfileStatsCard
-                  profileViews={profile.stats.profileViews}
-                  sectionsNeedingUpdates={sectionsNeedingUpdates.length}
-                  completionPercentage={completionPercentage}
-                />
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Right Column - Profile Sections */}
-          <div className="lg:col-span-2">
-            <div className="space-y-6">
-              {/* Sections Header */}
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-raleway font-bold text-phase2-soft-black">
-                    Profile Sections ({visibleSections.length})
-                  </h2>
-                  <p className="text-phase2-dark-gray font-raleway mt-1">
-                    Review and edit all sections of your professional profile •
-                    aligned with profile creation flow
-                  </p>
-                </div>
-                <Button variant="outline" size="sm">
-                  <Settings className="w-4 h-4 mr-2" />
-                  Preferences
-                </Button>
+        {/* Main Content - Profile Sections */}
+        <div>
+          <div className="space-y-6">
+            {/* Sections Header */}
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-2xl font-raleway font-bold text-phase2-soft-black">
+                  Profile Sections (11)
+                </h2>
+                <p className="text-phase2-dark-gray font-raleway mt-1">
+                  Review and edit all sections of your professional profile •
+                  aligned with profile creation flow
+                </p>
               </div>
+              <Button variant="outline" size="sm">
+                <Settings className="w-4 h-4 mr-2" />
+                Preferences
+              </Button>
+            </div>
 
-              {/* Sections Needing Updates Alert */}
-              {sectionsNeedingUpdates.length > 0 && (
-                <Card className="border-2 border-orange-200 bg-orange-50">
-                  <CardContent className="pt-6">
-                    <div className="flex items-center gap-3">
-                      <AlertCircle className="w-5 h-5 text-orange-600" />
-                      <div>
-                        <h4 className="font-raleway font-semibold text-orange-800">
-                          Sections Needing Updates
-                        </h4>
-                        <p className="text-sm text-orange-700 font-raleway">
-                          {sectionsNeedingUpdates.length} section
-                          {sectionsNeedingUpdates.length !== 1 ? "s" : ""} need
-                          {sectionsNeedingUpdates.length === 1 ? "s" : ""} your
-                          attention
-                        </p>
-                      </div>
+            {/* Sections Needing Updates Alert */}
+            {sectionsNeedingUpdates.length > 0 && (
+              <Card className="border-2 border-orange-200 bg-orange-50">
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3">
+                    <AlertCircle className="w-5 h-5 text-orange-600" />
+                    <div>
+                      <h4 className="font-raleway font-semibold text-orange-800">
+                        Sections Needing Updates
+                      </h4>
+                      <p className="text-sm text-orange-700 font-raleway">
+                        {sectionsNeedingUpdates.length} section
+                        {sectionsNeedingUpdates.length !== 1 ? "s" : ""} need
+                        {sectionsNeedingUpdates.length === 1 ? "s" : ""} your
+                        attention
+                      </p>
                     </div>
-                  </CardContent>
-                </Card>
-              )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
-              {/* Profile Sections Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {visibleSections.map((section) => (
-                  <ProfileSectionCard
-                    key={section.id}
-                    section={section}
-                    onEdit={() => handleSectionEdit(section.id)}
-                    onReview={() => handleSectionReview(section.id)}
-                  />
-                ))}
-              </div>
+            {/* Profile Sections Grid - Show ALL 11 sections */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {sections.map((section) => (
+                <ProfileSectionCard
+                  key={section.id}
+                  section={section}
+                  onEdit={() => handleSectionEdit(section.id)}
+                  onReview={() => handleSectionReview(section.id)}
+                />
+              ))}
             </div>
           </div>
         </div>
