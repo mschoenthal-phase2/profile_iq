@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { ProfileSectionCard } from "@/components/dashboard/ProfileSectionCard";
 import { ProfileStatsCard } from "@/components/dashboard/ProfileStatsCard";
 import { WelcomeHeader } from "@/components/dashboard/WelcomeHeader";
+import { HealthcareFooter } from "@/components/dashboard/HealthcareFooter";
 import {
   ProviderProfile,
   ProfileSection,
@@ -326,6 +327,7 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+      <HealthcareFooter />
     </div>
   );
 }
