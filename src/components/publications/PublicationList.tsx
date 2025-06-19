@@ -28,6 +28,7 @@ import {
   Edit3,
 } from "lucide-react";
 import { Publication } from "@/types/publications";
+import { cn } from "@/lib/utils";
 
 interface PublicationListProps {
   publications: Publication[];
@@ -104,13 +105,16 @@ export const PublicationList: React.FC<PublicationListProps> = ({
 
   if (publications.length === 0) {
     return (
-      <div className="text-center py-8">
-        <Book className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-muted-foreground mb-2">
+      <div className="text-center py-12">
+        <div className="w-16 h-16 bg-muted rounded-lg flex items-center justify-center mx-auto mb-4">
+          <Book className="w-8 h-8 text-muted-foreground" />
+        </div>
+        <h3 className="text-lg font-raleway font-semibold text-phase2-soft-black mb-2">
           No publications found yet
         </h3>
         <p className="text-sm text-muted-foreground">
-          You can add publications manually using the PMID lookup above
+          Use the "Publication Discovery" or "Add by PMID" tabs to add
+          publications to your profile
         </p>
       </div>
     );
@@ -122,73 +126,49 @@ export const PublicationList: React.FC<PublicationListProps> = ({
   return (
     <div className="space-y-6">
       {/* Summary */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-          <span>{publications.length} total publications</span>
-          <span>•</span>
-          <span>{visiblePublications.length} visible</span>
-          <span>•</span>
-          <span>{hiddenPublications.length} hidden</span>
+      <div className="bg-muted/50 rounded-lg p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-6 text-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-phase2-blue rounded-full"></div>
+              <span className="font-medium">
+                {publications.length} Total Publications
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <span>{visiblePublications.length} Visible</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-muted-foreground rounded-full"></div>
+              <span>{hiddenPublications.length} Hidden</span>
+            </div>
+          </div>
+          {isEditing && (
+            <p className="text-xs text-muted-foreground">
+              Toggle visibility or remove publications using the controls on
+              each card
+            </p>
+          )}
         </div>
       </div>
 
-      {/* Visible Publications */}
-      {visiblePublications.length > 0 && (
-        <div className="space-y-4">
-          <div className="flex items-center gap-2">
-            <Eye className="w-4 h-4 text-green-600" />
-            <h3 className="font-medium">Visible Publications</h3>
-            <Badge variant="secondary">{visiblePublications.length}</Badge>
-          </div>
-
-          <ScrollArea className="h-96 w-full">
-            <div className="space-y-4">
-              {visiblePublications.map((publication) => (
-                <PublicationCard
-                  key={publication.id}
-                  publication={publication}
-                  onToggleVisibility={handleToggleVisibility}
-                  onDelete={handleDeleteClick}
-                  isEditing={isEditing}
-                  formatCitation={formatCitation}
-                  formatAuthors={formatAuthors}
-                  formatDate={formatDate}
-                />
-              ))}
-            </div>
-          </ScrollArea>
-        </div>
-      )}
-
-      {/* Hidden Publications */}
-      {hiddenPublications.length > 0 && (
-        <div className="space-y-4">
-          <Separator />
-          <div className="flex items-center gap-2">
-            <EyeOff className="w-4 h-4 text-muted-foreground" />
-            <h3 className="font-medium">Hidden Publications</h3>
-            <Badge variant="outline">{hiddenPublications.length}</Badge>
-          </div>
-
-          <ScrollArea className="h-64 w-full">
-            <div className="space-y-4">
-              {hiddenPublications.map((publication) => (
-                <PublicationCard
-                  key={publication.id}
-                  publication={publication}
-                  onToggleVisibility={handleToggleVisibility}
-                  onDelete={handleDeleteClick}
-                  isEditing={isEditing}
-                  formatCitation={formatCitation}
-                  formatAuthors={formatAuthors}
-                  formatDate={formatDate}
-                  isHidden
-                />
-              ))}
-            </div>
-          </ScrollArea>
-        </div>
-      )}
+      {/* All Publications - Single List */}
+      <div className="space-y-4">
+        {publications.map((publication) => (
+          <PublicationCard
+            key={publication.id}
+            publication={publication}
+            onToggleVisibility={handleToggleVisibility}
+            onDelete={handleDeleteClick}
+            isEditing={isEditing}
+            formatCitation={formatCitation}
+            formatAuthors={formatAuthors}
+            formatDate={formatDate}
+            isHidden={!publication.isVisible}
+          />
+        ))}
+      </div>
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={!!deletingId} onOpenChange={() => setDeletingId(null)}>
@@ -239,60 +219,103 @@ const PublicationCard: React.FC<PublicationCardProps> = ({
   isHidden = false,
 }) => {
   return (
-    <Card className={isHidden ? "opacity-60" : ""}>
+    <Card
+      className={cn(
+        "border-2 transition-all duration-200 hover:shadow-md",
+        isHidden
+          ? "border-muted bg-muted/30 opacity-75"
+          : "border-phase2-net-gray",
+      )}
+    >
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 space-y-2">
-            <h4 className="font-medium leading-tight">{publication.title}</h4>
-
-            <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span className="flex items-center gap-1">
-                <Users className="w-3 h-3" />
-                {formatAuthors(publication.authors)}
-              </span>
-              <span className="flex items-center gap-1">
-                <Book className="w-3 h-3" />
-                {publication.journal}
-              </span>
-              <span className="flex items-center gap-1">
-                <Calendar className="w-3 h-3" />
-                {formatDate(publication.publicationDate)}
-              </span>
+          <div className="flex items-center gap-3">
+            <div
+              className={cn(
+                "w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0",
+                publication.isVisible ? "bg-phase2-blue/10" : "bg-muted",
+              )}
+            >
+              <Book
+                className={cn(
+                  "w-5 h-5",
+                  publication.isVisible
+                    ? "text-phase2-blue"
+                    : "text-muted-foreground",
+                )}
+              />
             </div>
+            <div className="flex-1 min-w-0">
+              <h4 className="font-raleway font-semibold text-phase2-soft-black line-clamp-2 mb-2">
+                {publication.title}
+              </h4>
 
-            <div className="flex items-center gap-2">
-              <Badge variant="secondary">
-                {publication.publicationType.replace("_", " ")}
-              </Badge>
+              <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2">
+                <span className="flex items-center gap-1">
+                  <Users className="w-3 h-3 flex-shrink-0" />
+                  <span className="truncate">
+                    {formatAuthors(publication.authors)}
+                  </span>
+                </span>
+                <span className="flex items-center gap-1">
+                  <Book className="w-3 h-3 flex-shrink-0" />
+                  <span className="truncate">{publication.journal}</span>
+                </span>
+                <span className="flex items-center gap-1">
+                  <Calendar className="w-3 h-3 flex-shrink-0" />
+                  {formatDate(publication.publicationDate)}
+                </span>
+              </div>
 
-              <Badge
-                variant={
-                  publication.status === "manual" ? "default" : "outline"
-                }
-              >
-                {publication.status}
-              </Badge>
+              <div className="flex items-center gap-2 flex-wrap">
+                <Badge variant="secondary">
+                  {publication.publicationType.replace("_", " ")}
+                </Badge>
 
-              {publication.pmid && (
-                <Badge variant="outline">PMID: {publication.pmid}</Badge>
-              )}
-
-              {publication.doi && (
-                <a
-                  href={`https://doi.org/${publication.doi}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-700 text-xs flex items-center gap-1"
+                <Badge
+                  variant={
+                    publication.status === "manual" ? "default" : "outline"
+                  }
                 >
-                  DOI
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-              )}
+                  {publication.status}
+                </Badge>
+
+                {publication.isVisible ? (
+                  <Badge
+                    variant="default"
+                    className="bg-green-100 text-green-800 border-green-200"
+                  >
+                    <Eye className="w-3 h-3 mr-1" />
+                    Visible
+                  </Badge>
+                ) : (
+                  <Badge variant="outline" className="text-muted-foreground">
+                    <EyeOff className="w-3 h-3 mr-1" />
+                    Hidden
+                  </Badge>
+                )}
+
+                {publication.pmid && (
+                  <Badge variant="outline">PMID: {publication.pmid}</Badge>
+                )}
+
+                {publication.doi && (
+                  <a
+                    href={`https://doi.org/${publication.doi}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-700 text-xs flex items-center gap-1"
+                  >
+                    DOI
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                )}
+              </div>
             </div>
           </div>
 
           {isEditing && (
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col gap-2">
               <div className="flex items-center space-x-2">
                 <Switch
                   id={`visibility-${publication.id}`}
@@ -301,7 +324,7 @@ const PublicationCard: React.FC<PublicationCardProps> = ({
                 />
                 <Label
                   htmlFor={`visibility-${publication.id}`}
-                  className="text-xs"
+                  className="text-xs cursor-pointer"
                 >
                   {publication.isVisible ? "Visible" : "Hidden"}
                 </Label>
@@ -311,9 +334,10 @@ const PublicationCard: React.FC<PublicationCardProps> = ({
                 variant="outline"
                 size="sm"
                 onClick={() => onDelete(publication.id)}
-                className="text-destructive hover:text-destructive"
+                className="text-destructive hover:text-destructive hover:border-destructive"
               >
-                <Trash2 className="w-4 h-4" />
+                <Trash2 className="w-4 h-4 mr-1" />
+                Remove
               </Button>
             </div>
           )}
