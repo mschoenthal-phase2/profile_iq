@@ -310,21 +310,51 @@ CREATE TABLE locations (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
 
+    -- Location Reference
+    predefined_location_id TEXT NOT NULL, -- References predefined location list
     location_name TEXT NOT NULL,
     location_type location_type DEFAULT 'primary',
+
+    -- Address Information
     address_line_1 TEXT NOT NULL,
     address_line_2 TEXT,
     city TEXT NOT NULL,
     state TEXT NOT NULL,
     postal_code TEXT NOT NULL,
     country TEXT DEFAULT 'United States',
+
+    -- Location Details
+    floor_number TEXT,
+    suite_office_number TEXT,
+
+    -- Contact Information
     phone TEXT,
     fax TEXT,
     email TEXT,
     website TEXT,
+
+    -- Settings
     is_primary BOOLEAN DEFAULT FALSE,
     accepts_new_patients BOOLEAN DEFAULT TRUE,
-    telehealth_available BOOLEAN DEFAULT FALSE
+    telehealth_available BOOLEAN DEFAULT FALSE,
+
+    -- Notes
+    special_notes TEXT
+);
+
+-- Office Hours (separate table for better normalization)
+CREATE TABLE office_hours (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    location_id UUID REFERENCES locations(id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+
+    day_of_week TEXT NOT NULL CHECK (day_of_week IN ('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday')),
+    is_closed BOOLEAN DEFAULT FALSE,
+    start_time TEXT, -- Format: "8:00 AM"
+    end_time TEXT,   -- Format: "5:00 PM"
+
+    UNIQUE(location_id, day_of_week)
 );
 
 -- Education & Training
@@ -393,6 +423,8 @@ CREATE INDEX idx_publications_user_id ON publications(user_id);
 CREATE INDEX idx_publications_featured ON publications(user_id, is_featured);
 CREATE INDEX idx_locations_user_id ON locations(user_id);
 CREATE INDEX idx_locations_primary ON locations(user_id, is_primary);
+CREATE INDEX idx_office_hours_location_id ON office_hours(location_id);
+CREATE INDEX idx_office_hours_day ON office_hours(location_id, day_of_week);
 CREATE INDEX idx_languages_spoken_user_id ON languages_spoken(user_id);
 CREATE INDEX idx_languages_spoken_proficiency ON languages_spoken(user_id, proficiency);
 
@@ -423,6 +455,7 @@ CREATE TRIGGER update_education_training_updated_at BEFORE UPDATE ON education_t
 CREATE TRIGGER update_biography_updated_at BEFORE UPDATE ON biography FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_media_press_updated_at BEFORE UPDATE ON media_press FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_languages_spoken_updated_at BEFORE UPDATE ON languages_spoken FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_office_hours_updated_at BEFORE UPDATE ON office_hours FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- Create view for complete provider profile
 CREATE VIEW complete_provider_profile AS
@@ -463,6 +496,7 @@ ALTER TABLE education_training ENABLE ROW LEVEL SECURITY;
 ALTER TABLE biography ENABLE ROW LEVEL SECURITY;
 ALTER TABLE media_press ENABLE ROW LEVEL SECURITY;
 ALTER TABLE languages_spoken ENABLE ROW LEVEL SECURITY;
+ALTER TABLE office_hours ENABLE ROW LEVEL SECURITY;
 
 -- Create policies (users can only access their own data)
 CREATE POLICY "Users can view their own profile" ON users FOR SELECT USING (auth.uid() = id);
@@ -486,6 +520,9 @@ CREATE POLICY "Users can manage their own education" ON education_training FOR A
 CREATE POLICY "Users can manage their own biography" ON biography FOR ALL USING (auth.uid() = user_id);
 CREATE POLICY "Users can manage their own media" ON media_press FOR ALL USING (auth.uid() = user_id);
 CREATE POLICY "Users can manage their own languages" ON languages_spoken FOR ALL USING (auth.uid() = user_id);
+CREATE POLICY "Users can manage their own office hours" ON office_hours FOR ALL USING (EXISTS (
+    SELECT 1 FROM locations WHERE locations.id = office_hours.location_id AND locations.user_id = auth.uid()
+));
 
 -- Public read policies for search functionality (optional, can be restricted)
 CREATE POLICY "Public can search provider profiles" ON complete_provider_profile FOR SELECT USING (true);
