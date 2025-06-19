@@ -145,8 +145,53 @@ export default function ExampleProfileSection() {
             <CardTitle>Example Section Content</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>Replace this with your section's specific content and forms.</p>
-            {/* Add your forms, inputs, and other content here */}
+            <div className="space-y-4">
+              <p className="text-phase2-dark-gray mb-4">
+                Replace this with your section's specific content and forms.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Example Field 1
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.field1}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        field1: e.target.value,
+                      }))
+                    }
+                    disabled={!isEditing}
+                    className={`w-full p-2 border rounded ${
+                      !isEditing ? "bg-gray-50" : ""
+                    }`}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Example Field 2
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.field2}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        field2: e.target.value,
+                      }))
+                    }
+                    disabled={!isEditing}
+                    className={`w-full p-2 border rounded ${
+                      !isEditing ? "bg-gray-50" : ""
+                    }`}
+                  />
+                </div>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
