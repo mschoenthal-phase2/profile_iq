@@ -290,11 +290,9 @@ export default function Locations() {
           </div>
           {isEditing && availableLocations.length > 0 && (
             <Select onValueChange={(value) => addLocation(value)}>
-              <SelectTrigger asChild>
-                <Button className="bg-blue-600 hover:bg-blue-700">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Location
-                </Button>
+              <SelectTrigger className="w-auto border-none bg-blue-600 hover:bg-blue-700 text-white">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Location
               </SelectTrigger>
               <SelectContent>
                 {availableLocations.map((location) => (
@@ -581,11 +579,9 @@ export default function Locations() {
               </p>
               {isEditing && availableLocations.length > 0 && (
                 <Select onValueChange={(value) => addLocation(value)}>
-                  <SelectTrigger asChild>
-                    <Button>
-                      <Plus className="w-4 h-4 mr-2" />
-                      Add Your First Location
-                    </Button>
+                  <SelectTrigger className="w-auto">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add Your First Location
                   </SelectTrigger>
                   <SelectContent>
                     {availableLocations.map((location) => (
