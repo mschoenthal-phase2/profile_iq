@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, Users, Heart } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Copy, Users, Heart, Edit3, Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 
@@ -12,6 +13,7 @@ interface BiographyDisplayProps {
   targetAudience: "professional" | "public";
   isGenerating?: boolean;
   onCopy?: () => void;
+  onContentChange?: (content: string) => void;
   className?: string;
 }
 
@@ -22,9 +24,15 @@ export function BiographyDisplay({
   targetAudience,
   isGenerating = false,
   onCopy,
+  onContentChange,
   className,
 }: BiographyDisplayProps) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editContent, setEditContent] = useState(content);
+
   const handleCopy = async () => {
+    if (!content) return;
+
     try {
       await navigator.clipboard.writeText(content);
       toast({
@@ -33,12 +41,32 @@ export function BiographyDisplay({
       });
       onCopy?.();
     } catch (error) {
+      console.error("Copy failed:", error);
       toast({
         title: "Failed to copy",
         description: "Unable to copy content to clipboard.",
         variant: "destructive",
       });
     }
+  };
+
+  const handleEdit = () => {
+    setEditContent(content);
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    onContentChange?.(editContent);
+    setIsEditing(false);
+    toast({
+      title: "Biography updated",
+      description: `${title} has been saved.`,
+    });
+  };
+
+  const handleCancel = () => {
+    setEditContent(content);
+    setIsEditing(false);
   };
 
   const getIcon = () => {
@@ -63,16 +91,53 @@ export function BiographyDisplay({
             {getIcon()}
             {title}
           </CardTitle>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleCopy}
-            disabled={!content || isGenerating}
-            className="text-xs font-raleway"
-          >
-            <Copy className="w-3 h-3 mr-1" />
-            Copy
-          </Button>
+          <div className="flex items-center gap-2">
+            {isEditing ? (
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleCancel}
+                  className="text-xs font-raleway"
+                >
+                  <X className="w-3 h-3 mr-1" />
+                  Cancel
+                </Button>
+                <Button
+                  variant="default"
+                  size="sm"
+                  onClick={handleSave}
+                  className="text-xs font-raleway"
+                >
+                  <Check className="w-3 h-3 mr-1" />
+                  Save
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleEdit}
+                  disabled={!content || isGenerating}
+                  className="text-xs font-raleway"
+                >
+                  <Edit3 className="w-3 h-3 mr-1" />
+                  Edit
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleCopy}
+                  disabled={!content || isGenerating}
+                  className="text-xs font-raleway"
+                >
+                  <Copy className="w-3 h-3 mr-1" />
+                  Copy
+                </Button>
+              </>
+            )}
+          </div>
         </div>
         <div className="flex items-center gap-2 text-xs">
           <span
@@ -96,11 +161,25 @@ export function BiographyDisplay({
             <div className="w-8 h-8 border-4 border-phase2-blue border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : content ? (
-          <div className="prose prose-sm max-w-none">
-            <p className="text-sm text-phase2-soft-black font-raleway leading-relaxed whitespace-pre-wrap">
-              {content}
-            </p>
-          </div>
+          isEditing ? (
+            <div className="space-y-3">
+              <Textarea
+                value={editContent}
+                onChange={(e) => setEditContent(e.target.value)}
+                className="min-h-[200px] font-raleway text-sm leading-relaxed resize-none"
+                placeholder={`Edit your ${targetAudience} biography...`}
+              />
+              <div className="text-xs text-phase2-dark-gray font-raleway">
+                {editContent.length} characters
+              </div>
+            </div>
+          ) : (
+            <div className="prose prose-sm max-w-none">
+              <p className="text-sm text-phase2-soft-black font-raleway leading-relaxed whitespace-pre-wrap">
+                {content}
+              </p>
+            </div>
+          )
         ) : (
           <div className="text-center py-8 text-phase2-dark-gray">
             <p className="font-raleway text-sm">
