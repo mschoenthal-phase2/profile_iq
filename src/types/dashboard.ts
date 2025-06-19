@@ -138,13 +138,12 @@ export const DEFAULT_PROFILE_SECTIONS: ProfileSection[] = [
     isRequired: false,
   },
   {
-    id: "insurance_plans",
-    title: "Insurance Plans",
-    icon: "shield",
+    id: "media_press",
+    title: "Media & Press",
+    icon: "camera",
     lastUpdated: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000), // 2 months ago
-    status: "needs_update",
-    description: "Several insurance plans require verification",
-    priority: "medium",
+    status: "complete",
+    priority: "low",
     isVisible: true,
     isRequired: false,
   },
@@ -155,16 +154,6 @@ export const DEFAULT_PROFILE_SECTIONS: ProfileSection[] = [
     lastUpdated: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 1 week ago
     status: "complete",
     priority: "medium",
-    isVisible: true,
-    isRequired: false,
-  },
-  {
-    id: "media_press",
-    title: "Media & Press",
-    icon: "camera",
-    lastUpdated: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000), // 2 months ago
-    status: "complete",
-    priority: "low",
     isVisible: true,
     isRequired: false,
   },
