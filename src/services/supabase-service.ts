@@ -303,6 +303,88 @@ class SupabaseService {
     }
   }
 
+  // Publication Operations
+  async getUserPublications(
+    userId: string,
+  ): Promise<{ success: boolean; error?: string; data?: any[] }> {
+    try {
+      console.log("Would fetch user publications for:", userId);
+      return { success: true, data: [] };
+
+      // Actual Supabase call:
+      // const { data, error } = await this.client!
+      //   .from('publications')
+      //   .select('*')
+      //   .eq('user_id', userId)
+      //   .order('publication_date', { ascending: false });
+      //
+      // if (error) throw error;
+      // return { success: true, data };
+    } catch (error) {
+      console.error("Error fetching user publications:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async saveUserPublications(
+    userId: string,
+    publications: any[],
+  ): Promise<{ success: boolean; error?: string }> {
+    try {
+      console.log("Would save user publications:", userId, publications);
+      return { success: true };
+
+      // Actual Supabase call (using upsert for create/update):
+      // const publicationsWithUserId = publications.map(pub => ({
+      //   ...pub,
+      //   user_id: userId,
+      //   updated_at: new Date().toISOString()
+      // }));
+      //
+      // const { error } = await this.client!
+      //   .from('publications')
+      //   .upsert(publicationsWithUserId);
+      //
+      // if (error) throw error;
+      // return { success: true };
+    } catch (error) {
+      console.error("Error saving user publications:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async deleteUserPublication(
+    userId: string,
+    publicationId: string,
+  ): Promise<{ success: boolean; error?: string }> {
+    try {
+      console.log("Would delete user publication:", userId, publicationId);
+      return { success: true };
+
+      // Actual Supabase call:
+      // const { error } = await this.client!
+      //   .from('publications')
+      //   .delete()
+      //   .eq('user_id', userId)
+      //   .eq('id', publicationId);
+      //
+      // if (error) throw error;
+      // return { success: true };
+    } catch (error) {
+      console.error("Error deleting user publication:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
   // Search and filter operations
   async searchProviders(searchCriteria: {
     specialty?: string;
