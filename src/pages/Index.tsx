@@ -37,9 +37,9 @@ export default function Index() {
             Amplify Your Professional Impact
           </h1>
           <p className="text-xl md:text-2xl text-white/90 font-raleway leading-relaxed max-w-3xl mx-auto mb-8">
-            Your complete profile is your gateway to maximum visibility across all marketing initiatives.
-            Transform your professional presence and reach thousands of patients through our integrated platform.
-          </p>
+            Your complete profile is your gateway to maximum visibility across
+            all marketing initiatives. Transform your professional presence and
+            reach thousands of patients through our integrated platform.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
@@ -91,7 +91,8 @@ export default function Index() {
                 🚀 Complete Profiles Unlock Marketing Excellence
               </h2>
               <p className="text-lg text-white/90 font-raleway max-w-3xl mx-auto">
-                Transform your professional presence and reach thousands of patients through our integrated marketing platform
+                Transform your professional presence and reach thousands of
+                patients through our integrated marketing platform
               </p>
             </div>
 
@@ -100,43 +101,56 @@ export default function Index() {
                 <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
                   <span className="text-sm font-bold">🌐</span>
                 </div>
-                <span className="font-raleway font-medium">Website physician listings</span>
+                <span className="font-raleway font-medium">
+                  Website physician listings
+                </span>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
                   <span className="text-sm font-bold">📄</span>
                 </div>
-                <span className="font-raleway font-medium">Print marketing materials</span>
+                <span className="font-raleway font-medium">
+                  Print marketing materials
+                </span>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
                   <span className="text-sm font-bold">📱</span>
                 </div>
-                <span className="font-raleway font-medium">Digital advertising campaigns</span>
+                <span className="font-raleway font-medium">
+                  Digital advertising campaigns
+                </span>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
                   <span className="text-sm font-bold">📚</span>
                 </div>
-                <span className="font-raleway font-medium">Patient education materials</span>
+                <span className="font-raleway font-medium">
+                  Patient education materials
+                </span>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
                   <span className="text-sm font-bold">🤝</span>
                 </div>
-                <span className="font-raleway font-medium">Community outreach programs</span>
+                <span className="font-raleway font-medium">
+                  Community outreach programs
+                </span>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
                   <span className="text-sm font-bold">📲</span>
                 </div>
-                <span className="font-raleway font-medium">Social media presence</span>
+                <span className="font-raleway font-medium">
+                  Social media presence
+                </span>
               </div>
             </div>
 
             <div className="bg-white/10 border border-white/20 rounded-lg p-4 text-center">
               <p className="font-raleway font-semibold text-lg">
-                🚀 Complete profiles receive 5x more patient visibility than incomplete ones
+                🚀 Complete profiles receive 5x more patient visibility than
+                incomplete ones
               </p>
             </div>
           </div>
@@ -151,8 +165,9 @@ export default function Index() {
               Four Key Benefits of Complete Profiles
             </h2>
             <p className="text-xl text-phase2-dark-gray font-raleway max-w-2xl mx-auto">
-              Join thousands of healthcare providers who have unlocked their full marketing potential
-              and transformed their professional presence
+              Join thousands of healthcare providers who have unlocked their
+              full marketing potential and transformed their professional
+              presence
             </p>
           </div>
 
@@ -191,8 +206,8 @@ export default function Index() {
                 Career Growth
               </h3>
               <p className="text-phase2-dark-gray font-raleway">
-                Build your professional brand and enhance your reputation
-                within your healthcare system
+                Build your professional brand and enhance your reputation within
+                your healthcare system
               </p>
             </div>
 
@@ -220,7 +235,8 @@ export default function Index() {
               ✅ 2,200+ Providers Already Participating
             </h3>
             <p className="text-white/80 font-raleway">
-              Join the majority of healthcare providers who have unlocked their full marketing potential
+              Join the majority of healthcare providers who have unlocked their
+              full marketing potential
             </p>
           </div>
 
@@ -228,8 +244,8 @@ export default function Index() {
             Ready to Amplify Your Impact?
           </h2>
           <p className="text-xl text-white/80 font-raleway mb-8">
-            Transform your professional presence and reach thousands of patients through
-            our comprehensive marketing ecosystem
+            Transform your professional presence and reach thousands of patients
+            through our comprehensive marketing ecosystem
           </p>
           <Link to="/signup">
             <Button
