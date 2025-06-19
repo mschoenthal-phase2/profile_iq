@@ -110,6 +110,7 @@ export default function PracticeEssentials() {
   }, [formData, originalData]);
 
   const handleSave = async () => {
+    console.log("Save button clicked");
     setIsSaving(true);
     try {
       // Validate form data
@@ -133,6 +134,7 @@ export default function PracticeEssentials() {
   };
 
   const handleCancel = () => {
+    console.log("Cancel button clicked");
     if (hasUnsavedChanges) {
       setShowUnsavedDialog(true);
     } else {
