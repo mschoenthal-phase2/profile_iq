@@ -18,7 +18,6 @@ import {
   Edit,
   Eye,
   Clock,
-  AlertTriangle,
 } from "lucide-react";
 
 interface ProfileSectionCardProps {
