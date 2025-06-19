@@ -16,7 +16,7 @@ import {
   applySectionConfig,
   calculateProfileCompletion,
   getSectionsByStatus,
-} from "@/lib/section-config.js";
+} from "../lib/section-config";
 import {
   getHospitalPermissions,
   applySectionPermissions,
