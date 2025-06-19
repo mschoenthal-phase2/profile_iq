@@ -250,7 +250,10 @@ export default function PracticeEssentials() {
       isSaving={isSaving}
       hasUnsavedChanges={hasUnsavedChanges}
       showUnsavedDialog={showUnsavedDialog}
-      onEdit={() => setIsEditing(true)}
+      onEdit={() => {
+        console.log("Edit button clicked");
+        setIsEditing(true);
+      }}
       onSave={handleSave}
       onCancel={handleCancel}
       onBackToDashboard={handleBackToDashboard}
