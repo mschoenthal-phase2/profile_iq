@@ -228,7 +228,7 @@ export default function Signup() {
                   icon={<Phone size={20} />}
                 />
 
-                <div className="space-y-2">
+                <div className="relative">
                   <FormInput
                     label="Password"
                     type={showPassword ? "text" : "password"}
@@ -243,8 +243,7 @@ export default function Signup() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-phase2-dark-gray hover:text-phase2-blue transition-colors"
-                    style={{ marginTop: "1.75rem" }}
+                    className="absolute right-3 top-10 text-phase2-dark-gray hover:text-phase2-blue transition-colors"
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
@@ -279,7 +278,7 @@ export default function Signup() {
                   )}
                 </div>
 
-                <div className="space-y-2">
+                <div className="relative">
                   <FormInput
                     label="Confirm Password"
                     type={showConfirmPassword ? "text" : "password"}
@@ -294,8 +293,7 @@ export default function Signup() {
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-phase2-dark-gray hover:text-phase2-blue transition-colors"
-                    style={{ marginTop: "1.75rem" }}
+                    className="absolute right-3 top-10 text-phase2-dark-gray hover:text-phase2-blue transition-colors"
                   >
                     {showConfirmPassword ? (
                       <EyeOff size={20} />
