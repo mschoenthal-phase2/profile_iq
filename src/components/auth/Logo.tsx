@@ -11,7 +11,7 @@ export const Logo: React.FC<LogoProps> = ({ className = "" }) => {
         <span className="text-white font-bold text-lg">P2</span>
       </div>
       <span className="text-2xl font-big-shoulders font-bold text-phase2-soft-black">
-        Phase2
+        ProfileIQ
       </span>
     </div>
   );

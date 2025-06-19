@@ -23,10 +23,11 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
         <div className="relative z-10">
           <Logo className="text-white mb-8" />
           <h1 className="text-4xl lg:text-5xl font-big-shoulders font-bold text-white mb-4">
-            ProfileMD
+            ProfileIQ
           </h1>
           <p className="text-xl text-white/90 font-raleway leading-relaxed max-w-md">
-            Comprehensive healthcare provider profile management platform
+            Intelligent healthcare provider profile management that elevates
+            your professional presence
           </p>
 
           {/* Flowing path element */}

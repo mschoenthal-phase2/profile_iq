@@ -182,7 +182,7 @@ export default function Signup() {
   return (
     <AuthLayout
       title="Create Account"
-      subtitle="Join ProfileMD to manage your professional profile"
+      subtitle="Join ProfileIQ to intelligently manage your professional profile"
     >
       <div className="space-y-8">
         <ProgressStepper steps={steps} />
@@ -449,7 +449,7 @@ export default function Signup() {
                 Account Created Successfully!
               </h3>
               <p className="text-phase2-dark-gray font-raleway">
-                Welcome to ProfileMD! We've sent a verification email to{" "}
+                Welcome to ProfileIQ! We've sent a verification email to{" "}
                 <span className="font-semibold">{formData.email}</span>
               </p>
               <Link to="/login">

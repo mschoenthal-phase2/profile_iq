@@ -54,7 +54,7 @@ export default function Login() {
   return (
     <AuthLayout
       title="Welcome Back"
-      subtitle="Sign in to your ProfileMD account"
+      subtitle="Sign in to your ProfileIQ account"
     >
       <form onSubmit={handleSubmit} className="space-y-6">
         <FormInput
@@ -119,11 +119,11 @@ export default function Login() {
         <div className="mt-8 pt-6 border-t border-phase2-net-gray">
           <div className="text-center">
             <p className="text-phase2-dark-gray font-raleway mb-4">
-              New to ProfileMD?
+              New to ProfileIQ?
             </p>
             <p className="text-sm text-phase2-dark-gray font-raleway mb-4">
-              Join thousands of healthcare providers managing their professional
-              profiles
+              Join thousands of healthcare providers leveraging intelligent
+              profile management
             </p>
             <Link to="/signup">
               <Button variant="outline" className="w-full" size="lg">
