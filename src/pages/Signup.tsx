@@ -536,9 +536,9 @@ export default function Signup() {
                         Development Mode
                       </h4>
                       <p className="text-sm text-blue-700 mt-1">
-                        This is demo data for development. In production, this
-                        would connect to the real NPPES NPI Registry. Try test
-                        NPIs: 1234567890, 9876543210, or 5555666677.
+                        This is demo data for development and testing. In
+                        production, this would connect to the real NPPES NPI
+                        Registry through a backend API.
                       </p>
                     </div>
                   </div>
