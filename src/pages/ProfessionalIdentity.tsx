@@ -166,6 +166,9 @@ export default function ProfessionalIdentity() {
       setOriginalData(formData);
       setIsEditing(false);
       setHasUnsavedChanges(false);
+
+      // Navigate back to dashboard after successful save
+      navigate("/dashboard");
     } catch (error) {
       console.error("Save failed:", error);
     } finally {
@@ -178,11 +181,12 @@ export default function ProfessionalIdentity() {
       setShowUnsavedDialog(true);
     } else {
       setIsEditing(false);
+      setFormData(originalData); // Reset form data to original state
     }
   };
 
   const handleBackToDashboard = () => {
-    if (hasUnsavedChanges) {
+    if (hasUnsavedChanges && isEditing) {
       setShowUnsavedDialog(true);
     } else {
       navigate("/dashboard");
@@ -195,6 +199,12 @@ export default function ProfessionalIdentity() {
     setHasUnsavedChanges(false);
     setShowUnsavedDialog(false);
     navigate("/dashboard");
+  };
+
+  const handleSaveAndReturn = async () => {
+    setShowUnsavedDialog(false);
+    await handleSave();
+    // handleSave already navigates to dashboard
   };
 
   const handlePhotoUpload = () => {
@@ -669,7 +679,7 @@ export default function ProfessionalIdentity() {
             <AlertDialogCancel onClick={confirmDiscard}>
               Discard Changes
             </AlertDialogCancel>
-            <AlertDialogAction onClick={handleSave}>
+            <AlertDialogAction onClick={handleSaveAndReturn}>
               Save Changes
             </AlertDialogAction>
           </AlertDialogFooter>
