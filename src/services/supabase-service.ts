@@ -435,5 +435,8 @@ export const {
   getCompleteProfile,
   createCompleteUserProfile,
   updateProfileSection,
+  getUserPublications,
+  saveUserPublications,
+  deleteUserPublication,
   searchProviders,
 } = supabaseService;
