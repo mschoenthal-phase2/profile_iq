@@ -34,11 +34,12 @@ export default function Index() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-big-shoulders font-bold text-white mb-6">
-            ProfileMD
+            ProfileIQ
           </h1>
           <p className="text-xl md:text-2xl text-white/90 font-raleway leading-relaxed max-w-3xl mx-auto mb-8">
-            The comprehensive healthcare provider profile management platform.
-            Streamline your professional presence and connect with colleagues.
+            Intelligent healthcare provider profile management that transforms
+            how you showcase your expertise, credentials, and professional
+            achievements in today's digital healthcare landscape.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
@@ -47,7 +48,7 @@ export default function Index() {
                 size="lg"
                 className="bg-white text-phase2-blue hover:bg-white/90 transform hover:scale-105"
               >
-                Start Your Profile
+                Elevate Your Profile
                 <ArrowRight size={20} className="ml-2" />
               </Button>
             </Link>
@@ -57,7 +58,7 @@ export default function Index() {
                 size="lg"
                 className="border-white text-white hover:bg-white hover:text-phase2-blue"
               >
-                Sign In
+                Access Your Dashboard
               </Button>
             </Link>
           </div>
@@ -86,11 +87,12 @@ export default function Index() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-raleway font-extrabold text-phase2-soft-black mb-4">
-              Built for Healthcare Professionals
+              Intelligent Profile Management for Healthcare Excellence
             </h2>
             <p className="text-xl text-phase2-dark-gray font-raleway max-w-2xl mx-auto">
-              Everything you need to manage your professional profile in one
-              secure platform
+              Advanced technology meets healthcare expertise. Showcase your
+              credentials, build meaningful professional connections, and
+              accelerate your career growth.
             </p>
           </div>
 
@@ -100,11 +102,12 @@ export default function Index() {
                 <Users className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-raleway font-semibold text-phase2-soft-black mb-2">
-                Professional Network
+                Strategic Networking
               </h3>
               <p className="text-phase2-dark-gray font-raleway">
-                Connect with healthcare professionals and build your
-                professional network
+                Build meaningful professional relationships with intelligent
+                matching and advanced networking tools designed for healthcare
+                leaders
               </p>
             </div>
 
@@ -113,11 +116,12 @@ export default function Index() {
                 <Shield className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-raleway font-semibold text-phase2-soft-black mb-2">
-                Secure & Compliant
+                Enterprise Security
               </h3>
               <p className="text-phase2-dark-gray font-raleway">
-                HIPAA-compliant platform with enterprise-grade security for your
-                data
+                Bank-level encryption and HIPAA compliance ensure your
+                professional data remains secure while maintaining accessibility
+                and performance
               </p>
             </div>
 
@@ -126,11 +130,11 @@ export default function Index() {
                 <Zap className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-raleway font-semibold text-phase2-soft-black mb-2">
-                Easy Management
+                Intelligent Automation
               </h3>
               <p className="text-phase2-dark-gray font-raleway">
-                Intuitive interface to manage credentials, locations, and
-                professional information
+                AI-powered profile optimization and smart credential management
+                that adapts to your career progression and industry trends
               </p>
             </div>
           </div>
@@ -141,17 +145,19 @@ export default function Index() {
       <section className="py-20 bg-phase2-soft-black">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-raleway font-extrabold text-white mb-4">
-            Ready to Get Started?
+            Transform Your Professional Presence
           </h2>
           <p className="text-xl text-white/80 font-raleway mb-8">
-            Join thousands of healthcare professionals already using ProfileMD
+            Join the next generation of healthcare professionals leveraging
+            intelligent profile management to accelerate their careers and
+            expand their impact
           </p>
           <Link to="/signup">
             <Button
               size="lg"
               className="bg-phase2-blue hover:bg-phase2-blue/90"
             >
-              Create Your Account Today
+              Start Your Intelligent Profile
               <ArrowRight size={20} className="ml-2" />
             </Button>
           </Link>
@@ -164,7 +170,7 @@ export default function Index() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <Logo />
             <p className="text-phase2-dark-gray font-raleway text-sm mt-4 md:mt-0">
-              © 2024 ProfileMD. All rights reserved.
+              © 2024 ProfileIQ. All rights reserved.
             </p>
           </div>
         </div>
