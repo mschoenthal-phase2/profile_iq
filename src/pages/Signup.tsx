@@ -433,7 +433,8 @@ export default function Signup() {
                     required
                   />
                   <p className="text-xs text-phase2-dark-gray">
-                    For testing: Try 1234567890, 9876543210, or 5555666677
+                    For testing: Try 1578714549, 1234567890, 9876543210, or
+                    5555666677
                   </p>
                 </div>
 
