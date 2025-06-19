@@ -15,6 +15,12 @@ import {
   DEFAULT_PROFILE_SECTIONS,
   ProfileSectionConfig,
 } from "@/types/dashboard";
+import {
+  getHospitalSectionConfig,
+  applySectionConfig,
+  calculateProfileCompletion,
+  getSectionsByStatus,
+} from "@/lib/section-config";
 import { NPIProvider } from "@/types/npi";
 import { Download, FileText, Users, AlertCircle, Settings } from "lucide-react";
 
@@ -82,57 +88,15 @@ export default function Dashboard() {
 
     setProfile(providerProfile);
 
-    // Simulate hospital-specific section configuration
+    // Apply hospital-specific section configuration
     // In production, this would come from an API based on the user's organization
     const hospitalConfig = getHospitalSectionConfig(signupData.organization);
     if (hospitalConfig) {
       setSectionConfig(hospitalConfig);
-      // Filter sections based on hospital config
-      const filteredSections = sections.map((section) => ({
-        ...section,
-        isVisible: hospitalConfig.visibleSections.includes(section.id),
-        isRequired: hospitalConfig.requiredSections.includes(section.id),
-      }));
-      setSections(filteredSections);
+      const configuredSections = applySectionConfig(sections, hospitalConfig);
+      setSections(configuredSections);
     }
   }, [location.state, navigate]);
-
-  // Mock function to get hospital-specific section configuration
-  const getHospitalSectionConfig = (
-    organization?: string,
-  ): ProfileSectionConfig | null => {
-    // This would be replaced with an API call in production
-    const hospitalConfigs: Record<string, ProfileSectionConfig> = {
-      "Advent Health": {
-        visibleSections: [
-          "credentials",
-          "professional_identity",
-          "practice_essentials",
-          "insurance_plans",
-          "medical_expertise",
-          "locations",
-        ],
-        requiredSections: [
-          "credentials",
-          "professional_identity",
-          "practice_essentials",
-        ],
-      },
-      "Mayo Clinic": {
-        visibleSections: DEFAULT_PROFILE_SECTIONS.map((s) => s.id), // All sections
-        requiredSections: [
-          "credentials",
-          "professional_identity",
-          "practice_essentials",
-          "medical_expertise",
-          "publications",
-        ],
-      },
-      // Add more hospital configurations as needed
-    };
-
-    return organization ? hospitalConfigs[organization] || null : null;
-  };
 
   const handleSectionEdit = (sectionId: string) => {
     // Navigate to section edit page
