@@ -118,6 +118,16 @@ export const DEFAULT_PROFILE_SECTIONS: ProfileSection[] = [
     isRequired: false,
   },
   {
+    id: "publications",
+    title: "Publications",
+    icon: "book-open",
+    lastUpdated: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000), // 4 days ago
+    status: "complete",
+    priority: "low",
+    isVisible: true,
+    isRequired: false,
+  },
+  {
     id: "insurance_plans",
     title: "Insurance Plans",
     icon: "shield",
@@ -135,16 +145,6 @@ export const DEFAULT_PROFILE_SECTIONS: ProfileSection[] = [
     lastUpdated: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 1 week ago
     status: "complete",
     priority: "medium",
-    isVisible: true,
-    isRequired: false,
-  },
-  {
-    id: "publications",
-    title: "Publications",
-    icon: "book-open",
-    lastUpdated: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000), // 4 days ago
-    status: "complete",
-    priority: "low",
     isVisible: true,
     isRequired: false,
   },
