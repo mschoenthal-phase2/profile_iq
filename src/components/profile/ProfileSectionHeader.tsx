@@ -32,18 +32,17 @@ export const ProfileSectionHeader: React.FC<ProfileSectionHeaderProps> = ({
     <div className="bg-white border-b border-phase2-net-gray">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-start gap-3">
             <Button
               variant="ghost"
               size="sm"
               onClick={onBackToDashboard}
-              className="text-phase2-dark-gray hover:text-phase2-blue"
+              className="text-phase2-dark-gray hover:text-phase2-blue px-2 py-1 h-8 shrink-0"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Dashboard
+              <ArrowLeft className="w-3 h-3 mr-1" />
+              <span className="text-xs">Back</span>
             </Button>
-            <Separator orientation="vertical" className="h-6" />
-            <div>
+            <div className="flex-1">
               <h1 className="text-2xl font-raleway font-bold text-phase2-soft-black">
                 {title}
               </h1>

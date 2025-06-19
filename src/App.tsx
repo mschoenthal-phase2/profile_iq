@@ -11,9 +11,11 @@ import Dashboard from "./pages/Dashboard";
 import ProfessionalIdentity from "./pages/ProfessionalIdentity";
 import EducationTraining from "./pages/EducationTraining";
 import PracticeEssentials from "./pages/PracticeEssentials";
+import Locations from "./pages/Locations";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import ForgotPassword from "./pages/ForgotPassword";
+import Biography from "./pages/Biography";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +37,8 @@ const App = () => (
           />
           <Route path="/education-training" element={<EducationTraining />} />
           <Route path="/practice-essentials" element={<PracticeEssentials />} />
+          <Route path="/locations" element={<Locations />} />
+          <Route path="/biography" element={<Biography />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
