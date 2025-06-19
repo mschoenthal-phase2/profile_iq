@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 import { AuthLayout } from "@/components/auth/AuthLayout";
 import { FormInput } from "@/components/auth/FormInput";
 import { ProgressStepper } from "@/components/auth/ProgressStepper";
+import { NPIConfirmation } from "@/components/auth/NPIConfirmation";
+import { NPILookupLoading } from "@/components/auth/NPILookupLoading";
+import { NPILookupErrorComponent } from "@/components/auth/NPILookupError";
 import { Button } from "@/components/ui/button";
+import { NPIApiClient } from "@/lib/npi-api";
+import { NPIProvider, NPILookupError } from "@/types/npi";
 import {
   User,
   Mail,
