@@ -16,6 +16,9 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import ForgotPassword from "./pages/ForgotPassword";
 import Biography from "./pages/Biography";
+import Publications from "./pages/Publications";
+import ClinicalTrials from "./pages/ClinicalTrials";
+import MediaPress from "./pages/MediaPress";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +42,9 @@ const App = () => (
           <Route path="/practice-essentials" element={<PracticeEssentials />} />
           <Route path="/locations" element={<Locations />} />
           <Route path="/biography" element={<Biography />} />
+          <Route path="/publications" element={<Publications />} />
+          <Route path="/clinical-trials" element={<ClinicalTrials />} />
+          <Route path="/media-press" element={<MediaPress />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />

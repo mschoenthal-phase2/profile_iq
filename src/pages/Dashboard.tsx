@@ -138,6 +138,27 @@ export default function Dashboard() {
           dashboardState: location.state,
         },
       });
+    } else if (sectionId === "publications") {
+      navigate("/publications", {
+        state: {
+          isEditing: true,
+          dashboardState: location.state,
+        },
+      });
+    } else if (sectionId === "clinical_trials") {
+      navigate("/clinical-trials", {
+        state: {
+          isEditing: true,
+          dashboardState: location.state,
+        },
+      });
+    } else if (sectionId === "media_press") {
+      navigate("/media-press", {
+        state: {
+          isEditing: true,
+          dashboardState: location.state,
+        },
+      });
     } else {
       // Navigate to other section edit pages
       console.log(`Editing section: ${sectionId}`);
@@ -180,6 +201,27 @@ export default function Dashboard() {
           dashboardState: location.state,
         },
       });
+    } else if (sectionId === "publications") {
+      navigate("/publications", {
+        state: {
+          isEditing: false,
+          dashboardState: location.state,
+        },
+      });
+    } else if (sectionId === "clinical_trials") {
+      navigate("/clinical-trials", {
+        state: {
+          isEditing: false,
+          dashboardState: location.state,
+        },
+      });
+    } else if (sectionId === "media_press") {
+      navigate("/media-press", {
+        state: {
+          isEditing: false,
+          dashboardState: location.state,
+        },
+      });
     } else {
       // Navigate to other section review pages
       console.log(`Reviewing section: ${sectionId}`);
@@ -216,7 +258,7 @@ export default function Dashboard() {
             {/* Sections Header */}
             <div>
               <h2 className="text-2xl font-raleway font-bold text-phase2-soft-black">
-                Profile Sections (10)
+                Profile Sections ({sections.length})
               </h2>
               <p className="text-phase2-dark-gray font-raleway mt-1">
                 Review and edit all sections of your professional profile •
