@@ -84,6 +84,7 @@ export default function Signup() {
   );
   const [isLookingUpNPI, setIsLookingUpNPI] = useState(false);
   const [isConfirmingNPI, setIsConfirmingNPI] = useState(false);
+  const [isFromMockData, setIsFromMockData] = useState(false);
 
   const steps = [
     {
@@ -159,9 +160,10 @@ export default function Signup() {
     setIsLookingUpNPI(true);
     setNpiLookupError(null);
     setNpiProvider(null);
+    setIsFromMockData(false);
 
     try {
-      const { provider, error } = await NPIApiClient.lookupByNPI(
+      const { provider, error, isFromMock } = await NPIApiClient.lookupByNPI(
         formData.npiNumber,
       );
 
@@ -169,6 +171,7 @@ export default function Signup() {
         setNpiLookupError(error);
       } else if (provider) {
         setNpiProvider(provider);
+        setIsFromMockData(isFromMock || false);
         setCurrentStep(2.5); // NPI confirmation step
       }
     } catch (error) {
@@ -516,12 +519,33 @@ export default function Signup() {
 
           {/* NPI Confirmation */}
           {currentStep === 2.5 && npiProvider && (
-            <NPIConfirmation
-              provider={npiProvider}
-              onConfirm={handleNPIConfirm}
-              onReject={handleNPIReject}
-              isLoading={isConfirmingNPI}
-            />
+            <div className="space-y-4">
+              {isFromMockData && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mt-0.5">
+                      <span className="text-blue-600 text-xs font-bold">i</span>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold text-blue-800">
+                        Development Mode
+                      </h4>
+                      <p className="text-sm text-blue-700 mt-1">
+                        This is demo data for development. In production, this
+                        would connect to the real NPPES NPI Registry. Try test
+                        NPIs: 1234567890, 9876543210, or 5555666677.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <NPIConfirmation
+                provider={npiProvider}
+                onConfirm={handleNPIConfirm}
+                onReject={handleNPIReject}
+                isLoading={isConfirmingNPI}
+              />
+            </div>
           )}
 
           {currentStep === 3 && (
