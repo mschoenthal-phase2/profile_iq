@@ -131,6 +131,13 @@ export default function Dashboard() {
           dashboardState: location.state,
         },
       });
+    } else if (sectionId === "biography") {
+      navigate("/biography", {
+        state: {
+          isEditing: true,
+          dashboardState: location.state,
+        },
+      });
     } else {
       // Navigate to other section edit pages
       console.log(`Editing section: ${sectionId}`);
@@ -161,6 +168,13 @@ export default function Dashboard() {
       });
     } else if (sectionId === "locations") {
       navigate("/locations", {
+        state: {
+          isEditing: false,
+          dashboardState: location.state,
+        },
+      });
+    } else if (sectionId === "biography") {
+      navigate("/biography", {
         state: {
           isEditing: false,
           dashboardState: location.state,
