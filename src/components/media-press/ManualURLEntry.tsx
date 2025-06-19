@@ -4,16 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Plus,
-  Search,
-  RefreshCw,
-  AlertCircle,
-  Info,
-  ExternalLink,
-  Globe,
-  Link,
-} from "lucide-react";
+import { Search, RefreshCw, AlertCircle, Info } from "lucide-react";
 
 interface ManualURLEntryProps {
   onAddByURL: (url: string) => void;
@@ -136,76 +127,6 @@ export const ManualURLEntry: React.FC<ManualURLEntryProps> = ({
           </Alert>
         )}
       </form>
-
-      {/* Quick Examples */}
-      <div className="space-y-2">
-        <p className="text-sm font-medium text-muted-foreground">
-          Example URLs to try:
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {[
-            "https://nytimes.com/health/doctor-interview.html",
-            "https://cnn.com/health/medical-expert.html",
-            "https://forbes.com/healthcare/innovation.html",
-            "https://npr.org/health/frontlines.html",
-          ].map((url) => (
-            <Button
-              key={url}
-              variant="outline"
-              size="sm"
-              onClick={() => setUrlInput(url)}
-              disabled={isLoading}
-              className="text-xs"
-            >
-              <Link className="w-3 h-3 mr-1" />
-              {new URL(url).hostname}
-            </Button>
-          ))}
-        </div>
-      </div>
-
-      {/* Help Section */}
-      <div className="mt-4 p-3 bg-muted/50 rounded-md">
-        <div className="flex gap-3">
-          <Globe className="w-4 h-4 text-muted-foreground mt-0.5" />
-          <div className="space-y-2 text-sm">
-            <p className="font-medium">Supported Content Types:</p>
-            <ul className="space-y-1 text-muted-foreground list-disc list-inside">
-              <li>News articles and interviews</li>
-              <li>Blog posts and opinion pieces</li>
-              <li>Press releases and announcements</li>
-              <li>Podcast episodes and video interviews</li>
-              <li>Profile features and spotlights</li>
-            </ul>
-            <p className="text-xs mt-2">
-              <strong>Note:</strong> We automatically detect article details
-              like title, author, publication date, and description. You can
-              edit these details after adding the article.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Popular News Sources */}
-      <div className="mt-4 p-3 bg-blue-50 rounded-md">
-        <p className="text-sm font-medium text-blue-900 mb-2">
-          🔍 Popular News Sources:
-        </p>
-        <div className="grid grid-cols-2 gap-2 text-xs text-blue-700">
-          <div>
-            <p>• The New York Times</p>
-            <p>• CNN Health</p>
-            <p>• Forbes</p>
-            <p>• NPR Health</p>
-          </div>
-          <div>
-            <p>• BBC Health</p>
-            <p>• STAT News</p>
-            <p>• Medscape</p>
-            <p>• Local news outlets</p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

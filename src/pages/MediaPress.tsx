@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ProfileSectionLayout } from "@/components/profile/ProfileSectionLayout";
-import { MediaDiscovery } from "@/components/media-press/MediaDiscovery";
 import { MediaList } from "@/components/media-press/MediaList";
 import { ManualURLEntry } from "@/components/media-press/ManualURLEntry";
 import { MediaStats } from "@/components/media-press/MediaStats";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -17,7 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Camera, Search, Plus, BarChart3, AlertCircle } from "lucide-react";
+import { Camera, Plus, AlertCircle } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import {
   MediaArticle,
@@ -33,9 +31,6 @@ export default function MediaPress() {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState("manage");
-  const [showAddURLDialog, setShowAddURLDialog] = useState(false);
-
   const [state, setState] = useState<MediaManagementState>({
     articles: [],
     discoveryResults: null,
@@ -46,6 +41,7 @@ export default function MediaPress() {
     manualUrlInput: "",
     isLookingUpUrl: false,
     urlLookupError: null,
+  });
   });
 
   useEffect(() => {
@@ -86,61 +82,7 @@ export default function MediaPress() {
     }
   };
 
-  const handleDiscoverMedia = async (searchQuery: string) => {
-    setState((prev) => ({
-      ...prev,
-      isSearching: true,
-      searchError: null,
-      discoveryResults: null,
-    }));
 
-    try {
-      // Simulate media discovery search
-      // In production, this would search various news APIs or use Google News API
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // Mock discovery results
-      const discoveryResult: MediaDiscoveryResult = {
-        searchQuery,
-        searchDate: new Date(),
-        totalFound: 0, // No automatic discovery for now
-        articles: [],
-        suggestedSources: [
-          "Google News",
-          "Bing News",
-          "NewsAPI",
-          "Social Media Mentions",
-        ],
-      };
-
-      setState((prev) => ({
-        ...prev,
-        isSearching: false,
-        discoveryResults: discoveryResult,
-      }));
-
-      toast({
-        title: "Media Search Complete",
-        description:
-          "Media discovery will be enhanced in future updates. For now, please add articles manually using URLs.",
-        variant: "default",
-      });
-    } catch (error) {
-      console.error("Error discovering media:", error);
-      setState((prev) => ({
-        ...prev,
-        isSearching: false,
-        searchError:
-          error instanceof Error ? error.message : "Failed to search for media",
-      }));
-
-      toast({
-        title: "Search Failed",
-        description: "Failed to search for media coverage. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
 
   const handleAddArticleByURL = async (url: string) => {
     setState((prev) => ({
@@ -213,27 +155,7 @@ export default function MediaPress() {
     }
   };
 
-  const handleSelectArticles = (selectedArticles: MediaArticle[]) => {
-    const newArticles = selectedArticles.map((article) => ({
-      ...article,
-      isSelected: true,
-      status: "approved" as const,
-      addedAt: new Date(),
-    }));
 
-    setState((prev) => ({
-      ...prev,
-      articles: [...prev.articles, ...newArticles],
-    }));
-
-    setHasUnsavedChanges(true);
-    setActiveTab("manage");
-
-    toast({
-      title: "Articles Added",
-      description: `Added ${newArticles.length} articles to your profile.`,
-    });
-  };
 
   const handleUpdateArticle = (updatedArticle: MediaArticle) => {
     setState((prev) => ({
@@ -395,101 +317,55 @@ export default function MediaPress() {
           </Alert>
         )}
 
-        {/* Main Content Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="manage" className="flex items-center gap-2">
-              <Camera className="w-4 h-4" />
-              Manage Media Coverage
-              {approvedArticles.length > 0 && (
-                <Badge variant="secondary" className="ml-1">
-                  {approvedArticles.length}
-                </Badge>
-              )}
-            </TabsTrigger>
-            <TabsTrigger value="discovery" className="flex items-center gap-2">
-              <Search className="w-4 h-4" />
-              Media Discovery
-              {state.discoveryResults && (
-                <Badge variant="outline" className="ml-1">
-                  {state.discoveryResults.articles.length}
-                </Badge>
-              )}
-            </TabsTrigger>
-          </TabsList>
+        {/* Main Content */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center gap-2">
+                <Camera className="w-5 h-5" />
+                Your Media Coverage
+                {approvedArticles.length > 0 && (
+                  <Badge variant="secondary" className="ml-1">
+                    {approvedArticles.length}
+                  </Badge>
+                )}
+              </CardTitle>
 
-          <TabsContent value="manage" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="flex items-center gap-2">
-                    <Camera className="w-5 h-5" />
-                    Your Media Coverage
-                  </CardTitle>
-
-                  <Dialog
-                    open={showAddURLDialog}
-                    onOpenChange={setShowAddURLDialog}
-                  >
-                    <DialogTrigger asChild>
-                      <Button className="flex items-center gap-2">
-                        <Plus className="w-4 h-4" />
-                        Add Article
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-2xl">
-                      <DialogHeader>
-                        <DialogTitle className="flex items-center gap-2">
-                          <Plus className="w-5 h-5" />
-                          Add Article by URL
-                        </DialogTitle>
-                      </DialogHeader>
-                      <ManualURLEntry
-                        onAddByURL={handleAddArticleByURL}
-                        isLoading={state.isLookingUpUrl}
-                        error={state.urlLookupError}
-                      />
-                    </DialogContent>
-                  </Dialog>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <MediaList
-                  articles={approvedArticles}
-                  onUpdateArticle={handleUpdateArticle}
-                  onDeleteArticle={handleDeleteArticle}
-                  isEditing={isEditing}
-                />
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="discovery" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Search className="w-5 h-5" />
-                  Media Discovery
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <MediaDiscovery
-                  onSearch={handleDiscoverMedia}
-                  isSearching={state.isSearching}
-                  discoveryResults={state.discoveryResults}
-                  onSelectArticles={handleSelectArticles}
-                  profileName={
-                    location.state?.dashboardState?.signupData?.fullName || ""
-                  }
-                  profileAffiliation={
-                    location.state?.dashboardState?.signupData?.organization ||
-                    ""
-                  }
-                />
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+              <Dialog
+                open={showAddURLDialog}
+                onOpenChange={setShowAddURLDialog}
+              >
+                <DialogTrigger asChild>
+                  <Button className="flex items-center gap-2">
+                    <Plus className="w-4 h-4" />
+                    Add Article
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl">
+                  <DialogHeader>
+                    <DialogTitle className="flex items-center gap-2">
+                      <Plus className="w-5 h-5" />
+                      Add Article by URL
+                    </DialogTitle>
+                  </DialogHeader>
+                  <ManualURLEntry
+                    onAddByURL={handleAddArticleByURL}
+                    isLoading={state.isLookingUpUrl}
+                    error={state.urlLookupError}
+                  />
+                </DialogContent>
+              </Dialog>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <MediaList
+              articles={approvedArticles}
+              onUpdateArticle={handleUpdateArticle}
+              onDeleteArticle={handleDeleteArticle}
+              isEditing={isEditing}
+            />
+          </CardContent>
+        </Card>
       </div>
     </ProfileSectionLayout>
   );
