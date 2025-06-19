@@ -134,18 +134,6 @@ export const ProfileSectionCard: React.FC<ProfileSectionCardProps> = ({
           </Badge>
         </div>
 
-        {/* Description for sections needing updates */}
-        {section.description && section.status === "needs_update" && (
-          <div className="mb-3 p-2 bg-orange-50 border border-orange-200 rounded-md">
-            <div className="flex items-start gap-2">
-              <AlertTriangle className="w-4 h-4 text-orange-600 mt-0.5 flex-shrink-0" />
-              <p className="text-xs text-orange-800 font-raleway">
-                {section.description}
-              </p>
-            </div>
-          </div>
-        )}
-
         {/* Action Buttons */}
         <div className="flex gap-2">
           <Button
