@@ -149,28 +149,6 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             </DropdownMenu>
           </div>
         </div>
-
-        {/* Badges Row */}
-        <div className="flex flex-wrap gap-2 mt-4">
-          <Badge className="bg-white/20 text-white border-white/30 hover:bg-white/30">
-            <Users className="w-3 h-3 mr-1" />
-            Your Professional Profile
-          </Badge>
-          <Badge className="bg-blue-500/30 text-white border-blue-300/50">
-            NPI: {profile.npiData.number}
-          </Badge>
-          {profile.preferences.pronouns && (
-            <Badge className="bg-green-500/30 text-white border-green-300/50">
-              {profile.preferences.pronouns}
-            </Badge>
-          )}
-          {profile.preferences.languages &&
-            profile.preferences.languages.length > 0 && (
-              <Badge className="bg-purple-500/30 text-white border-purple-300/50">
-                {profile.preferences.languages.join(", ")}
-              </Badge>
-            )}
-        </div>
       </div>
     </div>
   );
