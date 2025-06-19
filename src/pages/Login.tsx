@@ -69,7 +69,7 @@ export default function Login() {
           required
         />
 
-        <div className="space-y-2">
+        <div className="relative">
           <FormInput
             label="Password"
             type={showPassword ? "text" : "password"}
@@ -84,8 +84,7 @@ export default function Login() {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-phase2-dark-gray hover:text-phase2-blue transition-colors"
-            style={{ marginTop: "1.75rem" }}
+            className="absolute right-3 top-10 text-phase2-dark-gray hover:text-phase2-blue transition-colors"
           >
             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
