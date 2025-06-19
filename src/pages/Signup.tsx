@@ -192,9 +192,38 @@ export default function Signup() {
   };
 
   const handleBack = () => {
-    if (currentStep > 1) {
+    if (currentStep === 2.5) {
+      // From NPI confirmation back to Professional step
+      setCurrentStep(2);
+      setNpiProvider(null);
+      setNpiLookupError(null);
+    } else if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
+  };
+
+  const handleNPIConfirm = async () => {
+    setIsConfirmingNPI(true);
+    try {
+      // Simulate account creation process
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setCurrentStep(3);
+      console.log("Form submitted:", { ...formData, npiProvider });
+    } catch (error) {
+      console.error("Account creation failed:", error);
+    } finally {
+      setIsConfirmingNPI(false);
+    }
+  };
+
+  const handleNPIReject = () => {
+    setCurrentStep(2);
+    setNpiProvider(null);
+    setNpiLookupError(null);
+  };
+
+  const handleNPIRetry = async () => {
+    await performNPILookup();
   };
 
   const handleInputChange = (
