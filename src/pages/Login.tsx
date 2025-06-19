@@ -187,7 +187,7 @@ export default function Login() {
         </Button>
 
         <div className="mt-8 pt-6 border-t border-phase2-net-gray">
-          <div className="text-center">
+          <div className="text-center space-y-4">
             <p className="text-phase2-dark-gray font-raleway mb-4">
               New to ProfileIQ?
             </p>
@@ -200,6 +200,19 @@ export default function Login() {
                 Create Account
               </Button>
             </Link>
+
+            {/* Temporary Admin Access */}
+            <div className="pt-4 border-t border-phase2-net-gray/50">
+              <Link to="/system-admin">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-xs text-phase2-dark-gray/60 hover:text-phase2-blue"
+                >
+                  System Admin
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </form>

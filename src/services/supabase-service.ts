@@ -397,6 +397,424 @@ class SupabaseService {
       // const { error } = await this.client!
       //   .from('publications')
       //   .delete()
+      //   .eq('id', publicationId)
+      //   .eq('user_id', userId);
+      //
+      // if (error) throw error;
+      // return { success: true };
+    } catch (error) {
+      console.error("Error deleting user publication:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async saveUserClinicalTrials(
+    userId: string,
+    clinicalTrials: any[],
+  ): Promise<{ success: boolean; error?: string }> {
+    try {
+      console.log("Would save user clinical trials:", userId, clinicalTrials);
+      return { success: true };
+
+      // Actual Supabase call (using upsert for create/update):
+      // const trialsWithUserId = clinicalTrials.map(trial => ({
+      //   ...trial,
+      //   user_id: userId,
+      //   updated_at: new Date().toISOString()
+      // }));
+      //
+      // const { error } = await this.client!
+      //   .from('clinical_trials')
+      //   .upsert(trialsWithUserId);
+      //
+      // if (error) throw error;
+      // return { success: true };
+    } catch (error) {
+      console.error("Error saving user clinical trials:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async deleteUserClinicalTrial(
+    userId: string,
+    trialId: string,
+  ): Promise<{ success: boolean; error?: string }> {
+    try {
+      console.log("Would delete user clinical trial:", userId, trialId);
+      return { success: true };
+
+      // Actual Supabase call:
+      // const { error } = await this.client!
+      //   .from('clinical_trials')
+      //   .delete()
+      //   .eq('id', trialId)
+      //   .eq('user_id', userId);
+      //
+      // if (error) throw error;
+      // return { success: true };
+    } catch (error) {
+      console.error("Error deleting user clinical trial:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  // Media Press Operations
+  async getUserMediaArticles(
+    userId: string,
+  ): Promise<{ success: boolean; error?: string; data?: any[] }> {
+    try {
+      console.log("Would fetch user media articles for:", userId);
+      return { success: true, data: [] };
+
+      // Actual Supabase call:
+      // const { data, error } = await this.client!
+      //   .from('media_press')
+      //   .select('*')
+      //   .eq('user_id', userId)
+      //   .order('publication_date', { ascending: false });
+      //
+      // if (error) throw error;
+      // return { success: true, data };
+    } catch (error) {
+      console.error("Error fetching user media articles:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async saveUserMediaArticles(
+    userId: string,
+    articles: any[],
+  ): Promise<{ success: boolean; error?: string }> {
+    try {
+      console.log("Would save user media articles:", userId, articles);
+      return { success: true };
+
+      // Actual Supabase call (using upsert for create/update):
+      // const articlesWithUserId = articles.map(article => ({
+      //   ...article,
+      //   user_id: userId,
+      //   updated_at: new Date().toISOString()
+      // }));
+      //
+      // const { error } = await this.client!
+      //   .from('media_press')
+      //   .upsert(articlesWithUserId);
+      //
+      // if (error) throw error;
+      // return { success: true };
+    } catch (error) {
+      console.error("Error saving user media articles:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async deleteUserMediaArticle(
+    userId: string,
+    articleId: string,
+  ): Promise<{ success: boolean; error?: string }> {
+    try {
+      console.log("Would delete user media article:", userId, articleId);
+      return { success: true };
+
+      // Actual Supabase call:
+      // const { error } = await this.client!
+      //   .from('media_press')
+      //   .delete()
+      //   .eq('id', articleId)
+      //   .eq('user_id', userId);
+      //
+      // if (error) throw error;
+      // return { success: true };
+    } catch (error) {
+      console.error("Error deleting user media article:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  // Admin Operations for Hospital Management
+  async getHospitals(): Promise<{
+    success: boolean;
+    error?: string;
+    data?: any[];
+  }> {
+    try {
+      console.log("Would fetch all hospitals");
+
+      // Mock data for demonstration
+      const mockHospitals = [
+        {
+          id: "hosp_1",
+          name: "University of Michigan Health",
+          code: "UMICH",
+          address: "1500 E Medical Center Dr, Ann Arbor, MI 48109",
+          contact_email: "admin@uofmhealth.org",
+          contact_phone: "(734) 936-4000",
+          created_at: "2024-01-15T00:00:00Z",
+          updated_at: "2024-01-15T00:00:00Z",
+          is_active: true,
+        },
+        {
+          id: "hosp_2",
+          name: "Cleveland Clinic",
+          code: "CLEVELAND",
+          address: "9500 Euclid Avenue, Cleveland, OH 44195",
+          contact_email: "admin@clevelandclinic.org",
+          contact_phone: "(216) 444-2200",
+          created_at: "2024-01-16T00:00:00Z",
+          updated_at: "2024-01-16T00:00:00Z",
+          is_active: true,
+        },
+        {
+          id: "hosp_3",
+          name: "Mayo Clinic",
+          code: "MAYO",
+          address: "200 1st St SW, Rochester, MN 55905",
+          contact_email: "admin@mayo.edu",
+          contact_phone: "(507) 284-2511",
+          created_at: "2024-01-17T00:00:00Z",
+          updated_at: "2024-01-17T00:00:00Z",
+          is_active: true,
+        },
+      ];
+
+      return { success: true, data: mockHospitals };
+
+      // Actual Supabase call:
+      // const { data, error } = await this.client!
+      //   .from('hospitals')
+      //   .select('*')
+      //   .order('name');
+      //
+      // if (error) throw error;
+      // return { success: true, data };
+    } catch (error) {
+      console.error("Error fetching hospitals:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async getAllHospitalPermissions(): Promise<{
+    success: boolean;
+    error?: string;
+    data?: any[];
+  }> {
+    try {
+      console.log("Would fetch all hospital permissions");
+
+      // Mock data for demonstration - simplified structure
+      const mockPermissions = [
+        {
+          hospital_id: "hosp_1",
+          hospital_name: "University of Michigan Health",
+          permissions: {
+            professional_identity: { is_visible: true, is_required: true },
+            education_training: { is_visible: true, is_required: true },
+            practice_essentials: { is_visible: true, is_required: true },
+            locations: { is_visible: true, is_required: false },
+            biography: { is_visible: true, is_required: false },
+            publications: { is_visible: true, is_required: false },
+            clinical_trials: { is_visible: true, is_required: false },
+            media_press: { is_visible: false, is_required: false },
+            medical_expertise: { is_visible: true, is_required: false },
+          },
+        },
+        {
+          hospital_id: "hosp_2",
+          hospital_name: "Cleveland Clinic",
+          permissions: {
+            professional_identity: { is_visible: true, is_required: true },
+            education_training: { is_visible: true, is_required: true },
+            practice_essentials: { is_visible: true, is_required: true },
+            locations: { is_visible: true, is_required: false },
+            biography: { is_visible: true, is_required: false },
+            publications: { is_visible: true, is_required: false },
+            clinical_trials: { is_visible: false, is_required: false },
+            media_press: { is_visible: false, is_required: false },
+            medical_expertise: { is_visible: true, is_required: false },
+          },
+        },
+        {
+          hospital_id: "hosp_3",
+          hospital_name: "Mayo Clinic",
+          permissions: {
+            professional_identity: { is_visible: true, is_required: true },
+            education_training: { is_visible: true, is_required: true },
+            practice_essentials: { is_visible: true, is_required: true },
+            locations: { is_visible: true, is_required: false },
+            biography: { is_visible: true, is_required: false },
+            publications: { is_visible: false, is_required: false },
+            clinical_trials: { is_visible: false, is_required: false },
+            media_press: { is_visible: false, is_required: false },
+            medical_expertise: { is_visible: true, is_required: false },
+          },
+        },
+      ];
+
+      return { success: true, data: mockPermissions };
+
+      // Actual Supabase call:
+      // const { data, error } = await this.client!
+      //   .from('hospital_section_permissions')
+      //   .select(`
+      //     hospital_id,
+      //     hospitals!inner(name),
+      //     section_id,
+      //     is_visible,
+      //     is_required
+      //   `);
+      //
+      // if (error) throw error;
+      //
+      // // Transform data to the expected format
+      // const permissionsByHospital = data.reduce((acc, permission) => {
+      //   const hospitalId = permission.hospital_id;
+      //   if (!acc[hospitalId]) {
+      //     acc[hospitalId] = {
+      //       hospital_id: hospitalId,
+      //       hospital_name: permission.hospitals.name,
+      //       permissions: {}
+      //     };
+      //   }
+      //   acc[hospitalId].permissions[permission.section_id] = {
+      //     is_visible: permission.is_visible,
+      //     is_required: permission.is_required
+      //   };
+      //   return acc;
+      // }, {});
+      //
+      // return { success: true, data: Object.values(permissionsByHospital) };
+    } catch (error) {
+      console.error("Error fetching hospital permissions:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async updateHospitalPermission(
+    hospitalId: string,
+    sectionId: string,
+    updates: { is_visible?: boolean; is_required?: boolean },
+  ): Promise<{ success: boolean; error?: string }> {
+    try {
+      console.log(
+        "Would update hospital permission:",
+        hospitalId,
+        sectionId,
+        updates,
+      );
+      return { success: true };
+
+      // Actual Supabase call:
+      // const { error } = await this.client!
+      //   .from('hospital_section_permissions')
+      //   .upsert({
+      //     hospital_id: hospitalId,
+      //     section_id: sectionId,
+      //     ...updates,
+      //     updated_at: new Date().toISOString()
+      //   });
+      //
+      // if (error) throw error;
+      // return { success: true };
+    } catch (error) {
+      console.error("Error updating hospital permission:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async getAdminStats(): Promise<{
+    success: boolean;
+    error?: string;
+    data?: any;
+  }> {
+    try {
+      console.log("Would fetch admin statistics");
+
+      // Mock data for demonstration
+      const mockStats = {
+        total_hospitals: 3,
+        total_users: 127,
+        active_hospitals: 3,
+        sections_configured: 27,
+      };
+
+      return { success: true, data: mockStats };
+
+      // Actual Supabase call:
+      // const { data, error } = await this.client!
+      //   .rpc('get_admin_dashboard_stats');
+      //
+      // if (error) throw error;
+      // return { success: true, data };
+    } catch (error) {
+      console.error("Error fetching admin stats:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async getHospitalPermissions(
+    hospitalId: string,
+  ): Promise<{ success: boolean; error?: string; data?: any }> {
+    try {
+      console.log("Would fetch permissions for hospital:", hospitalId);
+
+      // Return mock permissions based on the hospital
+      const allPermissions = await this.getAllHospitalPermissions();
+      if (allPermissions.success && allPermissions.data) {
+        const hospitalPermissions = allPermissions.data.find(
+          (p) => p.hospital_id === hospitalId,
+        );
+        return { success: true, data: hospitalPermissions?.permissions || {} };
+      }
+
+      return { success: true, data: {} };
+
+      // Actual Supabase call:
+      // const { data, error } = await this.client!
+      //   .from('hospital_section_permissions')
+      //   .select('section_id, is_visible, is_required')
+      //   .eq('hospital_id', hospitalId);
+      //
+      // if (error) throw error;
+      //
+      // const permissions = data.reduce((acc, permission) => {
+      //   acc[permission.section_id] = {
+      //     is_visible: permission.is_visible,
+      //     is_required: permission.is_required
+      //   };
+      //   return acc;
+      // }, {});
+      //
+      // return { success: true, data: permissions };
       //   .eq('user_id', userId)
       //   .eq('id', publicationId);
       //

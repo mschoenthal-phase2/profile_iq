@@ -19,6 +19,7 @@ import Biography from "./pages/Biography";
 import Publications from "./pages/Publications";
 import ClinicalTrials from "./pages/ClinicalTrials";
 import MediaPress from "./pages/MediaPress";
+import SystemAdmin from "./pages/SystemAdmin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -45,6 +46,7 @@ const App = () => (
           <Route path="/publications" element={<Publications />} />
           <Route path="/clinical-trials" element={<ClinicalTrials />} />
           <Route path="/media-press" element={<MediaPress />} />
+          <Route path="/system-admin" element={<SystemAdmin />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
