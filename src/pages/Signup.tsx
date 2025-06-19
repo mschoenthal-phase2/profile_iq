@@ -501,6 +501,29 @@ export default function Signup() {
             </>
           )}
 
+          {/* NPI Lookup Loading */}
+          {currentStep === 2.5 && isLookingUpNPI && <NPILookupLoading />}
+
+          {/* NPI Lookup Error */}
+          {currentStep === 2.5 && npiLookupError && (
+            <NPILookupErrorComponent
+              error={npiLookupError}
+              onRetry={handleNPIRetry}
+              onGoBack={handleBack}
+              isRetrying={isLookingUpNPI}
+            />
+          )}
+
+          {/* NPI Confirmation */}
+          {currentStep === 2.5 && npiProvider && (
+            <NPIConfirmation
+              provider={npiProvider}
+              onConfirm={handleNPIConfirm}
+              onReject={handleNPIReject}
+              isLoading={isConfirmingNPI}
+            />
+          )}
+
           {currentStep === 3 && (
             <div className="text-center space-y-6">
               <div className="w-20 h-20 bg-phase2-blue rounded-full flex items-center justify-center mx-auto">
