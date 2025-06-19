@@ -39,7 +39,7 @@ export function HospitalPermissionManager({
   permissions,
   onPermissionUpdate,
 }: HospitalPermissionManagerProps) {
-  const [selectedHospital, setSelectedHospital] = useState<string>("");
+  const [selectedHospital, setSelectedHospital] = useState<string>("all");
   const [unsavedChanges, setUnsavedChanges] = useState<Record<string, any>>({});
   const [isSaving, setIsSaving] = useState(false);
 
@@ -182,7 +182,7 @@ export function HospitalPermissionManager({
         </CardContent>
       </Card>
 
-      {selectedHospital ? (
+      {selectedHospital && selectedHospital !== "all" ? (
         <HospitalPermissionGrid
           hospital={hospitals.find((h) => h.id === selectedHospital)!}
           permissions={getPermissionsForHospital(selectedHospital)}
