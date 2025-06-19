@@ -117,6 +117,13 @@ export default function Dashboard() {
           dashboardState: location.state,
         },
       });
+    } else if (sectionId === "practice_essentials") {
+      navigate("/practice-essentials", {
+        state: {
+          isEditing: true,
+          dashboardState: location.state,
+        },
+      });
     } else {
       // Navigate to other section edit pages
       console.log(`Editing section: ${sectionId}`);
@@ -133,6 +140,13 @@ export default function Dashboard() {
       });
     } else if (sectionId === "education_training") {
       navigate("/education-training", {
+        state: {
+          isEditing: false,
+          dashboardState: location.state,
+        },
+      });
+    } else if (sectionId === "practice_essentials") {
+      navigate("/practice-essentials", {
         state: {
           isEditing: false,
           dashboardState: location.state,

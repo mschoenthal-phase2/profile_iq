@@ -17,33 +17,33 @@ CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     -- Personal Information (from signup step 1)
     full_name TEXT NOT NULL,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
-    
+
     -- Professional Information (from signup step 2)
     job_title TEXT NOT NULL,
     organization TEXT,
     npi_number TEXT NOT NULL UNIQUE,
-    
+
     -- User Status
     status user_status DEFAULT 'pending',
     email_verified BOOLEAN DEFAULT FALSE,
-    
+
     -- Preferences
     preferred_name TEXT,
     pronouns TEXT,
     languages TEXT[],
-    
+
     -- Profile Settings
     profile_photo_url TEXT,
     profile_completion_percentage INTEGER DEFAULT 0,
     last_login_at TIMESTAMP WITH TIME ZONE,
-    
+
     -- Terms & Privacy
     agreed_to_terms BOOLEAN DEFAULT FALSE,
     agreed_to_privacy BOOLEAN DEFAULT FALSE,
@@ -57,14 +57,14 @@ CREATE TABLE npi_data (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     -- Core NPI Information
     npi_number TEXT NOT NULL UNIQUE,
     enumeration_type TEXT NOT NULL, -- NPI-1 or NPI-2
     enumeration_date DATE,
     last_updated_npi DATE,
     status TEXT DEFAULT 'A',
-    
+
     -- Basic Information from NPI
     legal_business_name TEXT,
     first_name TEXT,
@@ -75,7 +75,7 @@ CREATE TABLE npi_data (
     credential TEXT,
     gender TEXT,
     sole_proprietor TEXT,
-    
+
     -- Organization Information (for NPI-2)
     organization_name TEXT,
     authorized_official_first_name TEXT,
@@ -84,10 +84,10 @@ CREATE TABLE npi_data (
     authorized_official_credential TEXT,
     authorized_official_title TEXT,
     authorized_official_telephone TEXT,
-    
+
     -- Raw NPI Data (for backup)
     raw_npi_data JSONB,
-    
+
     -- Verification
     is_verified BOOLEAN DEFAULT FALSE,
     verified_at TIMESTAMP WITH TIME ZONE
@@ -99,7 +99,7 @@ CREATE TABLE professional_identity (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE UNIQUE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     -- Personal Information
     full_legal_name TEXT NOT NULL,
     first_name TEXT NOT NULL,
@@ -107,13 +107,13 @@ CREATE TABLE professional_identity (
     preferred_name TEXT,
     pronouns TEXT,
     professional_email TEXT NOT NULL,
-    
+
     -- Professional Role
     job_title TEXT NOT NULL,
     department TEXT NOT NULL,
     division TEXT,
     section TEXT,
-    
+
     -- Profile Status
     is_complete BOOLEAN DEFAULT FALSE,
     last_reviewed_at TIMESTAMP WITH TIME ZONE
@@ -125,7 +125,7 @@ CREATE TABLE professional_licenses (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     license_name TEXT NOT NULL,
     license_number TEXT NOT NULL,
     issuing_state TEXT NOT NULL,
@@ -133,11 +133,11 @@ CREATE TABLE professional_licenses (
     issue_date DATE,
     expiration_date DATE,
     status license_status DEFAULT 'active',
-    
+
     -- Verification
     is_verified BOOLEAN DEFAULT FALSE,
     verification_document_url TEXT,
-    
+
     UNIQUE(user_id, license_number, issuing_state)
 );
 
@@ -147,7 +147,7 @@ CREATE TABLE medical_specialties (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     specialty_name TEXT NOT NULL,
     taxonomy_code TEXT,
     is_primary BOOLEAN DEFAULT FALSE,
@@ -155,7 +155,7 @@ CREATE TABLE medical_specialties (
     certification_date DATE,
     certifying_board TEXT,
     recertification_date DATE,
-    
+
     UNIQUE(user_id, specialty_name)
 );
 
@@ -165,11 +165,11 @@ CREATE TABLE professional_credentials (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     credential TEXT NOT NULL,
     display_order INTEGER DEFAULT 1,
     is_verified BOOLEAN DEFAULT FALSE,
-    
+
     UNIQUE(user_id, credential)
 );
 
@@ -179,7 +179,7 @@ CREATE TABLE profile_sections (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     section_id TEXT NOT NULL,
     section_name TEXT NOT NULL,
     is_completed BOOLEAN DEFAULT FALSE,
@@ -187,7 +187,7 @@ CREATE TABLE profile_sections (
     is_required BOOLEAN DEFAULT FALSE,
     last_updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     completion_percentage INTEGER DEFAULT 0,
-    
+
     UNIQUE(user_id, section_id)
 );
 
@@ -197,15 +197,36 @@ CREATE TABLE practice_essentials (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE UNIQUE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
+    -- Patient Care Settings
+    accepting_new_patients BOOLEAN DEFAULT TRUE,
+    age_groups_treated TEXT[] DEFAULT '{}',
+    appointment_types TEXT[] DEFAULT '{}',
+    scheduling_notes TEXT,
+
+    -- Legacy fields (keeping for backward compatibility)
     practice_name TEXT,
     practice_type TEXT,
     hospital_affiliations TEXT[],
     group_affiliations TEXT[],
     telehealth_services BOOLEAN DEFAULT FALSE,
-    languages_spoken TEXT[],
     patient_age_groups TEXT[],
     practice_focus TEXT[]
+);
+
+-- Languages Spoken (separate table for better normalization)
+CREATE TABLE languages_spoken (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+
+    language_code TEXT NOT NULL, -- ISO 639-1 language code (e.g., 'en-US', 'es-MX')
+    language_name TEXT NOT NULL, -- Human readable name (e.g., 'English (United States)')
+    proficiency TEXT NOT NULL CHECK (proficiency IN ('native', 'fluent', 'conversational', 'basic')),
+    display_order INTEGER DEFAULT 1,
+
+    UNIQUE(user_id, language_code)
 );
 
 -- Insurance Plans
@@ -214,13 +235,13 @@ CREATE TABLE insurance_plans (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     insurance_name TEXT NOT NULL,
     plan_type TEXT NOT NULL,
     is_accepted BOOLEAN DEFAULT TRUE,
     notes TEXT,
     verification_status TEXT DEFAULT 'pending',
-    
+
     UNIQUE(user_id, insurance_name, plan_type)
 );
 
@@ -230,14 +251,14 @@ CREATE TABLE medical_expertise (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     expertise_area TEXT NOT NULL,
     description TEXT,
     years_of_experience INTEGER,
     case_volume INTEGER,
     special_procedures TEXT[],
     research_interests TEXT[],
-    
+
     UNIQUE(user_id, expertise_area)
 );
 
@@ -247,7 +268,7 @@ CREATE TABLE publications (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     title TEXT NOT NULL,
     authors TEXT[] NOT NULL,
     journal_name TEXT,
@@ -269,7 +290,7 @@ CREATE TABLE clinical_trials (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     trial_title TEXT NOT NULL,
     nct_number TEXT,
     phase TEXT,
@@ -288,7 +309,7 @@ CREATE TABLE locations (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     location_name TEXT NOT NULL,
     location_type location_type DEFAULT 'primary',
     address_line_1 TEXT NOT NULL,
@@ -312,7 +333,7 @@ CREATE TABLE education_training (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     institution_name TEXT NOT NULL,
     education_type education_type NOT NULL,
     degree TEXT,
@@ -331,7 +352,7 @@ CREATE TABLE biography (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE UNIQUE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     professional_summary TEXT NOT NULL,
     personal_interests TEXT,
     philosophy_of_care TEXT,
@@ -347,7 +368,7 @@ CREATE TABLE media_press (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     title TEXT NOT NULL,
     media_type TEXT NOT NULL,
     publication_source TEXT,
@@ -372,6 +393,8 @@ CREATE INDEX idx_publications_user_id ON publications(user_id);
 CREATE INDEX idx_publications_featured ON publications(user_id, is_featured);
 CREATE INDEX idx_locations_user_id ON locations(user_id);
 CREATE INDEX idx_locations_primary ON locations(user_id, is_primary);
+CREATE INDEX idx_languages_spoken_user_id ON languages_spoken(user_id);
+CREATE INDEX idx_languages_spoken_proficiency ON languages_spoken(user_id, proficiency);
 
 -- Create updated_at triggers
 CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -399,10 +422,11 @@ CREATE TRIGGER update_locations_updated_at BEFORE UPDATE ON locations FOR EACH R
 CREATE TRIGGER update_education_training_updated_at BEFORE UPDATE ON education_training FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_biography_updated_at BEFORE UPDATE ON biography FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_media_press_updated_at BEFORE UPDATE ON media_press FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_languages_spoken_updated_at BEFORE UPDATE ON languages_spoken FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- Create view for complete provider profile
 CREATE VIEW complete_provider_profile AS
-SELECT 
+SELECT
     u.*,
     nd.npi_number as verified_npi,
     nd.raw_npi_data,
@@ -438,6 +462,7 @@ ALTER TABLE locations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE education_training ENABLE ROW LEVEL SECURITY;
 ALTER TABLE biography ENABLE ROW LEVEL SECURITY;
 ALTER TABLE media_press ENABLE ROW LEVEL SECURITY;
+ALTER TABLE languages_spoken ENABLE ROW LEVEL SECURITY;
 
 -- Create policies (users can only access their own data)
 CREATE POLICY "Users can view their own profile" ON users FOR SELECT USING (auth.uid() = id);
@@ -460,6 +485,7 @@ CREATE POLICY "Users can manage their own locations" ON locations FOR ALL USING 
 CREATE POLICY "Users can manage their own education" ON education_training FOR ALL USING (auth.uid() = user_id);
 CREATE POLICY "Users can manage their own biography" ON biography FOR ALL USING (auth.uid() = user_id);
 CREATE POLICY "Users can manage their own media" ON media_press FOR ALL USING (auth.uid() = user_id);
+CREATE POLICY "Users can manage their own languages" ON languages_spoken FOR ALL USING (auth.uid() = user_id);
 
 -- Public read policies for search functionality (optional, can be restricted)
 CREATE POLICY "Public can search provider profiles" ON complete_provider_profile FOR SELECT USING (true);
