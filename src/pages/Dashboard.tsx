@@ -17,8 +17,14 @@ import {
   calculateProfileCompletion,
   getSectionsByStatus,
 } from "@/lib/section-config";
+import {
+  getHospitalPermissions,
+  applySectionPermissions,
+  HospitalPermissions,
+  createPermissionSummary,
+} from "@/lib/hospital-permissions";
 import { NPIProvider } from "@/types/npi";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Building2 } from "lucide-react";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -33,6 +39,9 @@ export default function Dashboard() {
       (s) => s.id,
     ),
   });
+  const [hospitalPermissions, setHospitalPermissions] =
+    useState<HospitalPermissions | null>(null);
+  const [permissionSummary, setPermissionSummary] = useState<any>(null);
 
   useEffect(() => {
     // Get data from signup flow via navigation state
@@ -84,23 +93,31 @@ export default function Dashboard() {
 
     setProfile(providerProfile);
 
-    // Apply hospital-specific section configuration
-    // In production, this would come from an API based on the user's organization
-    const hospitalConfig = getHospitalSectionConfig(signupData.organization);
-    if (hospitalConfig) {
-      setSectionConfig(hospitalConfig);
-      // For now, show all sections regardless of hospital config to see all 11 sections
-      // const configuredSections = applySectionConfig(sections, hospitalConfig);
-      // setSections(configuredSections);
-    }
-
-    // Ensure all sections are visible for the demo
-    const allVisibleSections = sections.map((section) => ({
-      ...section,
-      isVisible: true,
-    }));
-    setSections(allVisibleSections);
+    // Load hospital-specific permissions
+    loadHospitalPermissions(signupData.organization);
   }, [location.state, navigate]);
+
+  const loadHospitalPermissions = async (organization?: string) => {
+    try {
+      const permissions = await getHospitalPermissions(organization);
+      setHospitalPermissions(permissions);
+
+      // Apply permissions to sections
+      const filteredSections = applySectionPermissions(
+        DEFAULT_PROFILE_SECTIONS,
+        permissions,
+      );
+      setSections(filteredSections);
+
+      // Create permission summary for display
+      const summary = createPermissionSummary(permissions);
+      setPermissionSummary(summary);
+    } catch (error) {
+      console.error("Error loading hospital permissions:", error);
+      // Fallback to default sections
+      setSections(DEFAULT_PROFILE_SECTIONS);
+    }
+  };
 
   const handleSectionEdit = (sectionId: string) => {
     if (sectionId === "professional_identity") {
@@ -257,14 +274,64 @@ export default function Dashboard() {
           <div className="space-y-6">
             {/* Sections Header */}
             <div>
-              <h2 className="text-2xl font-raleway font-bold text-phase2-soft-black">
-                Profile Sections ({sections.length})
-              </h2>
-              <p className="text-phase2-dark-gray font-raleway mt-1">
-                Review and edit all sections of your professional profile •
-                aligned with profile creation flow
-              </p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-raleway font-bold text-phase2-soft-black">
+                    Profile Sections ({sections.length})
+                  </h2>
+                  <p className="text-phase2-dark-gray font-raleway mt-1">
+                    Review and edit all sections of your professional profile •
+                    aligned with profile creation flow
+                  </p>
+                </div>
+
+                {permissionSummary && profile?.personalInfo.organization && (
+                  <div className="flex items-center space-x-2 px-3 py-2 bg-blue-50 rounded-lg">
+                    <Building2 className="w-4 h-4 text-blue-600" />
+                    <div className="text-sm">
+                      <p className="font-medium text-blue-900">
+                        {profile.personalInfo.organization}
+                      </p>
+                      <p className="text-blue-600">
+                        {permissionSummary.visible_count} of{" "}
+                        {permissionSummary.total_sections} sections visible
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
+
+            {/* Hospital Restrictions Alert */}
+            {permissionSummary &&
+              permissionSummary.hidden_sections.length > 0 && (
+                <Card className="border-2 border-blue-200 bg-blue-50">
+                  <CardContent className="pt-6">
+                    <div className="flex items-center gap-3">
+                      <Building2 className="w-5 h-5 text-blue-600" />
+                      <div>
+                        <h4 className="font-raleway font-semibold text-blue-800">
+                          Hospital Configuration
+                        </h4>
+                        <p className="text-sm text-blue-700 font-raleway">
+                          Your hospital has configured{" "}
+                          {permissionSummary.visible_count} of{" "}
+                          {permissionSummary.total_sections} profile sections to
+                          be visible.
+                          {permissionSummary.hidden_sections.length > 0 && (
+                            <span className="block mt-1">
+                              Hidden sections:{" "}
+                              {permissionSummary.hidden_sections
+                                .join(", ")
+                                .replace(/_/g, " ")}
+                            </span>
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
 
             {/* Sections Needing Updates Alert */}
             {sectionsNeedingUpdates.length > 0 && (
@@ -288,7 +355,7 @@ export default function Dashboard() {
               </Card>
             )}
 
-            {/* Profile Sections Grid - Show ALL 11 sections */}
+            {/* Profile Sections Grid - Show sections based on hospital permissions */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {sections.map((section) => (
                 <ProfileSectionCard
