@@ -77,6 +77,14 @@ export default function Signup() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  // NPI lookup states
+  const [npiProvider, setNpiProvider] = useState<NPIProvider | null>(null);
+  const [npiLookupError, setNpiLookupError] = useState<NPILookupError | null>(
+    null,
+  );
+  const [isLookingUpNPI, setIsLookingUpNPI] = useState(false);
+  const [isConfirmingNPI, setIsConfirmingNPI] = useState(false);
+
   const steps = [
     {
       id: 1,
