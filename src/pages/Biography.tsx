@@ -48,6 +48,36 @@ export default function Biography() {
     }));
   };
 
+  const handleProfessionalBiographyChange = (content: string) => {
+    setBiographyData((prev) => ({
+      ...prev,
+      professionalBiography: content,
+      lastUpdated: new Date(),
+    }));
+    // Save to localStorage
+    const dataToSave = {
+      ...biographyData,
+      professionalBiography: content,
+      lastUpdated: new Date(),
+    };
+    localStorage.setItem("biographyData", JSON.stringify(dataToSave));
+  };
+
+  const handlePublicBiographyChange = (content: string) => {
+    setBiographyData((prev) => ({
+      ...prev,
+      publicBiography: content,
+      lastUpdated: new Date(),
+    }));
+    // Save to localStorage
+    const dataToSave = {
+      ...biographyData,
+      publicBiography: content,
+      lastUpdated: new Date(),
+    };
+    localStorage.setItem("biographyData", JSON.stringify(dataToSave));
+  };
+
   const handleGenerateBiographies = async () => {
     if (!biographyData.personalInput.trim()) {
       toast({
@@ -172,6 +202,7 @@ export default function Biography() {
               description="This biography will be shown to other healthcare providers, researchers, and medical professionals. It emphasizes your clinical expertise and professional accomplishments."
               targetAudience="professional"
               isGenerating={biographyData.isGenerating}
+              onContentChange={handleProfessionalBiographyChange}
             />
 
             {/* Public Biography */}
@@ -181,6 +212,7 @@ export default function Biography() {
               description="This biography will be shown to potential patients and their families. It emphasizes your compassionate care and what makes you a great choice as their doctor."
               targetAudience="public"
               isGenerating={biographyData.isGenerating}
+              onContentChange={handlePublicBiographyChange}
             />
           </div>
         </div>
