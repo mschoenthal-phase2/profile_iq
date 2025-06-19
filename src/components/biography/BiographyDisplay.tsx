@@ -98,19 +98,19 @@ export function BiographyDisplay({
                   variant="outline"
                   size="sm"
                   onClick={handleCancel}
-                  className="text-xs font-raleway"
+                  className="text-xs font-raleway p-2"
+                  title="Cancel"
                 >
-                  <X className="w-3 h-3 mr-1" />
-                  Cancel
+                  <X className="w-3 h-3" />
                 </Button>
                 <Button
                   variant="default"
                   size="sm"
                   onClick={handleSave}
-                  className="text-xs font-raleway"
+                  className="text-xs font-raleway p-2"
+                  title="Save"
                 >
-                  <Check className="w-3 h-3 mr-1" />
-                  Save
+                  <Check className="w-3 h-3" />
                 </Button>
               </>
             ) : (
@@ -120,20 +120,20 @@ export function BiographyDisplay({
                   size="sm"
                   onClick={handleEdit}
                   disabled={!content || isGenerating}
-                  className="text-xs font-raleway"
+                  className="text-xs font-raleway p-2"
+                  title="Edit"
                 >
-                  <Edit3 className="w-3 h-3 mr-1" />
-                  Edit
+                  <Edit3 className="w-3 h-3" />
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={handleCopy}
                   disabled={!content || isGenerating}
-                  className="text-xs font-raleway"
+                  className="text-xs font-raleway p-2"
+                  title="Copy"
                 >
-                  <Copy className="w-3 h-3 mr-1" />
-                  Copy
+                  <Copy className="w-3 h-3" />
                 </Button>
               </>
             )}
