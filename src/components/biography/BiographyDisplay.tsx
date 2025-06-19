@@ -151,9 +151,11 @@ export function BiographyDisplay({
             {getAudienceLabel()}
           </span>
         </div>
-        <p className="text-sm text-phase2-dark-gray font-raleway">
-          {description}
-        </p>
+        {description && (
+          <p className="text-sm text-phase2-dark-gray font-raleway">
+            {description}
+          </p>
+        )}
       </CardHeader>
       <CardContent>
         {isGenerating ? (
