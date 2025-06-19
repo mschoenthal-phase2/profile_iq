@@ -329,6 +329,32 @@ class SupabaseService {
     }
   }
 
+  // Clinical Trial Operations
+  async getUserClinicalTrials(
+    userId: string,
+  ): Promise<{ success: boolean; error?: string; data?: any[] }> {
+    try {
+      console.log("Would fetch user clinical trials for:", userId);
+      return { success: true, data: [] };
+
+      // Actual Supabase call:
+      // const { data, error } = await this.client!
+      //   .from('clinical_trials')
+      //   .select('*')
+      //   .eq('user_id', userId)
+      //   .order('start_date', { ascending: false });
+      //
+      // if (error) throw error;
+      // return { success: true, data };
+    } catch (error) {
+      console.error("Error fetching user clinical trials:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
   async saveUserPublications(
     userId: string,
     publications: any[],
@@ -378,6 +404,62 @@ class SupabaseService {
       // return { success: true };
     } catch (error) {
       console.error("Error deleting user publication:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async saveUserClinicalTrials(
+    userId: string,
+    clinicalTrials: any[],
+  ): Promise<{ success: boolean; error?: string }> {
+    try {
+      console.log("Would save user clinical trials:", userId, clinicalTrials);
+      return { success: true };
+
+      // Actual Supabase call (using upsert for create/update):
+      // const trialsWithUserId = clinicalTrials.map(trial => ({
+      //   ...trial,
+      //   user_id: userId,
+      //   updated_at: new Date().toISOString()
+      // }));
+      //
+      // const { error } = await this.client!
+      //   .from('clinical_trials')
+      //   .upsert(trialsWithUserId);
+      //
+      // if (error) throw error;
+      // return { success: true };
+    } catch (error) {
+      console.error("Error saving user clinical trials:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async deleteUserClinicalTrial(
+    userId: string,
+    trialId: string,
+  ): Promise<{ success: boolean; error?: string }> {
+    try {
+      console.log("Would delete user clinical trial:", userId, trialId);
+      return { success: true };
+
+      // Actual Supabase call:
+      // const { error } = await this.client!
+      //   .from('clinical_trials')
+      //   .delete()
+      //   .eq('user_id', userId)
+      //   .eq('id', trialId);
+      //
+      // if (error) throw error;
+      // return { success: true };
+    } catch (error) {
+      console.error("Error deleting user clinical trial:", error);
       return {
         success: false,
         error: error instanceof Error ? error.message : "Unknown error",
@@ -438,5 +520,8 @@ export const {
   getUserPublications,
   saveUserPublications,
   deleteUserPublication,
+  getUserClinicalTrials,
+  saveUserClinicalTrials,
+  deleteUserClinicalTrial,
   searchProviders,
 } = supabaseService;

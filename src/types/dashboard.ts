@@ -128,6 +128,16 @@ export const DEFAULT_PROFILE_SECTIONS: ProfileSection[] = [
     isRequired: false,
   },
   {
+    id: "clinical_trials",
+    title: "Clinical Trials",
+    icon: "flask",
+    lastUpdated: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 1 week ago
+    status: "complete",
+    priority: "low",
+    isVisible: true,
+    isRequired: false,
+  },
+  {
     id: "insurance_plans",
     title: "Insurance Plans",
     icon: "shield",
@@ -145,16 +155,6 @@ export const DEFAULT_PROFILE_SECTIONS: ProfileSection[] = [
     lastUpdated: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 1 week ago
     status: "complete",
     priority: "medium",
-    isVisible: true,
-    isRequired: false,
-  },
-  {
-    id: "clinical_trials",
-    title: "Clinical Trials",
-    icon: "flask",
-    lastUpdated: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 1 week ago
-    status: "complete",
-    priority: "low",
     isVisible: true,
     isRequired: false,
   },

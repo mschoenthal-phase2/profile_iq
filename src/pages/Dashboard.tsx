@@ -145,6 +145,13 @@ export default function Dashboard() {
           dashboardState: location.state,
         },
       });
+    } else if (sectionId === "clinical_trials") {
+      navigate("/clinical-trials", {
+        state: {
+          isEditing: true,
+          dashboardState: location.state,
+        },
+      });
     } else {
       // Navigate to other section edit pages
       console.log(`Editing section: ${sectionId}`);
@@ -189,6 +196,13 @@ export default function Dashboard() {
       });
     } else if (sectionId === "publications") {
       navigate("/publications", {
+        state: {
+          isEditing: false,
+          dashboardState: location.state,
+        },
+      });
+    } else if (sectionId === "clinical_trials") {
+      navigate("/clinical-trials", {
         state: {
           isEditing: false,
           dashboardState: location.state,
