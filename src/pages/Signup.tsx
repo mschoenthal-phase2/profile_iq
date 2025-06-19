@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthLayout } from "@/components/auth/AuthLayout";
 import { FormInput } from "@/components/auth/FormInput";
 import { ProgressStepper } from "@/components/auth/ProgressStepper";
@@ -61,6 +61,7 @@ const healthSystems = [
 ];
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -210,10 +211,17 @@ export default function Signup() {
     try {
       // Simulate account creation process
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      setCurrentStep(3);
-      console.log("Form submitted:", { ...formData, npiProvider });
+
+      // Navigate to dashboard with signup data
+      navigate("/dashboard", {
+        state: {
+          signupData: formData,
+          npiProvider: npiProvider,
+        },
+      });
     } catch (error) {
       console.error("Account creation failed:", error);
+      setCurrentStep(3); // Show error completion step
     } finally {
       setIsConfirmingNPI(false);
     }
