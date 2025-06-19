@@ -98,6 +98,16 @@ export const DEFAULT_PROFILE_SECTIONS: ProfileSection[] = [
     isRequired: true,
   },
   {
+    id: "locations",
+    title: "Locations",
+    icon: "map-pin",
+    lastUpdated: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000), // 2 weeks ago
+    status: "complete",
+    priority: "medium",
+    isVisible: true,
+    isRequired: false,
+  },
+  {
     id: "insurance_plans",
     title: "Insurance Plans",
     icon: "shield",
@@ -135,16 +145,6 @@ export const DEFAULT_PROFILE_SECTIONS: ProfileSection[] = [
     lastUpdated: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 1 week ago
     status: "complete",
     priority: "low",
-    isVisible: true,
-    isRequired: false,
-  },
-  {
-    id: "locations",
-    title: "Locations",
-    icon: "map-pin",
-    lastUpdated: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000), // 2 weeks ago
-    status: "complete",
-    priority: "medium",
     isVisible: true,
     isRequired: false,
   },
