@@ -212,7 +212,7 @@ export default function Signup() {
   };
 
   const handleBack = () => {
-    if (currentStep === 2.5) {
+    if (currentStep === 3) {
       // From NPI confirmation back to Professional step
       setCurrentStep(2);
       setNpiProvider(null);
