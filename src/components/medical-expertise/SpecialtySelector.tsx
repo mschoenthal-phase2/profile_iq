@@ -19,8 +19,8 @@ interface SpecialtySelectorProps {
 
 export function SpecialtySelector({
   specialties,
-  selectedSpecialty,
-  onSpecialtySelect,
+  selectedSpecialties,
+  onSpecialtyToggle,
   loading,
 }: SpecialtySelectorProps) {
   if (loading) {
