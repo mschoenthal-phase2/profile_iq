@@ -8,8 +8,12 @@ import { cn } from "@/lib/utils";
 
 interface SpecialtySelectorProps {
   specialties: MedicalSpecialty[];
-  selectedSpecialty: string | null;
-  onSpecialtySelect: (specialty: string, specialtyId: number) => void;
+  selectedSpecialties: string[];
+  onSpecialtyToggle: (
+    specialty: string,
+    specialtyId: number,
+    isSelected: boolean,
+  ) => void;
   loading: boolean;
 }
 
