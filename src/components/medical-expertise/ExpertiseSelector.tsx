@@ -44,7 +44,6 @@ export function ExpertiseSelector({
   availableItems,
   selectedItems,
   onSelectionChange,
-  specialty,
   loading,
   isEditing,
 }: ExpertiseSelectorProps) {
