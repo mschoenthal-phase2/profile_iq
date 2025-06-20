@@ -310,15 +310,21 @@ export function ExpertiseSelector({
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-medium">Conditions You Treat</h3>
               <div className="text-sm text-muted-foreground">
-                {getStats("conditions").selected} of{" "}
-                {getStats("conditions").total} selected
-                {searchQuery && (
-                  <span> • {getStats("conditions").filtered} shown</span>
+                {getStats("conditions").selected}
+                {isEditing && (
+                  <>
+                    of {getStats("conditions").total} selected
+                    {searchQuery && (
+                      <span> • {getStats("conditions").filtered} shown</span>
+                    )}
+                  </>
                 )}
               </div>
             </div>
             <ScrollArea className="h-96 pr-4">
-              {renderItemList(filteredItems.conditions, "conditions")}
+              {isEditing
+                ? renderEditModeList(filteredItems.conditions, "conditions")
+                : renderViewModeList("conditions")}
             </ScrollArea>
           </TabsContent>
 
@@ -326,15 +332,21 @@ export function ExpertiseSelector({
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-medium">Procedures You Perform</h3>
               <div className="text-sm text-muted-foreground">
-                {getStats("procedures").selected} of{" "}
-                {getStats("procedures").total} selected
-                {searchQuery && (
-                  <span> • {getStats("procedures").filtered} shown</span>
+                {getStats("procedures").selected}
+                {isEditing && (
+                  <>
+                    of {getStats("procedures").total} selected
+                    {searchQuery && (
+                      <span> • {getStats("procedures").filtered} shown</span>
+                    )}
+                  </>
                 )}
               </div>
             </div>
             <ScrollArea className="h-96 pr-4">
-              {renderItemList(filteredItems.procedures, "procedures")}
+              {isEditing
+                ? renderEditModeList(filteredItems.procedures, "procedures")
+                : renderViewModeList("procedures")}
             </ScrollArea>
           </TabsContent>
 
@@ -344,15 +356,27 @@ export function ExpertiseSelector({
                 Reasons for Patient Visits
               </h3>
               <div className="text-sm text-muted-foreground">
-                {getStats("reasonsForVisit").selected} of{" "}
-                {getStats("reasonsForVisit").total} selected
-                {searchQuery && (
-                  <span> • {getStats("reasonsForVisit").filtered} shown</span>
+                {getStats("reasonsForVisit").selected}
+                {isEditing && (
+                  <>
+                    of {getStats("reasonsForVisit").total} selected
+                    {searchQuery && (
+                      <span>
+                        {" "}
+                        • {getStats("reasonsForVisit").filtered} shown
+                      </span>
+                    )}
+                  </>
                 )}
               </div>
             </div>
             <ScrollArea className="h-96 pr-4">
-              {renderItemList(filteredItems.reasonsForVisit, "reasonsForVisit")}
+              {isEditing
+                ? renderEditModeList(
+                    filteredItems.reasonsForVisit,
+                    "reasonsForVisit",
+                  )
+                : renderViewModeList("reasonsForVisit")}
             </ScrollArea>
           </TabsContent>
         </Tabs>
