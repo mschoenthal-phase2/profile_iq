@@ -113,7 +113,37 @@ export function ExpertiseSelector({
     onSelectionChange(category, termId, isSelected);
   };
 
-  const renderItemList = (
+  const renderViewModeList = (category: keyof SelectedExpertise) => {
+    const selectedTermIds = selectedItems[category];
+    const selectedItemsForCategory = availableItems[category].filter((item) =>
+      selectedTermIds.includes(item.term_id),
+    );
+
+    if (selectedItemsForCategory.length === 0) {
+      return (
+        <div className="text-center py-8 text-muted-foreground">
+          <AlertCircle className="w-6 h-6 mx-auto mb-2 opacity-50" />
+          <p className="text-sm">No items selected</p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-2">
+        {selectedItemsForCategory.map((item) => (
+          <div
+            key={item.term_id}
+            className="flex items-center space-x-3 p-3 rounded-md border bg-accent/30"
+          >
+            <CheckSquare className="w-4 h-4 text-green-600 flex-shrink-0" />
+            <span className="flex-1 text-sm font-medium">{item.term}</span>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const renderEditModeList = (
     items: ClinicalExpertise[],
     category: keyof SelectedExpertise,
   ) => {
