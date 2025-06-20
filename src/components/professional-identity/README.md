@@ -4,6 +4,36 @@ This directory contains modular components for managing professional identity in
 
 ## Components
 
+### ProfessionalTitleSelector
+
+A comprehensive component for selecting and managing professional medical titles and credentials.
+
+**Features:**
+
+- Categorized dropdown with 70+ medical professional titles
+- Custom title input capability
+- Visual badge display of selected titles
+- Remove functionality for selected titles
+- Organized by categories (Medical Degrees, Nursing, Fellowships, etc.)
+- Prevents duplicate selections
+
+**Props:**
+
+- `value`: string[] - Array of currently selected titles
+- `onChange`: (titles: string[]) => void - Callback when titles change
+- `isEditing`: boolean - Controls edit mode functionality
+- `className`: string - Optional CSS classes
+
+**Usage:**
+
+```tsx
+<ProfessionalTitleSelector
+  value={formData.credentials}
+  onChange={(credentials) => setFormData((prev) => ({ ...prev, credentials }))}
+  isEditing={isEditing}
+/>
+```
+
 ### AddLicenseDialog
 
 A dialog component for adding new professional licenses to a user's profile.
