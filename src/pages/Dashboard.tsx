@@ -246,6 +246,13 @@ export default function Dashboard() {
           dashboardState: location.state,
         },
       });
+    } else if (sectionId === "medical_expertise") {
+      navigate("/medical-expertise", {
+        state: {
+          isEditing: false,
+          dashboardState: location.state,
+        },
+      });
     } else {
       // Navigate to other section review pages
       console.log(`Reviewing section: ${sectionId}`);
