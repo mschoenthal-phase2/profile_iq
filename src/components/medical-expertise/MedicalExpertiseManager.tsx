@@ -205,10 +205,23 @@ export default function MedicalExpertiseManager() {
         specialtyIds: newSpecialtyIds,
       }));
 
-      // If we have selected specialties, move to step 2 and load items
+      // If we have selected specialties, save them and move to step 2
       if (newSelectedSpecialties.length > 0) {
+        // Save/update user profile with selected specialties
+        const profileData = {
+          id: state.userProfile?.id,
+          user_id: userId,
+          specialty: newSelectedSpecialties.join(", "), // Store as comma-separated string
+          specialty_id: newSpecialtyIds[0], // Use first specialty ID for compatibility
+          updated_at: new Date().toISOString(),
+        };
+
+        const savedProfile =
+          await medicalExpertiseService.upsertUserProfile(profileData);
+
         setState((prev) => ({
           ...prev,
+          userProfile: savedProfile,
           currentStep: 2,
         }));
 
