@@ -7,7 +7,7 @@ import { NPIConfirmation } from "@/components/auth/NPIConfirmation";
 import { NPILookupLoading } from "@/components/auth/NPILookupLoading";
 import { NPILookupErrorComponent } from "@/components/auth/NPILookupError";
 import { Button } from "@/components/ui/button";
-import { NPIApiClient } from "@/lib/npi-api";
+import { npiApiClient } from "@/lib/npi-api";
 import { NPIProvider, NPILookupError } from "@/types/npi";
 import {
   User,
