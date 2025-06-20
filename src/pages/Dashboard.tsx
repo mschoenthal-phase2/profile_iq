@@ -93,6 +93,17 @@ export default function Dashboard() {
 
     setProfile(providerProfile);
 
+    // For new users from signup, mark all sections as needing completion
+    const newUserSections = DEFAULT_PROFILE_SECTIONS.map((section) => ({
+      ...section,
+      status: "missing" as const,
+      lastUpdated: new Date(), // Just created
+      description: section.isRequired
+        ? "Required section - please complete to finish your profile"
+        : "Optional section - add information to enhance your profile",
+    }));
+    setSections(newUserSections);
+
     // Load hospital-specific permissions
     loadHospitalPermissions(signupData.organization);
   }, [location.state, navigate]);
