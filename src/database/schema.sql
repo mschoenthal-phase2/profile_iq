@@ -571,5 +571,21 @@ CREATE POLICY "Users can manage their own office hours" ON office_hours FOR ALL 
     SELECT 1 FROM locations WHERE locations.id = office_hours.location_id AND locations.user_id = auth.uid()
 ));
 
+-- Medical expertise policies
+CREATE POLICY "Anyone can read clinical expertise" ON clinical_expertise FOR SELECT TO PUBLIC USING (true);
+CREATE POLICY "Users can view own user profile" ON user_profiles FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Users can update own user profile" ON user_profiles FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "Users can insert own user profile" ON user_profiles FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Users can view own expertise" ON user_expertise FOR SELECT USING (
+    user_profile_id IN (
+        SELECT id FROM user_profiles WHERE user_id = auth.uid()
+    )
+);
+CREATE POLICY "Users can manage own expertise" ON user_expertise FOR ALL USING (
+    user_profile_id IN (
+        SELECT id FROM user_profiles WHERE user_id = auth.uid()
+    )
+);
+
 -- Public read policies for search functionality (optional, can be restricted)
 CREATE POLICY "Public can search provider profiles" ON complete_provider_profile FOR SELECT USING (true);
