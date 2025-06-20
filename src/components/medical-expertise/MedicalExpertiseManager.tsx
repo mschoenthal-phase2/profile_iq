@@ -178,64 +178,82 @@ export default function MedicalExpertiseManager() {
     }
   };
 
-  const handleSpecialtySelect = async (
+  const handleSpecialtyToggle = async (
     specialty: string,
     specialtyId: number,
+    isSelected: boolean,
   ) => {
     try {
-      setState((prev) => ({
-        ...prev,
-        selectedSpecialty: specialty,
-        specialtyId: specialtyId,
-        loading: true,
-      }));
+      let newSelectedSpecialties: string[];
+      let newSpecialtyIds: number[];
 
-      // Save/update user profile
-      const profileData = {
-        id: state.userProfile?.id,
-        user_id: userId,
-        specialty: specialty,
-        specialty_id: specialtyId,
-        updated_at: new Date().toISOString(),
-      };
-
-      const savedProfile =
-        await medicalExpertiseService.upsertUserProfile(profileData);
+      if (isSelected) {
+        // Add specialty if not already selected
+        newSelectedSpecialties = [...state.selectedSpecialties, specialty];
+        newSpecialtyIds = [...state.specialtyIds, specialtyId];
+      } else {
+        // Remove specialty
+        newSelectedSpecialties = state.selectedSpecialties.filter(
+          (s) => s !== specialty,
+        );
+        newSpecialtyIds = state.specialtyIds.filter((id) => id !== specialtyId);
+      }
 
       setState((prev) => ({
         ...prev,
-        userProfile: savedProfile,
+        selectedSpecialties: newSelectedSpecialties,
+        specialtyIds: newSpecialtyIds,
       }));
 
-      // Load available items for this specialty
-      await loadAvailableItems(specialty);
+      // If we have selected specialties, move to step 2 and load items
+      if (newSelectedSpecialties.length > 0) {
+        setState((prev) => ({
+          ...prev,
+          currentStep: 2,
+        }));
 
-      // Move to next step
-      setState((prev) => ({
-        ...prev,
-        currentStep: 2,
-      }));
+        // Load available items for selected specialties
+        await loadAvailableItems(newSelectedSpecialties);
+      } else {
+        // No specialties selected, stay on step 1
+        setState((prev) => ({
+          ...prev,
+          currentStep: 1,
+          availableItems: {
+            conditions: [],
+            procedures: [],
+            reasonsForVisit: [],
+          },
+        }));
+      }
 
       setHasUnsavedChanges(true);
 
-      toast({
-        title: "Specialty Selected",
-        description: `Selected ${specialty}. Now choose your areas of expertise.`,
-      });
+      if (isSelected) {
+        toast({
+          title: "Specialty Added",
+          description: `Added ${specialty} to your specialties.`,
+        });
+      } else {
+        toast({
+          title: "Specialty Removed",
+          description: `Removed ${specialty} from your specialties.`,
+        });
+      }
     } catch (error) {
-      console.error("Error selecting specialty:", error);
+      console.error("Error toggling specialty:", error);
       setState((prev) => ({
         ...prev,
         loading: false,
         error:
           error instanceof Error
             ? error.message
-            : "Failed to save specialty selection",
+            : "Failed to update specialty selection",
       }));
 
       toast({
         title: "Selection Failed",
-        description: "Failed to save specialty selection. Please try again.",
+        description: "Failed to update specialty selection. Please try again.",
         variant: "destructive",
       });
     }
