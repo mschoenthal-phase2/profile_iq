@@ -829,6 +829,204 @@ class SupabaseService {
     }
   }
 
+  // Medical Expertise Operations
+  async getMedicalSpecialties(): Promise<{
+    success: boolean;
+    error?: string;
+    data?: any[];
+  }> {
+    try {
+      console.log("Would fetch medical specialties");
+
+      // Mock data for demonstration
+      const mockSpecialties = [
+        { specialty: "Cardiology", specialty_id: 1 },
+        { specialty: "Dermatology", specialty_id: 2 },
+        { specialty: "Emergency Medicine", specialty_id: 3 },
+        { specialty: "Family Medicine", specialty_id: 4 },
+        { specialty: "Internal Medicine", specialty_id: 5 },
+        { specialty: "Neurology", specialty_id: 6 },
+        { specialty: "Obstetrics & Gynecology", specialty_id: 7 },
+        { specialty: "Oncology", specialty_id: 8 },
+        { specialty: "Orthopedic Surgery", specialty_id: 9 },
+        { specialty: "Pediatrics", specialty_id: 10 },
+        { specialty: "Psychiatry", specialty_id: 11 },
+        { specialty: "Radiology", specialty_id: 12 },
+        { specialty: "Surgery", specialty_id: 13 },
+        { specialty: "Urology", specialty_id: 14 },
+      ];
+
+      return { success: true, data: mockSpecialties };
+
+      // Actual Supabase call:
+      // const { data, error } = await this.client!
+      //   .from('clinical_expertise')
+      //   .select('specialty, specialty_id')
+      //   .order('specialty');
+      //
+      // if (error) throw error;
+      //
+      // // Remove duplicates
+      // const uniqueSpecialties = data.reduce((acc, curr) => {
+      //   if (!acc.find(item => item.specialty === curr.specialty)) {
+      //     acc.push(curr);
+      //   }
+      //   return acc;
+      // }, []);
+      //
+      // return { success: true, data: uniqueSpecialties };
+    } catch (error) {
+      console.error("Error fetching medical specialties:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async getClinicalExpertiseBySpecialty(
+    specialty: string,
+    termType: string,
+  ): Promise<{ success: boolean; error?: string; data?: any[] }> {
+    try {
+      console.log("Would fetch clinical expertise for:", specialty, termType);
+      return { success: true, data: [] };
+
+      // Actual Supabase call:
+      // const { data, error } = await this.client!
+      //   .from('clinical_expertise')
+      //   .select('term_id, term, term_type')
+      //   .eq('specialty', specialty)
+      //   .eq('term_type', termType)
+      //   .order('term');
+      //
+      // if (error) throw error;
+      // return { success: true, data };
+    } catch (error) {
+      console.error("Error fetching clinical expertise:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async getUserMedicalProfile(
+    userId: string,
+  ): Promise<{ success: boolean; error?: string; data?: any }> {
+    try {
+      console.log("Would fetch user medical profile for:", userId);
+      return { success: true, data: null };
+
+      // Actual Supabase call:
+      // const { data, error } = await this.client!
+      //   .from('user_profiles')
+      //   .select('*')
+      //   .eq('user_id', userId)
+      //   .single();
+      //
+      // if (error && error.code !== 'PGRST116') throw error;
+      // return { success: true, data };
+    } catch (error) {
+      console.error("Error fetching user medical profile:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async saveUserMedicalProfile(
+    profileData: any,
+  ): Promise<{ success: boolean; error?: string; data?: any }> {
+    try {
+      console.log("Would save user medical profile:", profileData);
+      return { success: true, data: profileData };
+
+      // Actual Supabase call:
+      // const { data, error } = await this.client!
+      //   .from('user_profiles')
+      //   .upsert(profileData)
+      //   .select()
+      //   .single();
+      //
+      // if (error) throw error;
+      // return { success: true, data };
+    } catch (error) {
+      console.error("Error saving user medical profile:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async getUserMedicalExpertise(
+    userProfileId: string,
+  ): Promise<{ success: boolean; error?: string; data?: any[] }> {
+    try {
+      console.log("Would fetch user medical expertise for:", userProfileId);
+      return { success: true, data: [] };
+
+      // Actual Supabase call:
+      // const { data, error } = await this.client!
+      //   .from('user_expertise')
+      //   .select(`
+      //     term_id,
+      //     term_type,
+      //     clinical_expertise!inner(term)
+      //   `)
+      //   .eq('user_profile_id', userProfileId);
+      //
+      // if (error) throw error;
+      // return { success: true, data };
+    } catch (error) {
+      console.error("Error fetching user medical expertise:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  async saveUserMedicalExpertise(
+    userProfileId: string,
+    expertiseData: any[],
+  ): Promise<{ success: boolean; error?: string }> {
+    try {
+      console.log(
+        "Would save user medical expertise:",
+        userProfileId,
+        expertiseData,
+      );
+      return { success: true };
+
+      // Actual Supabase call:
+      // // First, delete existing expertise for this user
+      // await this.client!
+      //   .from('user_expertise')
+      //   .delete()
+      //   .eq('user_profile_id', userProfileId);
+      //
+      // // Insert new expertise
+      // if (expertiseData.length > 0) {
+      //   const { error } = await this.client!
+      //     .from('user_expertise')
+      //     .insert(expertiseData);
+      //
+      //   if (error) throw error;
+      // }
+      //
+      // return { success: true };
+    } catch (error) {
+      console.error("Error saving user medical expertise:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
   // Search and filter operations
   async searchProviders(searchCriteria: {
     specialty?: string;
