@@ -578,55 +578,7 @@ export default function Signup() {
             </div>
           )}
 
-          {currentStep === 3 && (
-            <div className="text-center space-y-6">
-              <div className="w-20 h-20 bg-phase2-blue rounded-full flex items-center justify-center mx-auto">
-                <svg
-                  className="w-10 h-10 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-raleway font-bold text-phase2-soft-black">
-                Account Created Successfully!
-              </h3>
-              <p className="text-phase2-dark-gray font-raleway">
-                Welcome to ProfileIQ! Your account has been created
-                successfully.
-              </p>
-              <div className="space-y-3">
-                <Button
-                  onClick={() =>
-                    navigate("/dashboard", {
-                      state: {
-                        signupData: formData,
-                        npiProvider: npiProvider,
-                      },
-                    })
-                  }
-                  className="w-full"
-                  size="lg"
-                >
-                  Go to Dashboard
-                </Button>
-                <Link to="/login" className="block">
-                  <Button variant="outline" className="w-full" size="lg">
-                    Sign In Later
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          )}
-
-          {currentStep < 3 && currentStep !== 2.5 && (
+          {currentStep < 3 && (
             <div className="flex space-x-4">
               {currentStep > 1 && (
                 <Button
