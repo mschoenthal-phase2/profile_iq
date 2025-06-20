@@ -462,6 +462,15 @@ CREATE INDEX idx_office_hours_day ON office_hours(location_id, day_of_week);
 CREATE INDEX idx_languages_spoken_user_id ON languages_spoken(user_id);
 CREATE INDEX idx_languages_spoken_proficiency ON languages_spoken(user_id, proficiency);
 
+-- Medical expertise indexes
+CREATE INDEX idx_clinical_expertise_specialty ON clinical_expertise(specialty);
+CREATE INDEX idx_clinical_expertise_term_type ON clinical_expertise(term_type);
+CREATE INDEX idx_clinical_expertise_specialty_type ON clinical_expertise(specialty, term_type);
+CREATE INDEX idx_user_profiles_user_id ON user_profiles(user_id);
+CREATE INDEX idx_user_profiles_specialty ON user_profiles(specialty);
+CREATE INDEX idx_user_expertise_profile ON user_expertise(user_profile_id);
+CREATE INDEX idx_user_expertise_term_type ON user_expertise(term_type);
+
 -- Create updated_at triggers
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
