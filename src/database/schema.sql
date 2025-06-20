@@ -499,6 +499,7 @@ CREATE TRIGGER update_biography_updated_at BEFORE UPDATE ON biography FOR EACH R
 CREATE TRIGGER update_media_press_updated_at BEFORE UPDATE ON media_press FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_languages_spoken_updated_at BEFORE UPDATE ON languages_spoken FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_office_hours_updated_at BEFORE UPDATE ON office_hours FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_user_profiles_updated_at BEFORE UPDATE ON user_profiles FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- Create view for complete provider profile
 CREATE VIEW complete_provider_profile AS
