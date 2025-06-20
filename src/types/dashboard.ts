@@ -158,14 +158,4 @@ export const DEFAULT_PROFILE_SECTIONS: ProfileSection[] = [
     isVisible: true,
     isRequired: false,
   },
-  {
-    id: "medical_expertise",
-    title: "Medical Expertise",
-    icon: "stethoscope",
-    lastUpdated: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 1 week ago
-    status: "complete",
-    priority: "medium",
-    isVisible: true,
-    isRequired: false,
-  },
 ];
