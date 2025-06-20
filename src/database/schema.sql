@@ -408,6 +408,40 @@ CREATE TABLE media_press (
     is_featured BOOLEAN DEFAULT FALSE
 );
 
+-- Clinical Expertise Lookup Table (for medical specialties system)
+CREATE TABLE clinical_expertise (
+    id SERIAL PRIMARY KEY,
+    term_id VARCHAR(50) UNIQUE NOT NULL,
+    term VARCHAR(500) NOT NULL,
+    specialty VARCHAR(200) NOT NULL,
+    term_type VARCHAR(50) NOT NULL CHECK (term_type IN ('Condition', 'Procedure', 'Reason for Visit', 'Other')),
+    specialty_id INTEGER NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- User Profiles for Medical Expertise (separate from main users table for modularity)
+CREATE TABLE user_profiles (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    email VARCHAR(255),
+    full_name VARCHAR(255),
+    specialty VARCHAR(200),
+    specialty_id INTEGER,
+    profile_completed BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- User Selected Expertise (conditions, procedures, etc.)
+CREATE TABLE user_expertise (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_profile_id UUID REFERENCES user_profiles(id) ON DELETE CASCADE,
+    term_id VARCHAR(50) REFERENCES clinical_expertise(term_id),
+    term_type VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(user_profile_id, term_id)
+);
+
 -- Create indexes for better performance
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_npi_number ON users(npi_number);
