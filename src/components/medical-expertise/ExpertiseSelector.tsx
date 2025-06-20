@@ -227,13 +227,6 @@ export function ExpertiseSelector({
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <div className="text-right">
-            <Badge variant="outline" className="text-sm">
-              {specialty}
-            </Badge>
-          </div>
-        </div>
         <p className="text-sm text-muted-foreground">
           Select the conditions you treat, procedures you perform, and common
           reasons patients visit you
