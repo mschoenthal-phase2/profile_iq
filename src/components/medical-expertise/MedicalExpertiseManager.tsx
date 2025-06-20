@@ -422,8 +422,6 @@ export default function MedicalExpertiseManager() {
       dashboardState={location.state?.dashboardState}
     >
       <div className="space-y-6">
-
-
         {/* Error Alert */}
         {state.error && (
           <Alert variant="destructive">
@@ -434,58 +432,50 @@ export default function MedicalExpertiseManager() {
 
         {/* Main Content */}
         <div className="space-y-6">
-            {state.currentStep === 1 ? (
-              <SpecialtySelector
-                specialties={state.specialties}
-                selectedSpecialty={state.selectedSpecialty}
-                onSpecialtySelect={handleSpecialtySelect}
-                loading={state.loading}
-              />
-            ) : (
-              <div className="space-y-6">
-                <ExpertiseSelector
-                  availableItems={state.availableItems}
-                  selectedItems={state.selectedItems}
-                  onSelectionChange={handleItemSelectionChange}
-                  specialty={state.selectedSpecialty!}
-                  loading={state.loading}
-                />
-
-                {/* Navigation Controls */}
-                <Card>
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <Button
-                        variant="outline"
-                        onClick={handleBackToSpecialty}
-                        className="flex items-center gap-2"
-                      >
-                        <ArrowLeft className="w-4 h-4" />
-                        Change Specialty
-                      </Button>
-
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <span>
-                          {totalSelected} items selected across all categories
-                        </span>
-                        {totalSelected > 0 && (
-                          <CheckCircle className="w-4 h-4 text-green-600" />
-                        )}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            )}
-          </TabsContent>
-
-          <TabsContent value="stats" className="space-y-6">
-            <MedicalExpertiseStatsComponent
-              stats={getStats()}
+          {state.currentStep === 1 ? (
+            <SpecialtySelector
+              specialties={state.specialties}
+              selectedSpecialty={state.selectedSpecialty}
+              onSpecialtySelect={handleSpecialtySelect}
               loading={state.loading}
             />
-          </TabsContent>
-        </Tabs>
+          ) : (
+            <div className="space-y-6">
+              <ExpertiseSelector
+                availableItems={state.availableItems}
+                selectedItems={state.selectedItems}
+                onSelectionChange={handleItemSelectionChange}
+                specialty={state.selectedSpecialty!}
+                loading={state.loading}
+              />
+
+              {/* Navigation Controls */}
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <Button
+                      variant="outline"
+                      onClick={handleBackToSpecialty}
+                      className="flex items-center gap-2"
+                    >
+                      <ArrowLeft className="w-4 h-4" />
+                      Change Specialty
+                    </Button>
+
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <span>
+                        {totalSelected} items selected across all categories
+                      </span>
+                      {totalSelected > 0 && (
+                        <CheckCircle className="w-4 h-4 text-green-600" />
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </div>
       </div>
     </ProfileSectionLayout>
   );
