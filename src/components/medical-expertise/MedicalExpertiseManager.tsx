@@ -441,8 +441,8 @@ export default function MedicalExpertiseManager() {
           {state.currentStep === 1 ? (
             <SpecialtySelector
               specialties={state.specialties}
-              selectedSpecialty={state.selectedSpecialty}
-              onSpecialtySelect={handleSpecialtySelect}
+              selectedSpecialties={state.selectedSpecialties}
+              onSpecialtyToggle={handleSpecialtyToggle}
               loading={state.loading}
             />
           ) : (
