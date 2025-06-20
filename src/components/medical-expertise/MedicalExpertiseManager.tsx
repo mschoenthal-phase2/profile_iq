@@ -467,31 +467,6 @@ export default function MedicalExpertiseManager() {
                 specialty={state.selectedSpecialties.join(", ")}
                 loading={state.loading}
               />
-
-              {/* Navigation Controls */}
-              <Card>
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <Button
-                      variant="outline"
-                      onClick={handleBackToSpecialty}
-                      className="flex items-center gap-2"
-                    >
-                      <ArrowLeft className="w-4 h-4" />
-                      Change Specialty
-                    </Button>
-
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <span>
-                        {totalSelected} items selected across all categories
-                      </span>
-                      {totalSelected > 0 && (
-                        <CheckCircle className="w-4 h-4 text-green-600" />
-                      )}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           )}
         </div>
