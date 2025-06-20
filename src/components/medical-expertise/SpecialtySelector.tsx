@@ -60,43 +60,47 @@ export function SpecialtySelector({
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {specialties.map((specialty) => (
-            <Button
-              key={specialty.specialty_id}
-              variant={
-                selectedSpecialty === specialty.specialty
-                  ? "default"
-                  : "outline"
-              }
-              className={cn(
-                "h-auto p-4 justify-between group transition-all duration-200",
-                selectedSpecialty === specialty.specialty
-                  ? "bg-primary text-primary-foreground shadow-md scale-[1.02]"
-                  : "hover:bg-accent hover:scale-[1.01]",
-              )}
-              onClick={() =>
-                onSpecialtySelect(specialty.specialty, specialty.specialty_id)
-              }
-            >
-              <div className="flex flex-col items-start gap-1 text-left">
-                <span className="font-medium text-sm leading-tight">
-                  {specialty.specialty}
-                </span>
-                {selectedSpecialty === specialty.specialty && (
-                  <Badge variant="secondary" className="text-xs">
-                    Selected
-                  </Badge>
-                )}
-              </div>
-              <ChevronRight
+          {specialties.map((specialty) => {
+            const isSelected = selectedSpecialties.includes(
+              specialty.specialty,
+            );
+            return (
+              <Button
+                key={specialty.specialty_id}
+                variant={isSelected ? "default" : "outline"}
                 className={cn(
-                  "w-4 h-4 transition-transform group-hover:translate-x-1",
-                  selectedSpecialty === specialty.specialty &&
-                    "text-primary-foreground",
+                  "h-auto p-4 justify-between group transition-all duration-200",
+                  isSelected
+                    ? "bg-primary text-primary-foreground shadow-md scale-[1.02]"
+                    : "hover:bg-accent hover:scale-[1.01]",
                 )}
-              />
-            </Button>
-          ))}
+                onClick={() =>
+                  onSpecialtyToggle(
+                    specialty.specialty,
+                    specialty.specialty_id,
+                    !isSelected,
+                  )
+                }
+              >
+                <div className="flex flex-col items-start gap-1 text-left">
+                  <span className="font-medium text-sm leading-tight">
+                    {specialty.specialty}
+                  </span>
+                  {isSelected && (
+                    <Badge variant="secondary" className="text-xs">
+                      Selected
+                    </Badge>
+                  )}
+                </div>
+                <ChevronRight
+                  className={cn(
+                    "w-4 h-4 transition-transform group-hover:translate-x-1",
+                    isSelected && "text-primary-foreground",
+                  )}
+                />
+              </Button>
+            );
+          })}
         </div>
 
         {selectedSpecialty && (
