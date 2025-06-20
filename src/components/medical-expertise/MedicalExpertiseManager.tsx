@@ -221,7 +221,6 @@ export default function MedicalExpertiseManager() {
         setState((prev) => ({
           ...prev,
           userProfile: savedProfile,
-          currentStep: 2,
         }));
 
         // Load available items for selected specialties
