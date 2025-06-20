@@ -62,3 +62,5 @@ export function transformNPIProviderToNPIData(npiProvider: any): NPIDataInsert {
 }
 
 /**
+ * This function transforms data for Supabase
+ */
