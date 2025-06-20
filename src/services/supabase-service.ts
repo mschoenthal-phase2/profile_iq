@@ -1086,5 +1086,11 @@ export const {
   getUserMediaArticles,
   saveUserMediaArticles,
   deleteUserMediaArticle,
+  getMedicalSpecialties,
+  getClinicalExpertiseBySpecialty,
+  getUserMedicalProfile,
+  saveUserMedicalProfile,
+  getUserMedicalExpertise,
+  saveUserMedicalExpertise,
   searchProviders,
 } = supabaseService;
