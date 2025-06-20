@@ -451,23 +451,24 @@ export default function MedicalExpertiseManager() {
 
         {/* Main Content */}
         <div className="space-y-6">
-          {state.currentStep === 1 ? (
-            <SpecialtySelector
-              specialties={state.specialties}
-              selectedSpecialties={state.selectedSpecialties}
-              onSpecialtyToggle={handleSpecialtyToggle}
+          {/* Specialty Selection */}
+          <SpecialtySelector
+            specialties={state.specialties}
+            selectedSpecialties={state.selectedSpecialties}
+            onSpecialtyToggle={handleSpecialtyToggle}
+            loading={state.loading}
+          />
+
+          {/* Expertise Selection - Only show if specialties are selected */}
+          {state.selectedSpecialties.length > 0 && (
+            <ExpertiseSelector
+              availableItems={state.availableItems}
+              selectedItems={state.selectedItems}
+              onSelectionChange={handleItemSelectionChange}
+              specialty={state.selectedSpecialties.join(", ")}
               loading={state.loading}
+              isEditing={isEditing}
             />
-          ) : (
-            <div className="space-y-6">
-              <ExpertiseSelector
-                availableItems={state.availableItems}
-                selectedItems={state.selectedItems}
-                onSelectionChange={handleItemSelectionChange}
-                specialty={state.selectedSpecialties.join(", ")}
-                loading={state.loading}
-              />
-            </div>
           )}
         </div>
       </div>
