@@ -54,8 +54,8 @@ export function SpecialtySelector({
           Select Your Medical Specialty
         </CardTitle>
         <p className="text-sm text-muted-foreground">
-          Choose your primary specialty to see relevant conditions, procedures,
-          and reasons for visits
+          Choose your specialties to see relevant conditions, procedures, and
+          reasons for visits. You can select multiple specialties.
         </p>
       </CardHeader>
       <CardContent>
