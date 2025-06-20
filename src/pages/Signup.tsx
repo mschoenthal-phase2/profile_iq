@@ -183,7 +183,7 @@ export default function Signup() {
       if (provider) {
         setNpiProvider(provider);
         setIsFromMockData(false);
-        setCurrentStep(2.5); // NPI confirmation step
+        setCurrentStep(3); // NPI confirmation step
       } else {
         setNpiLookupError({
           message: "No provider found",
