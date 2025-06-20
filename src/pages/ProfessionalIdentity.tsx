@@ -15,6 +15,14 @@ import {
 } from "@/components/ui/select";
 import { ProfileSectionLayout } from "@/components/profile/ProfileSectionLayout";
 import {
+  AddLicenseDialog,
+  type LicenseData,
+} from "@/components/professional-identity/AddLicenseDialog";
+import {
+  AddSpecialtyDialog,
+  type SpecialtyData,
+} from "@/components/professional-identity/AddSpecialtyDialog";
+import {
   User,
   Upload,
   Plus,
@@ -34,13 +42,7 @@ interface ProfessionalIdentityData {
   preferredName: string;
   pronouns: string;
   professionalEmail: string;
-  licenses: Array<{
-    id: string;
-    name: string;
-    licenseNumber: string;
-    state: string;
-    status: "active" | "inactive";
-  }>;
+  licenses: LicenseData[];
   primarySpecialties: string[];
   additionalSpecialties: string[];
   jobTitle: string;
@@ -57,6 +59,8 @@ export default function ProfessionalIdentity() {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [showAddLicenseDialog, setShowAddLicenseDialog] = useState(false);
+  const [showAddSpecialtyDialog, setShowAddSpecialtyDialog] = useState(false);
 
   // Get dashboard state from navigation or use mock data
   const dashboardState = location.state?.dashboardState || {
@@ -251,6 +255,45 @@ export default function ProfessionalIdentity() {
     console.log("Photo upload clicked");
   };
 
+  const handleAddLicense = (licenseData: Omit<LicenseData, "id">) => {
+    const newLicense: LicenseData = {
+      ...licenseData,
+      id: Date.now().toString(), // In a real app, this would come from the server
+    };
+
+    setFormData((prev) => ({
+      ...prev,
+      licenses: [...prev.licenses, newLicense],
+    }));
+
+    setShowAddLicenseDialog(false);
+  };
+
+  const handleRemoveLicense = (licenseId: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      licenses: prev.licenses.filter((license) => license.id !== licenseId),
+    }));
+  };
+
+  const handleAddSpecialty = (specialtyData: SpecialtyData) => {
+    const targetArray =
+      specialtyData.type === "primary"
+        ? "primarySpecialties"
+        : "additionalSpecialties";
+
+    setFormData((prev) => ({
+      ...prev,
+      [targetArray]: [...prev[targetArray], specialtyData.name],
+    }));
+
+    setShowAddSpecialtyDialog(false);
+  };
+
+  const getAllSpecialties = () => {
+    return [...formData.primarySpecialties, ...formData.additionalSpecialties];
+  };
+
   return (
     <ProfileSectionLayout
       title="Professional Identity"
@@ -418,7 +461,11 @@ export default function ProfessionalIdentity() {
                 Professional Licenses
               </CardTitle>
               {isEditing && (
-                <Button variant="outline" size="sm">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowAddLicenseDialog(true)}
+                >
                   <Plus className="w-4 h-4 mr-1" />
                   Add License
                 </Button>
@@ -449,7 +496,11 @@ export default function ProfessionalIdentity() {
                     </p>
                   </div>
                   {isEditing && (
-                    <Button variant="ghost" size="sm">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleRemoveLicense(license.id)}
+                    >
                       <X className="w-4 h-4" />
                     </Button>
                   )}
@@ -532,7 +583,12 @@ export default function ProfessionalIdentity() {
                 </p>
               )}
               {isEditing && (
-                <Button variant="outline" size="sm" className="mt-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="mt-3"
+                  onClick={() => setShowAddSpecialtyDialog(true)}
+                >
                   <Plus className="w-4 h-4 mr-1" />
                   Add Specialty
                 </Button>
@@ -645,6 +701,22 @@ export default function ProfessionalIdentity() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Dialogs */}
+      <AddLicenseDialog
+        open={showAddLicenseDialog}
+        onOpenChange={setShowAddLicenseDialog}
+        onAddLicense={handleAddLicense}
+        isLoading={isSaving}
+      />
+
+      <AddSpecialtyDialog
+        open={showAddSpecialtyDialog}
+        onOpenChange={setShowAddSpecialtyDialog}
+        onAddSpecialty={handleAddSpecialty}
+        existingSpecialties={getAllSpecialties()}
+        isLoading={isSaving}
+      />
     </ProfileSectionLayout>
   );
 }
