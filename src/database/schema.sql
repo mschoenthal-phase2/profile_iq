@@ -541,6 +541,9 @@ ALTER TABLE biography ENABLE ROW LEVEL SECURITY;
 ALTER TABLE media_press ENABLE ROW LEVEL SECURITY;
 ALTER TABLE languages_spoken ENABLE ROW LEVEL SECURITY;
 ALTER TABLE office_hours ENABLE ROW LEVEL SECURITY;
+ALTER TABLE clinical_expertise ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_expertise ENABLE ROW LEVEL SECURITY;
 
 -- Create policies (users can only access their own data)
 CREATE POLICY "Users can view their own profile" ON users FOR SELECT USING (auth.uid() = id);
