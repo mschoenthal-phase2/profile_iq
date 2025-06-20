@@ -118,6 +118,17 @@ export const DEFAULT_PROFILE_SECTIONS: ProfileSection[] = [
     isRequired: false,
   },
   {
+    id: "medical_expertise",
+    title: "Medical Expertise",
+    icon: "stethoscope",
+    lastUpdated: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000), // 1.5 months ago
+    status: "needs_update",
+    description: "Define your specialty and areas of expertise",
+    priority: "medium",
+    isVisible: true,
+    isRequired: false,
+  },
+  {
     id: "publications",
     title: "Publications",
     icon: "book-open",
