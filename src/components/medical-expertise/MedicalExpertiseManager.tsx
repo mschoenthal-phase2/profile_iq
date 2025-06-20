@@ -7,7 +7,7 @@ import { MedicalExpertiseStatsComponent } from "./MedicalExpertiseStats";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { ArrowLeft, CheckCircle, AlertCircle, UserCheck } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import {
   MedicalExpertiseState,
