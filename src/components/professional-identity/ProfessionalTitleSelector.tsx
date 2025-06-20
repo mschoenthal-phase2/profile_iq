@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -214,16 +214,20 @@ export function ProfessionalTitleSelector({
   const searchInputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const availableTitles = MEDICAL_TITLES.filter(
-    (title) => !value.includes(title),
+  const availableTitles = useMemo(
+    () => MEDICAL_TITLES.filter((title) => !value.includes(title)),
+    [value],
   );
 
   // Create searchable title list with categories
-  const searchableTitles = Object.entries(TITLE_CATEGORIES).flatMap(
-    ([category, titles]) =>
-      titles
-        .filter((title) => availableTitles.includes(title))
-        .map((title) => ({ title, category })),
+  const searchableTitles = useMemo(
+    () =>
+      Object.entries(TITLE_CATEGORIES).flatMap(([category, titles]) =>
+        titles
+          .filter((title) => availableTitles.includes(title))
+          .map((title) => ({ title, category })),
+      ),
+    [availableTitles],
   );
 
   useEffect(() => {
@@ -239,7 +243,7 @@ export function ProfessionalTitleSelector({
       .slice(0, 10); // Limit to 10 results for performance
 
     setFilteredTitles(filtered);
-  }, [searchQuery, availableTitles]);
+  }, [searchQuery, searchableTitles]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
