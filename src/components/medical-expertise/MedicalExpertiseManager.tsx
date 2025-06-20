@@ -81,12 +81,16 @@ export default function MedicalExpertiseManager() {
             .map((e) => e.term_id),
         };
 
-        // Split comma-separated specialties back into array
+        // Split comma-separated specialties back into array and remove duplicates
         const specialtiesArray = userProfile.specialty
-          ? userProfile.specialty
-              .split(", ")
-              .map((s) => s.trim())
-              .filter((s) => s.length > 0)
+          ? [
+              ...new Set(
+                userProfile.specialty
+                  .split(", ")
+                  .map((s) => s.trim())
+                  .filter((s) => s.length > 0),
+              ),
+            ]
           : [];
 
         setState((prev) => ({
