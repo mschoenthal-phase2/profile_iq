@@ -404,24 +404,6 @@ export default function MedicalExpertiseManager() {
     setState((prev) => ({ ...prev, currentStep: 1 }));
   };
 
-  // Calculate progress
-  const getProgress = () => {
-    if (!state.selectedSpecialty) return 0;
-    const totalItems =
-      state.selectedItems.conditions.length +
-      state.selectedItems.procedures.length +
-      state.selectedItems.reasonsForVisit.length;
-    return Math.min(25 + (totalItems * 75) / 20, 100); // 25% for specialty, up to 75% for items
-  };
-
-  // Get stats for display
-  const getStats = () => {
-    return medicalExpertiseService.getExpertiseStats(
-      state.selectedItems,
-      state.selectedSpecialty || undefined,
-    );
-  };
-
   const totalSelected =
     state.selectedItems.conditions.length +
     state.selectedItems.procedures.length +
