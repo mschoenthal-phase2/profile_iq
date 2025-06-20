@@ -36,7 +36,6 @@ interface ExpertiseSelectorProps {
     termId: string,
     isSelected: boolean,
   ) => void;
-  specialty: string;
   loading: boolean;
   isEditing: boolean;
 }
