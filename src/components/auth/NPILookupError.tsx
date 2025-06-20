@@ -33,11 +33,12 @@ export const NPILookupErrorComponent: React.FC<NPILookupErrorProps> = ({
 
       <div className="bg-red-50 border border-red-200 rounded-lg p-4 max-w-md mx-auto">
         <div className="text-sm text-red-700">
-          <p className="font-semibold mb-2">Common issues:</p>
+          <p className="font-semibold mb-2">Try these demo NPI numbers:</p>
           <ul className="list-disc list-inside space-y-1 text-left">
-            <li>NPI number must be exactly 10 digits</li>
-            <li>Make sure the NPI number is active in the registry</li>
-            <li>Check for any typos in the number</li>
+            <li>1234567890 (Dr. John Smith - Family Medicine)</li>
+            <li>1578714549 (Sarah Johnson - Nurse Practitioner)</li>
+            <li>1234567893 (City General Hospital)</li>
+            <li>1111111116 (Dr. Maria Garcia - Dentist)</li>
           </ul>
         </div>
       </div>
