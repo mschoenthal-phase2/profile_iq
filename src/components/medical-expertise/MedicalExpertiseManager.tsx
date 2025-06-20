@@ -226,10 +226,9 @@ export default function MedicalExpertiseManager() {
         // Load available items for selected specialties
         await loadAvailableItems(newSelectedSpecialties);
       } else {
-        // No specialties selected, stay on step 1
+        // No specialties selected, clear available items
         setState((prev) => ({
           ...prev,
-          currentStep: 1,
           availableItems: {
             conditions: [],
             procedures: [],
