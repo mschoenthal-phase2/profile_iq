@@ -85,8 +85,12 @@ export default function MedicalExpertiseManager() {
           ...prev,
           specialties,
           userProfile,
-          selectedSpecialty: userProfile.specialty || null,
-          specialtyId: userProfile.specialty_id || null,
+          selectedSpecialties: userProfile.specialty
+            ? [userProfile.specialty]
+            : [],
+          specialtyIds: userProfile.specialty_id
+            ? [userProfile.specialty_id]
+            : [],
           selectedItems: groupedExpertise,
           currentStep: userProfile.specialty ? 2 : 1,
           loading: false,
@@ -94,7 +98,7 @@ export default function MedicalExpertiseManager() {
 
         // Load available items if specialty is selected
         if (userProfile.specialty) {
-          await loadAvailableItems(userProfile.specialty);
+          await loadAvailableItems([userProfile.specialty]);
         }
       } else {
         setState((prev) => ({
