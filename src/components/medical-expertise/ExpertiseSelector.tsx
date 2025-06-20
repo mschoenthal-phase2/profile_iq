@@ -15,7 +15,6 @@ import {
   AlertCircle,
   Heart,
   Scissors,
-  UserCheck,
 } from "lucide-react";
 import {
   ClinicalExpertise,
