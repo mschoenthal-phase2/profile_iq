@@ -31,37 +31,59 @@ export function SpecialtySelector({
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Stethoscope className="w-5 h-5" />
-            Select Your Medical Specialty
+            Medical Specialties
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {Array.from({ length: 9 }).map((_, index) => (
-              <div
-                key={index}
-                className="h-20 bg-gray-200 animate-pulse rounded-lg"
-              />
-            ))}
-          </div>
+          <div className="h-8 bg-gray-200 animate-pulse rounded" />
         </CardContent>
       </Card>
     );
   }
 
+  // View mode - just show selected specialties
+  if (!isEditing) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Stethoscope className="w-5 h-5" />
+            Medical Specialties
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {selectedSpecialties.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {selectedSpecialties.map((specialty) => (
+                <Badge key={specialty} variant="default" className="px-3 py-1">
+                  {specialty}
+                </Badge>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              No specialties selected
+            </p>
+          )}
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Edit mode - show all specialties with compact design
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Stethoscope className="w-5 h-5" />
-          Select Your Medical Specialty
+          Select Medical Specialties
         </CardTitle>
         <p className="text-sm text-muted-foreground">
-          Choose your specialties to see relevant conditions, procedures, and
-          reasons for visits. You can select multiple specialties.
+          Choose your specialties. You can select multiple specialties.
         </p>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="flex flex-wrap gap-2">
           {specialties.map((specialty) => {
             const isSelected = selectedSpecialties.includes(
               specialty.specialty,
@@ -70,11 +92,12 @@ export function SpecialtySelector({
               <Button
                 key={specialty.specialty_id}
                 variant={isSelected ? "default" : "outline"}
+                size="sm"
                 className={cn(
-                  "h-auto p-4 justify-between group transition-all duration-200",
+                  "h-auto px-3 py-2 transition-all duration-200",
                   isSelected
-                    ? "bg-primary text-primary-foreground shadow-md scale-[1.02]"
-                    : "hover:bg-accent hover:scale-[1.01]",
+                    ? "bg-primary text-primary-foreground"
+                    : "hover:bg-accent",
                 )}
                 onClick={() =>
                   onSpecialtyToggle(
@@ -84,48 +107,11 @@ export function SpecialtySelector({
                   )
                 }
               >
-                <div className="flex flex-col items-start gap-1 text-left">
-                  <span className="font-medium text-sm leading-tight">
-                    {specialty.specialty}
-                  </span>
-                  {isSelected && (
-                    <Badge variant="secondary" className="text-xs">
-                      Selected
-                    </Badge>
-                  )}
-                </div>
-                <ChevronRight
-                  className={cn(
-                    "w-4 h-4 transition-transform group-hover:translate-x-1",
-                    isSelected && "text-primary-foreground",
-                  )}
-                />
+                <span className="text-sm">{specialty.specialty}</span>
               </Button>
             );
           })}
         </div>
-
-        {selectedSpecialties.length > 0 && (
-          <div className="mt-6 p-4 bg-accent rounded-lg border">
-            <div className="flex items-center justify-between">
-              <div>
-                <h4 className="font-medium text-sm">Selected Specialties</h4>
-                <div className="flex flex-wrap gap-1 mt-1">
-                  {selectedSpecialties.map((specialty) => (
-                    <Badge
-                      key={specialty}
-                      variant="outline"
-                      className="text-xs"
-                    >
-                      {specialty}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-              <Badge variant="default">Ready</Badge>
-            </div>
-          </div>
-        )}
       </CardContent>
     </Card>
   );
