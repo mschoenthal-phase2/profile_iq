@@ -92,7 +92,6 @@ export default function MedicalExpertiseManager() {
             ? [userProfile.specialty_id]
             : [],
           selectedItems: groupedExpertise,
-          currentStep: userProfile.specialty ? 2 : 1,
           loading: false,
         }));
 
