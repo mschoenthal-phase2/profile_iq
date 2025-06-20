@@ -164,16 +164,19 @@ export default function Signup() {
     setIsFromMockData(false);
 
     try {
-      const { provider, error, isFromMock } = await NPIApiClient.lookupByNPI(
-        formData.npiNumber,
-      );
+      const npiApiClient = NPIApiClient.getInstance();
+      const provider = await npiApiClient.searchByNPI(formData.npiNumber);
 
-      if (error) {
-        setNpiLookupError(error);
-      } else if (provider) {
+      if (provider) {
         setNpiProvider(provider);
-        setIsFromMockData(isFromMock || false);
+        setIsFromMockData(false);
         setCurrentStep(2.5); // NPI confirmation step
+      } else {
+        setNpiLookupError({
+          message: "No provider found",
+          details:
+            "No provider found with this NPI number. Please verify the number and try again.",
+        });
       }
     } catch (error) {
       setNpiLookupError({
