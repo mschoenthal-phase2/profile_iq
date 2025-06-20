@@ -15,6 +15,7 @@ interface SpecialtySelectorProps {
     isSelected: boolean,
   ) => void;
   loading: boolean;
+  isEditing: boolean;
 }
 
 export function SpecialtySelector({
