@@ -38,6 +38,7 @@ interface ExpertiseSelectorProps {
   ) => void;
   specialty: string;
   loading: boolean;
+  isEditing: boolean;
 }
 
 export function ExpertiseSelector({
