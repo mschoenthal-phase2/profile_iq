@@ -312,14 +312,16 @@ export function ExpertiseSelector({
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-medium">Conditions You Treat</h3>
               <div className="text-sm text-muted-foreground">
-                {getStats("conditions").selected}
-                {isEditing && (
+                {isEditing ? (
                   <>
-                    of {getStats("conditions").total} selected
+                    {getStats("conditions").selected} of{" "}
+                    {getStats("conditions").total} selected
                     {searchQuery && (
-                      <span> • {getStats("conditions").filtered} shown</span>
+                      <span> • {getStats("conditions").displayed} shown</span>
                     )}
                   </>
+                ) : (
+                  `${getStats("conditions").selected} selected`
                 )}
               </div>
             </div>
