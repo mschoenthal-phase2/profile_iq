@@ -103,14 +103,22 @@ export function SpecialtySelector({
           })}
         </div>
 
-        {selectedSpecialty && (
+        {selectedSpecialties.length > 0 && (
           <div className="mt-6 p-4 bg-accent rounded-lg border">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-medium text-sm">Selected Specialty</h4>
-                <p className="text-sm text-muted-foreground">
-                  {selectedSpecialty}
-                </p>
+                <h4 className="font-medium text-sm">Selected Specialties</h4>
+                <div className="flex flex-wrap gap-1 mt-1">
+                  {selectedSpecialties.map((specialty) => (
+                    <Badge
+                      key={specialty}
+                      variant="outline"
+                      className="text-xs"
+                    >
+                      {specialty}
+                    </Badge>
+                  ))}
+                </div>
               </div>
               <Badge variant="default">Ready</Badge>
             </div>
