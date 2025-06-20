@@ -141,8 +141,14 @@ export default function Signup() {
 
     if (!formData.npiNumber.trim()) {
       newErrors.npiNumber = "NPI number is required";
-    } else if (!/^\d{10}$/.test(formData.npiNumber.replace(/\s/g, ""))) {
-      newErrors.npiNumber = "NPI number must be 10 digits";
+    } else {
+      // Clean the NPI number by removing all non-digit characters
+      const cleanNPI = formData.npiNumber.replace(/\D/g, "");
+      if (cleanNPI.length !== 10) {
+        newErrors.npiNumber = "NPI number must be exactly 10 digits";
+      } else if (!/^\d{10}$/.test(cleanNPI)) {
+        newErrors.npiNumber = "NPI number must contain only digits";
+      }
     }
 
     if (!formData.agreeToTerms) {
