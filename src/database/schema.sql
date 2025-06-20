@@ -408,6 +408,40 @@ CREATE TABLE media_press (
     is_featured BOOLEAN DEFAULT FALSE
 );
 
+-- Clinical Expertise Lookup Table (for medical specialties system)
+CREATE TABLE clinical_expertise (
+    id SERIAL PRIMARY KEY,
+    term_id VARCHAR(50) UNIQUE NOT NULL,
+    term VARCHAR(500) NOT NULL,
+    specialty VARCHAR(200) NOT NULL,
+    term_type VARCHAR(50) NOT NULL CHECK (term_type IN ('Condition', 'Procedure', 'Reason for Visit', 'Other')),
+    specialty_id INTEGER NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- User Profiles for Medical Expertise (separate from main users table for modularity)
+CREATE TABLE user_profiles (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    email VARCHAR(255),
+    full_name VARCHAR(255),
+    specialty VARCHAR(200),
+    specialty_id INTEGER,
+    profile_completed BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- User Selected Expertise (conditions, procedures, etc.)
+CREATE TABLE user_expertise (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_profile_id UUID REFERENCES user_profiles(id) ON DELETE CASCADE,
+    term_id VARCHAR(50) REFERENCES clinical_expertise(term_id),
+    term_type VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(user_profile_id, term_id)
+);
+
 -- Create indexes for better performance
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_npi_number ON users(npi_number);
@@ -427,6 +461,15 @@ CREATE INDEX idx_office_hours_location_id ON office_hours(location_id);
 CREATE INDEX idx_office_hours_day ON office_hours(location_id, day_of_week);
 CREATE INDEX idx_languages_spoken_user_id ON languages_spoken(user_id);
 CREATE INDEX idx_languages_spoken_proficiency ON languages_spoken(user_id, proficiency);
+
+-- Medical expertise indexes
+CREATE INDEX idx_clinical_expertise_specialty ON clinical_expertise(specialty);
+CREATE INDEX idx_clinical_expertise_term_type ON clinical_expertise(term_type);
+CREATE INDEX idx_clinical_expertise_specialty_type ON clinical_expertise(specialty, term_type);
+CREATE INDEX idx_user_profiles_user_id ON user_profiles(user_id);
+CREATE INDEX idx_user_profiles_specialty ON user_profiles(specialty);
+CREATE INDEX idx_user_expertise_profile ON user_expertise(user_profile_id);
+CREATE INDEX idx_user_expertise_term_type ON user_expertise(term_type);
 
 -- Create updated_at triggers
 CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -456,6 +499,7 @@ CREATE TRIGGER update_biography_updated_at BEFORE UPDATE ON biography FOR EACH R
 CREATE TRIGGER update_media_press_updated_at BEFORE UPDATE ON media_press FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_languages_spoken_updated_at BEFORE UPDATE ON languages_spoken FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_office_hours_updated_at BEFORE UPDATE ON office_hours FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_user_profiles_updated_at BEFORE UPDATE ON user_profiles FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- Create view for complete provider profile
 CREATE VIEW complete_provider_profile AS
@@ -497,6 +541,9 @@ ALTER TABLE biography ENABLE ROW LEVEL SECURITY;
 ALTER TABLE media_press ENABLE ROW LEVEL SECURITY;
 ALTER TABLE languages_spoken ENABLE ROW LEVEL SECURITY;
 ALTER TABLE office_hours ENABLE ROW LEVEL SECURITY;
+ALTER TABLE clinical_expertise ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_expertise ENABLE ROW LEVEL SECURITY;
 
 -- Create policies (users can only access their own data)
 CREATE POLICY "Users can view their own profile" ON users FOR SELECT USING (auth.uid() = id);
@@ -523,6 +570,22 @@ CREATE POLICY "Users can manage their own languages" ON languages_spoken FOR ALL
 CREATE POLICY "Users can manage their own office hours" ON office_hours FOR ALL USING (EXISTS (
     SELECT 1 FROM locations WHERE locations.id = office_hours.location_id AND locations.user_id = auth.uid()
 ));
+
+-- Medical expertise policies
+CREATE POLICY "Anyone can read clinical expertise" ON clinical_expertise FOR SELECT TO PUBLIC USING (true);
+CREATE POLICY "Users can view own user profile" ON user_profiles FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Users can update own user profile" ON user_profiles FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "Users can insert own user profile" ON user_profiles FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Users can view own expertise" ON user_expertise FOR SELECT USING (
+    user_profile_id IN (
+        SELECT id FROM user_profiles WHERE user_id = auth.uid()
+    )
+);
+CREATE POLICY "Users can manage own expertise" ON user_expertise FOR ALL USING (
+    user_profile_id IN (
+        SELECT id FROM user_profiles WHERE user_id = auth.uid()
+    )
+);
 
 -- Public read policies for search functionality (optional, can be restricted)
 CREATE POLICY "Public can search provider profiles" ON complete_provider_profile FOR SELECT USING (true);

@@ -100,7 +100,12 @@ export default function Signup() {
       completed: currentStep > 2,
       active: currentStep === 2,
     },
-    { id: 3, title: "Complete", completed: false, active: currentStep >= 3 },
+    {
+      id: 3,
+      title: "Confirm NPI",
+      completed: currentStep > 3,
+      active: currentStep === 3,
+    },
   ];
 
   const validateStep1 = () => {
@@ -141,8 +146,14 @@ export default function Signup() {
 
     if (!formData.npiNumber.trim()) {
       newErrors.npiNumber = "NPI number is required";
-    } else if (!/^\d{10}$/.test(formData.npiNumber.replace(/\s/g, ""))) {
-      newErrors.npiNumber = "NPI number must be 10 digits";
+    } else {
+      // Clean the NPI number by removing all non-digit characters
+      const cleanNPI = formData.npiNumber.replace(/\D/g, "");
+      if (cleanNPI.length !== 10) {
+        newErrors.npiNumber = "NPI number must be exactly 10 digits";
+      } else if (!/^\d{10}$/.test(cleanNPI)) {
+        newErrors.npiNumber = "NPI number must contain only digits";
+      }
     }
 
     if (!formData.agreeToTerms) {
@@ -164,16 +175,21 @@ export default function Signup() {
     setIsFromMockData(false);
 
     try {
-      const { provider, error, isFromMock } = await NPIApiClient.lookupByNPI(
-        formData.npiNumber,
-      );
+      const npiApiClient = NPIApiClient.getInstance();
+      // Clean the NPI number by removing all non-digit characters
+      const cleanNpiNumber = formData.npiNumber.replace(/\D/g, "");
+      const provider = await npiApiClient.searchByNPI(cleanNpiNumber);
 
-      if (error) {
-        setNpiLookupError(error);
-      } else if (provider) {
+      if (provider) {
         setNpiProvider(provider);
-        setIsFromMockData(isFromMock || false);
-        setCurrentStep(2.5); // NPI confirmation step
+        setIsFromMockData(false);
+        setCurrentStep(3); // NPI confirmation step
+      } else {
+        setNpiLookupError({
+          message: "No provider found",
+          details:
+            "No provider found with this NPI number. Please verify the number and try again.",
+        });
       }
     } catch (error) {
       setNpiLookupError({
@@ -196,7 +212,7 @@ export default function Signup() {
   };
 
   const handleBack = () => {
-    if (currentStep === 2.5) {
+    if (currentStep === 3) {
       // From NPI confirmation back to Professional step
       setCurrentStep(2);
       setNpiProvider(null);
@@ -221,7 +237,7 @@ export default function Signup() {
       });
     } catch (error) {
       console.error("Account creation failed:", error);
-      setCurrentStep(3); // Show error completion step
+      // Stay on current step and show error
     } finally {
       setIsConfirmingNPI(false);
     }
@@ -433,8 +449,8 @@ export default function Signup() {
                     required
                   />
                   <p className="text-xs text-phase2-dark-gray">
-                    For testing: Try 1578714549, 1234567890, 9876543210, or
-                    5555666677
+                    For testing: Try 1234567893, 1111111116, 1234567890, or any
+                    valid 10-digit NPI number
                   </p>
                 </div>
 
@@ -519,10 +535,10 @@ export default function Signup() {
           )}
 
           {/* NPI Lookup Loading */}
-          {currentStep === 2.5 && isLookingUpNPI && <NPILookupLoading />}
+          {currentStep === 3 && isLookingUpNPI && <NPILookupLoading />}
 
           {/* NPI Lookup Error */}
-          {currentStep === 2.5 && npiLookupError && (
+          {currentStep === 3 && npiLookupError && (
             <NPILookupErrorComponent
               error={npiLookupError}
               onRetry={handleNPIRetry}
@@ -532,7 +548,7 @@ export default function Signup() {
           )}
 
           {/* NPI Confirmation */}
-          {currentStep === 2.5 && npiProvider && (
+          {currentStep === 3 && npiProvider && (
             <div className="space-y-4">
               {isFromMockData && (
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -562,55 +578,7 @@ export default function Signup() {
             </div>
           )}
 
-          {currentStep === 3 && (
-            <div className="text-center space-y-6">
-              <div className="w-20 h-20 bg-phase2-blue rounded-full flex items-center justify-center mx-auto">
-                <svg
-                  className="w-10 h-10 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-raleway font-bold text-phase2-soft-black">
-                Account Created Successfully!
-              </h3>
-              <p className="text-phase2-dark-gray font-raleway">
-                Welcome to ProfileIQ! Your account has been created
-                successfully.
-              </p>
-              <div className="space-y-3">
-                <Button
-                  onClick={() =>
-                    navigate("/dashboard", {
-                      state: {
-                        signupData: formData,
-                        npiProvider: npiProvider,
-                      },
-                    })
-                  }
-                  className="w-full"
-                  size="lg"
-                >
-                  Go to Dashboard
-                </Button>
-                <Link to="/login" className="block">
-                  <Button variant="outline" className="w-full" size="lg">
-                    Sign In Later
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          )}
-
-          {currentStep < 3 && currentStep !== 2.5 && (
+          {currentStep < 3 && (
             <div className="flex space-x-4">
               {currentStep > 1 && (
                 <Button

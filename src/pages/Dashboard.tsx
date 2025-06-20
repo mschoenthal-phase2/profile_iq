@@ -93,6 +93,17 @@ export default function Dashboard() {
 
     setProfile(providerProfile);
 
+    // For new users from signup, mark all sections as needing completion
+    const newUserSections = DEFAULT_PROFILE_SECTIONS.map((section) => ({
+      ...section,
+      status: "missing" as const,
+      lastUpdated: new Date(), // Just created
+      description: section.isRequired
+        ? "Required section - please complete to finish your profile"
+        : "Optional section - add information to enhance your profile",
+    }));
+    setSections(newUserSections);
+
     // Load hospital-specific permissions
     loadHospitalPermissions(signupData.organization);
   }, [location.state, navigate]);
@@ -176,6 +187,13 @@ export default function Dashboard() {
           dashboardState: location.state,
         },
       });
+    } else if (sectionId === "medical_expertise") {
+      navigate("/medical-expertise", {
+        state: {
+          isEditing: true,
+          dashboardState: location.state,
+        },
+      });
     } else {
       // Navigate to other section edit pages
       console.log(`Editing section: ${sectionId}`);
@@ -234,6 +252,13 @@ export default function Dashboard() {
       });
     } else if (sectionId === "media_press") {
       navigate("/media-press", {
+        state: {
+          isEditing: false,
+          dashboardState: location.state,
+        },
+      });
+    } else if (sectionId === "medical_expertise") {
+      navigate("/medical-expertise", {
         state: {
           isEditing: false,
           dashboardState: location.state,
