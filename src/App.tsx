@@ -19,6 +19,7 @@ import Biography from "./pages/Biography";
 import Publications from "./pages/Publications";
 import ClinicalTrials from "./pages/ClinicalTrials";
 import MediaPress from "./pages/MediaPress";
+import MedicalExpertise from "./pages/MedicalExpertise";
 import SystemAdmin from "./pages/SystemAdmin";
 import NotFound from "./pages/NotFound";
 
