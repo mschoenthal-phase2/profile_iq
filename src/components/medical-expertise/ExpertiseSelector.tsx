@@ -15,6 +15,7 @@ import {
   AlertCircle,
   Heart,
   Scissors,
+  Users,
 } from "lucide-react";
 import {
   ClinicalExpertise,
