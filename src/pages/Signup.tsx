@@ -535,10 +535,10 @@ export default function Signup() {
           )}
 
           {/* NPI Lookup Loading */}
-          {currentStep === 2.5 && isLookingUpNPI && <NPILookupLoading />}
+          {currentStep === 3 && isLookingUpNPI && <NPILookupLoading />}
 
           {/* NPI Lookup Error */}
-          {currentStep === 2.5 && npiLookupError && (
+          {currentStep === 3 && npiLookupError && (
             <NPILookupErrorComponent
               error={npiLookupError}
               onRetry={handleNPIRetry}
@@ -548,7 +548,7 @@ export default function Signup() {
           )}
 
           {/* NPI Confirmation */}
-          {currentStep === 2.5 && npiProvider && (
+          {currentStep === 3 && npiProvider && (
             <div className="space-y-4">
               {isFromMockData && (
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
