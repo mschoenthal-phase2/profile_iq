@@ -268,7 +268,7 @@ export function ExpertiseSelector({
               value="reasonsForVisit"
               className="flex items-center gap-2"
             >
-              <UserCheck className="w-4 h-4" />
+              <Users className="w-4 h-4" />
               Reasons for Visit
               <Badge variant="secondary" className="ml-1">
                 {getStats("reasonsForVisit").selected}
