@@ -195,11 +195,10 @@ export default function Login() {
               Join thousands of healthcare providers leveraging intelligent
               profile management
             </p>
-            <Link to="/signup">
-              <Button variant="outline" className="w-full" size="lg">
-                Create Account
-              </Button>
-            </Link>
+            <Link to="/signup" />
+            <Button variant="outline" className="w-full h-[52px]" size="lg">
+              Create Account
+            </Button>
 
             {/* Temporary Admin Access */}
             <div className="pt-4 border-t border-phase2-net-gray/50">
