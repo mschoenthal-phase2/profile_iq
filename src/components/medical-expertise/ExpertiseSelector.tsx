@@ -47,6 +47,7 @@ export function ExpertiseSelector({
   onSelectionChange,
   specialty,
   loading,
+  isEditing,
 }: ExpertiseSelectorProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<
