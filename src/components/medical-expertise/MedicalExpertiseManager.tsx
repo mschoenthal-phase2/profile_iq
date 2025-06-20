@@ -27,8 +27,8 @@ export default function MedicalExpertiseManager() {
     currentStep: 1,
     specialties: [],
     userProfile: null,
-    selectedSpecialty: null,
-    specialtyId: null,
+    selectedSpecialties: [],
+    specialtyIds: [],
     selectedItems: {
       conditions: [],
       procedures: [],
