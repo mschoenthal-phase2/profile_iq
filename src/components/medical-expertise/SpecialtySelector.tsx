@@ -23,6 +23,7 @@ export function SpecialtySelector({
   selectedSpecialties,
   onSpecialtyToggle,
   loading,
+  isEditing,
 }: SpecialtySelectorProps) {
   if (loading) {
     return (
