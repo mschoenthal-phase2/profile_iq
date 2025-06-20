@@ -52,8 +52,8 @@ export interface MedicalExpertiseState {
   userProfile: UserProfile | null;
 
   // Selected data
-  selectedSpecialty: string | null;
-  specialtyId: number | null;
+  selectedSpecialties: string[];
+  specialtyIds: number[];
   selectedItems: SelectedExpertise;
 
   // Available items for current specialty
