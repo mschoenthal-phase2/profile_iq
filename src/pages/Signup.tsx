@@ -448,10 +448,14 @@ export default function Signup() {
                     error={errors.npiNumber}
                     required
                   />
-                  <p className="text-xs text-phase2-dark-gray">
-                    For testing: Try 1234567893, 1111111116, 1234567890, or any
-                    valid 10-digit NPI number
-                  </p>
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <p className="text-xs text-blue-800 font-semibold mb-1">
+                      Demo NPI Numbers:
+                    </p>
+                    <p className="text-xs text-blue-700">
+                      Try: 1234567890, 1578714549, 1234567893, or 1111111116
+                    </p>
+                  </div>
                 </div>
 
                 <div className="space-y-2">
