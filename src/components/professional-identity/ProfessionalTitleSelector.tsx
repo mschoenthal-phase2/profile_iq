@@ -1,16 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Plus, X } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Plus, X, Search, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Comprehensive list of medical professional titles and credentials
@@ -210,16 +204,67 @@ export function ProfessionalTitleSelector({
   isEditing,
   className,
 }: ProfessionalTitleSelectorProps) {
-  const [selectedTitle, setSelectedTitle] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [customTitle, setCustomTitle] = useState("");
   const [showCustomInput, setShowCustomInput] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [filteredTitles, setFilteredTitles] = useState<
+    Array<{ title: string; category: string }>
+  >([]);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const availableTitles = MEDICAL_TITLES.filter(
+    (title) => !value.includes(title),
+  );
+
+  // Create searchable title list with categories
+  const searchableTitles = Object.entries(TITLE_CATEGORIES).flatMap(
+    ([category, titles]) =>
+      titles
+        .filter((title) => availableTitles.includes(title))
+        .map((title) => ({ title, category })),
+  );
+
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredTitles([]);
+      return;
+    }
+
+    const filtered = searchableTitles
+      .filter(({ title }) =>
+        title.toLowerCase().includes(searchQuery.toLowerCase()),
+      )
+      .slice(0, 10); // Limit to 10 results for performance
+
+    setFilteredTitles(filtered);
+  }, [searchQuery, availableTitles]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        searchInputRef.current &&
+        !searchInputRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleAddTitle = (title: string) => {
     if (title && !value.includes(title)) {
       onChange([...value, title]);
-      setSelectedTitle("");
+      setSearchQuery("");
       setCustomTitle("");
       setShowCustomInput(false);
+      setShowDropdown(false);
     }
   };
 
@@ -232,10 +277,6 @@ export function ProfessionalTitleSelector({
       handleAddTitle(customTitle.trim());
     }
   };
-
-  const availableTitles = MEDICAL_TITLES.filter(
-    (title) => !value.includes(title),
-  );
 
   return (
     <div className={cn("space-y-4", className)}>
@@ -275,66 +316,86 @@ export function ProfessionalTitleSelector({
             Add Professional Title
           </Label>
 
-          {/* Dropdown Selection */}
-          <div className="flex gap-2">
-            <Select
-              value={selectedTitle}
-              onValueChange={(value) => {
-                setSelectedTitle(value);
-                setShowCustomInput(false);
-              }}
-            >
-              <SelectTrigger className="flex-1">
-                <SelectValue placeholder="Select a professional title or credential" />
-              </SelectTrigger>
-              <SelectContent className="max-h-64">
-                {Object.entries(TITLE_CATEGORIES).map(([category, titles]) => (
-                  <div key={category}>
-                    <div className="px-2 py-1.5 text-sm font-semibold text-gray-500 border-b">
-                      {category}
-                    </div>
-                    {titles
-                      .filter((title) => availableTitles.includes(title))
-                      .map((title) => (
-                        <SelectItem key={title} value={title}>
-                          {title}
-                        </SelectItem>
+          {/* Type-ahead Search */}
+          <div className="relative">
+            <div className="flex gap-2">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                <Input
+                  ref={searchInputRef}
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setShowDropdown(true);
+                    setShowCustomInput(false);
+                  }}
+                  onFocus={() => {
+                    if (searchQuery || filteredTitles.length > 0) {
+                      setShowDropdown(true);
+                    }
+                  }}
+                  placeholder="Type to search professional titles (e.g., MD, RN, PhD)..."
+                  className="pl-10 pr-10"
+                />
+                <ChevronDown className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              </div>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  if (searchQuery.trim()) {
+                    handleAddTitle(searchQuery.trim());
+                  }
+                }}
+                disabled={
+                  !searchQuery.trim() || value.includes(searchQuery.trim())
+                }
+              >
+                <Plus className="w-4 h-4 mr-1" />
+                Add
+              </Button>
+            </div>
+
+            {/* Type-ahead Dropdown */}
+            {showDropdown && (searchQuery || filteredTitles.length > 0) && (
+              <div
+                ref={dropdownRef}
+                className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-64 overflow-hidden"
+              >
+                <ScrollArea className="max-h-64">
+                  {filteredTitles.length > 0 ? (
+                    <div className="py-1">
+                      {filteredTitles.map(({ title, category }, index) => (
+                        <button
+                          key={`${title}-${index}`}
+                          className="w-full px-3 py-2 text-left hover:bg-gray-50 border-b last:border-b-0 flex items-center justify-between"
+                          onClick={() => handleAddTitle(title)}
+                        >
+                          <span className="font-medium">{title}</span>
+                          <span className="text-xs text-gray-500">
+                            {category}
+                          </span>
+                        </button>
                       ))}
-                  </div>
-                ))}
-                {/* Uncategorized titles */}
-                {availableTitles.filter(
-                  (title) =>
-                    !Object.values(TITLE_CATEGORIES).flat().includes(title),
-                ).length > 0 && (
-                  <div>
-                    <div className="px-2 py-1.5 text-sm font-semibold text-gray-500 border-b">
-                      Other
                     </div>
-                    {availableTitles
-                      .filter(
-                        (title) =>
-                          !Object.values(TITLE_CATEGORIES)
-                            .flat()
-                            .includes(title),
-                      )
-                      .map((title) => (
-                        <SelectItem key={title} value={title}>
-                          {title}
-                        </SelectItem>
-                      ))}
-                  </div>
-                )}
-              </SelectContent>
-            </Select>
-            <Button
-              variant="outline"
-              onClick={() => handleAddTitle(selectedTitle)}
-              disabled={!selectedTitle}
-            >
-              <Plus className="w-4 h-4 mr-1" />
-              Add
-            </Button>
+                  ) : searchQuery.trim() ? (
+                    <div className="py-3 px-3 text-center text-sm text-gray-500">
+                      <p>No matches found for "{searchQuery}"</p>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="mt-2 text-blue-600 hover:text-blue-700"
+                        onClick={() => {
+                          setShowCustomInput(true);
+                          setShowDropdown(false);
+                        }}
+                      >
+                        Add "{searchQuery}" as custom title
+                      </Button>
+                    </div>
+                  ) : null}
+                </ScrollArea>
+              </div>
+            )}
           </div>
 
           {/* Custom Title Input */}
@@ -370,8 +431,9 @@ export function ProfessionalTitleSelector({
 
           {/* Helper Text */}
           <p className="text-xs text-gray-500">
-            Select from common medical professional titles and credentials. You
-            can also add custom titles if needed.
+            Start typing to search from 70+ medical professional titles and
+            credentials. You can also add custom titles if not found in the
+            list.
           </p>
         </div>
       )}
