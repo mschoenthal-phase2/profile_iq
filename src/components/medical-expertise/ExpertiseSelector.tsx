@@ -100,9 +100,11 @@ export function ExpertiseSelector({
   const getStats = (category: keyof SelectedExpertise) => {
     const selected = selectedItems[category].length;
     const total = availableItems[category].length;
-    const filtered = filteredItems[category].length;
 
-    return { selected, total, filtered };
+    // In edit mode, use filtered items count, in view mode just show selected count
+    const displayed = isEditing ? filteredItems[category].length : selected;
+
+    return { selected, total, displayed };
   };
 
   const handleItemToggle = (
