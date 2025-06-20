@@ -54,8 +54,12 @@ export function SpecialtySelector({
         <CardContent>
           {selectedSpecialties.length > 0 ? (
             <div className="flex flex-wrap gap-2">
-              {selectedSpecialties.map((specialty) => (
-                <Badge key={specialty} variant="default" className="px-3 py-1">
+              {selectedSpecialties.map((specialty, index) => (
+                <Badge
+                  key={`${specialty}-${index}`}
+                  variant="default"
+                  className="px-3 py-1"
+                >
                   {specialty}
                 </Badge>
               ))}
