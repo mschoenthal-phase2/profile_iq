@@ -165,7 +165,9 @@ export default function Signup() {
 
     try {
       const npiApiClient = NPIApiClient.getInstance();
-      const provider = await npiApiClient.searchByNPI(formData.npiNumber);
+      // Clean the NPI number by removing all non-digit characters
+      const cleanNpiNumber = formData.npiNumber.replace(/\D/g, "");
+      const provider = await npiApiClient.searchByNPI(cleanNpiNumber);
 
       if (provider) {
         setNpiProvider(provider);
