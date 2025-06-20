@@ -81,13 +81,19 @@ export default function MedicalExpertiseManager() {
             .map((e) => e.term_id),
         };
 
+        // Split comma-separated specialties back into array
+        const specialtiesArray = userProfile.specialty
+          ? userProfile.specialty
+              .split(", ")
+              .map((s) => s.trim())
+              .filter((s) => s.length > 0)
+          : [];
+
         setState((prev) => ({
           ...prev,
           specialties,
           userProfile,
-          selectedSpecialties: userProfile.specialty
-            ? [userProfile.specialty]
-            : [],
+          selectedSpecialties: specialtiesArray,
           specialtyIds: userProfile.specialty_id
             ? [userProfile.specialty_id]
             : [],
@@ -95,9 +101,9 @@ export default function MedicalExpertiseManager() {
           loading: false,
         }));
 
-        // Load available items if specialty is selected
-        if (userProfile.specialty) {
-          await loadAvailableItems([userProfile.specialty]);
+        // Load available items if specialties are selected
+        if (specialtiesArray.length > 0) {
+          await loadAvailableItems(specialtiesArray);
         }
       } else {
         setState((prev) => ({
