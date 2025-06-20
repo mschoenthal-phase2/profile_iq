@@ -208,42 +208,40 @@ export function ExpertiseSelector({
         </p>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Search and Filter Controls */}
-        <div className="flex gap-4">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-            <Input
-              placeholder="Search conditions, procedures, or reasons..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-          <Button
-            variant={showSelectedOnly ? "default" : "outline"}
-            onClick={() => setShowSelectedOnly(!showSelectedOnly)}
-            className="flex items-center gap-2"
-          >
-            <Filter className="w-4 h-4" />
-            {showSelectedOnly ? "Show All" : "Selected Only"}
-          </Button>
-        </div>
+        {isEditing && (
+          <>
+            {/* Search and Filter Controls - Only in edit mode */}
+            <div className="flex gap-4">
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                <Input
+                  placeholder="Search conditions, procedures, or reasons..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+              <Button
+                variant={showSelectedOnly ? "default" : "outline"}
+                onClick={() => setShowSelectedOnly(!showSelectedOnly)}
+                className="flex items-center gap-2"
+              >
+                <Filter className="w-4 h-4" />
+                {showSelectedOnly ? "Show All" : "Selected Only"}
+              </Button>
+            </div>
 
-        {/* Selection Summary */}
-        {totalSelected > 0 && (
-          <Alert>
-            <CheckSquare className="h-4 w-4" />
-            <AlertDescription>
-              You have selected {totalSelected} items total across all
-              categories.
-              {totalSelected > 30 && (
-                <span className="text-amber-600">
-                  {" "}
-                  Consider focusing on your primary areas of expertise.
-                </span>
-              )}
-            </AlertDescription>
-          </Alert>
+            {/* Selection Summary - Only in edit mode */}
+            {totalSelected > 30 && (
+              <Alert>
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>
+                  You have selected {totalSelected} items. Consider focusing on
+                  your primary areas of expertise.
+                </AlertDescription>
+              </Alert>
+            )}
+          </>
         )}
 
         {/* Expertise Tabs */}
