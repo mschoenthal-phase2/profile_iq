@@ -24,7 +24,7 @@ export default function MedicalExpertiseManager() {
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
 
   const [state, setState] = useState<MedicalExpertiseState>({
-    currentStep: 1,
+    currentStep: 1, // Keep for type compatibility but won't use
     specialties: [],
     userProfile: null,
     selectedSpecialties: [],
