@@ -459,7 +459,6 @@ export default function MedicalExpertiseManager() {
               availableItems={state.availableItems}
               selectedItems={state.selectedItems}
               onSelectionChange={handleItemSelectionChange}
-              specialty={state.selectedSpecialties.join(", ")}
               loading={state.loading}
               isEditing={isEditing}
             />
