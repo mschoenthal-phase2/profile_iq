@@ -194,10 +194,6 @@ export function ExpertiseSelector({
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
-            <UserCheck className="w-5 h-5" />
-            Build Your Medical Expertise Profile
-          </CardTitle>
           <div className="text-right">
             <Badge variant="outline" className="text-sm">
               {specialty}
