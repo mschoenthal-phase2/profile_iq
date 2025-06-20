@@ -21,7 +21,6 @@ export default function MedicalExpertiseManager() {
   const [isEditing, setIsEditing] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
-  const [activeTab, setActiveTab] = useState("setup");
 
   const [state, setState] = useState<MedicalExpertiseState>({
     currentStep: 1,
