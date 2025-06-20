@@ -411,10 +411,6 @@ export default function MedicalExpertiseManager() {
     setShowUnsavedDialog(false);
   };
 
-  const handleBackToSpecialty = () => {
-    setState((prev) => ({ ...prev, currentStep: 1 }));
-  };
-
   const totalSelected =
     state.selectedItems.conditions.length +
     state.selectedItems.procedures.length +
