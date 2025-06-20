@@ -362,17 +362,19 @@ export function ExpertiseSelector({
                 Reasons for Patient Visits
               </h3>
               <div className="text-sm text-muted-foreground">
-                {getStats("reasonsForVisit").selected}
-                {isEditing && (
+                {isEditing ? (
                   <>
-                    of {getStats("reasonsForVisit").total} selected
+                    {getStats("reasonsForVisit").selected} of{" "}
+                    {getStats("reasonsForVisit").total} selected
                     {searchQuery && (
                       <span>
                         {" "}
-                        • {getStats("reasonsForVisit").filtered} shown
+                        • {getStats("reasonsForVisit").displayed} shown
                       </span>
                     )}
                   </>
+                ) : (
+                  `${getStats("reasonsForVisit").selected} selected`
                 )}
               </div>
             </div>
