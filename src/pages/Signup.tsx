@@ -237,7 +237,7 @@ export default function Signup() {
       });
     } catch (error) {
       console.error("Account creation failed:", error);
-      setCurrentStep(3); // Show error completion step
+      // Stay on current step and show error
     } finally {
       setIsConfirmingNPI(false);
     }
