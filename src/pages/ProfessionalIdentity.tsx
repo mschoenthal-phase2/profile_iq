@@ -17,6 +17,7 @@ import { ProfileSectionLayout } from "@/components/profile/ProfileSectionLayout"
 import {
   AddLicenseDialog,
   AddSpecialtyDialog,
+  ProfessionalTitleSelector,
   type LicenseData,
   type SpecialtyData,
 } from "@/components/professional-identity";
@@ -664,38 +665,19 @@ export default function ProfessionalIdentity() {
         <Card>
           <CardHeader>
             <CardTitle>Professional Titles & Credentials</CardTitle>
+            <p className="text-sm text-phase2-dark-gray">
+              Add your professional degrees, certifications, and credentials.
+              These will be displayed after your name in your profile.
+            </p>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              <div className="flex flex-wrap gap-2">
-                {formData.credentials.map((credential, index) => (
-                  <Badge key={index} className="gap-1">
-                    {credential}
-                    {isEditing && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-auto p-0 hover:bg-transparent text-white hover:text-white"
-                        onClick={() =>
-                          handleRemoveArrayItem("credentials", index)
-                        }
-                      >
-                        <X className="w-3 h-3" />
-                      </Button>
-                    )}
-                  </Badge>
-                ))}
-              </div>
-              {isEditing && (
-                <div className="flex gap-2">
-                  <Input
-                    placeholder="Search and select a professional title..."
-                    className="flex-1"
-                  />
-                  <Button variant="outline">Add</Button>
-                </div>
-              )}
-            </div>
+            <ProfessionalTitleSelector
+              value={formData.credentials}
+              onChange={(credentials) =>
+                setFormData((prev) => ({ ...prev, credentials }))
+              }
+              isEditing={isEditing}
+            />
           </CardContent>
         </Card>
       </div>
