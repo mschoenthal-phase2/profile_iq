@@ -422,6 +422,8 @@ export default function MedicalExpertiseManager() {
       dashboardState={location.state?.dashboardState}
     >
       <div className="space-y-6">
+
+
         {/* Error Alert */}
         {state.error && (
           <Alert variant="destructive">
@@ -431,19 +433,7 @@ export default function MedicalExpertiseManager() {
         )}
 
         {/* Main Content */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="setup" className="flex items-center gap-2">
-              <UserCheck className="w-4 h-4" />
-              Setup Expertise
-            </TabsTrigger>
-            <TabsTrigger value="stats" className="flex items-center gap-2">
-              <BarChart3 className="w-4 h-4" />
-              Statistics
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="setup" className="space-y-6">
+        <div className="space-y-6">
             {state.currentStep === 1 ? (
               <SpecialtySelector
                 specialties={state.specialties}
