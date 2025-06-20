@@ -450,6 +450,7 @@ export default function MedicalExpertiseManager() {
             selectedSpecialties={state.selectedSpecialties}
             onSpecialtyToggle={handleSpecialtyToggle}
             loading={state.loading}
+            isEditing={isEditing}
           />
 
           {/* Expertise Selection - Only show if specialties are selected */}
