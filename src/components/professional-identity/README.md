@@ -10,12 +10,14 @@ A comprehensive component for selecting and managing professional medical titles
 
 **Features:**
 
-- Categorized dropdown with 70+ medical professional titles
-- Custom title input capability
-- Visual badge display of selected titles
-- Remove functionality for selected titles
-- Organized by categories (Medical Degrees, Nursing, Fellowships, etc.)
-- Prevents duplicate selections
+- **Type-ahead search** with real-time filtering through 70+ medical titles
+- **Category display** showing which category each title belongs to
+- **Smart search** that matches partial text and highlights results
+- **Custom title input** capability for titles not in the predefined list
+- **Visual badge display** of selected titles with remove functionality
+- **Click-outside-to-close** dropdown behavior for better UX
+- **Prevents duplicate selections** automatically
+- **Keyboard accessible** with proper focus management
 
 **Props:**
 
