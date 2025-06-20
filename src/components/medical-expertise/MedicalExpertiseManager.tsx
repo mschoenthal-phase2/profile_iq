@@ -126,31 +126,42 @@ export default function MedicalExpertiseManager() {
     }
   };
 
-  const loadAvailableItems = async (specialty: string) => {
+  const loadAvailableItems = async (specialties: string[]) => {
     setState((prev) => ({ ...prev, loading: true }));
 
     try {
-      const [conditions, procedures, reasonsForVisit] = await Promise.all([
-        medicalExpertiseService.getItemsBySpecialtyAndType(
-          specialty,
-          "Condition",
-        ),
-        medicalExpertiseService.getItemsBySpecialtyAndType(
-          specialty,
-          "Procedure",
-        ),
-        medicalExpertiseService.getItemsBySpecialtyAndType(
-          specialty,
-          "Reason for Visit",
-        ),
-      ]);
+      // Load items for all selected specialties
+      const allConditions: ClinicalExpertise[] = [];
+      const allProcedures: ClinicalExpertise[] = [];
+      const allReasonsForVisit: ClinicalExpertise[] = [];
+
+      for (const specialty of specialties) {
+        const [conditions, procedures, reasonsForVisit] = await Promise.all([
+          medicalExpertiseService.getItemsBySpecialtyAndType(
+            specialty,
+            "Condition",
+          ),
+          medicalExpertiseService.getItemsBySpecialtyAndType(
+            specialty,
+            "Procedure",
+          ),
+          medicalExpertiseService.getItemsBySpecialtyAndType(
+            specialty,
+            "Reason for Visit",
+          ),
+        ]);
+
+        allConditions.push(...conditions);
+        allProcedures.push(...procedures);
+        allReasonsForVisit.push(...reasonsForVisit);
+      }
 
       setState((prev) => ({
         ...prev,
         availableItems: {
-          conditions,
-          procedures,
-          reasonsForVisit,
+          conditions: allConditions,
+          procedures: allProcedures,
+          reasonsForVisit: allReasonsForVisit,
         },
         loading: false,
       }));
