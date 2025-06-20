@@ -12,6 +12,7 @@ import { toast } from "@/hooks/use-toast";
 import {
   MedicalExpertiseState,
   SelectedExpertise,
+  ClinicalExpertise,
 } from "@/types/medical-expertise";
 import { medicalExpertiseService } from "@/services/medical-expertise-service";
 
