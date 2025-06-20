@@ -16,12 +16,10 @@ import {
 import { ProfileSectionLayout } from "@/components/profile/ProfileSectionLayout";
 import {
   AddLicenseDialog,
-  type LicenseData,
-} from "@/components/professional-identity/AddLicenseDialog";
-import {
   AddSpecialtyDialog,
+  type LicenseData,
   type SpecialtyData,
-} from "@/components/professional-identity/AddSpecialtyDialog";
+} from "@/components/professional-identity";
 import {
   User,
   Upload,
