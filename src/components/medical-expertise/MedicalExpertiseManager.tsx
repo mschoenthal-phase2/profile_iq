@@ -422,39 +422,6 @@ export default function MedicalExpertiseManager() {
       dashboardState={location.state?.dashboardState}
     >
       <div className="space-y-6">
-        {/* Progress Indicator */}
-        <Card>
-          <CardContent className="p-4">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-sm">
-                <span>Profile Setup Progress</span>
-                <span>{Math.round(getProgress())}%</span>
-              </div>
-              <Progress value={getProgress()} className="w-full" />
-              <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                <div className="flex items-center gap-1">
-                  <CheckCircle
-                    className={`w-3 h-3 ${
-                      state.selectedSpecialty
-                        ? "text-green-600"
-                        : "text-gray-400"
-                    }`}
-                  />
-                  Specialty Selected
-                </div>
-                <div className="flex items-center gap-1">
-                  <CheckCircle
-                    className={`w-3 h-3 ${
-                      totalSelected > 0 ? "text-green-600" : "text-gray-400"
-                    }`}
-                  />
-                  Expertise Areas ({totalSelected} selected)
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Error Alert */}
         {state.error && (
           <Alert variant="destructive">
