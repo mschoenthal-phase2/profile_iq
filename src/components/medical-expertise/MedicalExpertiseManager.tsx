@@ -197,9 +197,15 @@ export default function MedicalExpertiseManager() {
       let newSpecialtyIds: number[];
 
       if (isSelected) {
-        // Add specialty if not already selected
-        newSelectedSpecialties = [...state.selectedSpecialties, specialty];
-        newSpecialtyIds = [...state.specialtyIds, specialtyId];
+        // Add specialty if not already selected (prevent duplicates)
+        if (!state.selectedSpecialties.includes(specialty)) {
+          newSelectedSpecialties = [...state.selectedSpecialties, specialty];
+          newSpecialtyIds = [...state.specialtyIds, specialtyId];
+        } else {
+          // Already selected, no change needed
+          newSelectedSpecialties = state.selectedSpecialties;
+          newSpecialtyIds = state.specialtyIds;
+        }
       } else {
         // Remove specialty
         newSelectedSpecialties = state.selectedSpecialties.filter(
